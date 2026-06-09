@@ -57,12 +57,73 @@
 насамперед UX-еталон категорії, а не вузький конкурент по фрілансерському білінгу.
 Hard-група — ті, хто реально б'ється за того ж фрілансера з тим самим «час→інвойс».
 
-## 4. Інсайти й гіпотези
+## 4. Глибинне порівняння: Harvest · Clockify · Paymo · TimeCamp · Timely
 
-- _TODO: ключові висновки, які впливають на дизайн._
+Осі: основа продукту / ключовий механізм / звіти / монетизація.
+Джерела — сайти продуктів + UX-огляди (див. кінець розділу). Стан: червень 2026.
+
+| Продукт | Основа продукту | Ключовий механізм | Звіти | Монетизація |
+|---|---|---|---|---|
+| **Harvest** | «Години → прибуток» для сервісних бізнесів і фрілансерів; час + білінг | Live-таймер **+ ручне введення** (day/week view) | Візуальні дашборди: бюджети, capacity, cost; розклад звітів; client-facing звіти | Per-seat. Free (1 seat, 2 проєкти, інвойси) / Teams $9 / Enterprise $14 за seat/міс |
+| **Clockify** | Трекер часу й таймшити; «багато інструменту для одного»; команди + фрілансери | Timer + тижневий timesheet + calendar + auto-tracker + kiosk | Time / activity / rate / profit; бюджети; CSV-експорт | Per-seat freemium. **Free урізано у 2026**: billable, CSV-експорт, private projects тепер платні |
+| **Paymo** | Інтегрований **проєкт-менеджмент** (таски + час + інвойси); Клієнт→Проєкт | Web/desktop/mobile + **Paymo Track** (авто-захват активності) | Прибутковість: маржа проєкту, profitability по клієнту, performance | Per-seat. Free (1 user/1 client/2 proj) / Solo $5.90→9.90 / Plus $10.90→15.90 / Pro $16.90→23.90 |
+| **TimeCamp** | AI workforce mgmt для прибутковості; ставки/білабельність | One-click timer + авто-моніторинг + **AI-агент (TIC)** що сам заповнює таймшит | Real-time дашборди, productivity, labor cost, custom + BI, export | Freemium. **Free — необмежені користувачі/проєкти** / Starter $3.99 / Premium $6.99 / Ultimate $9.99 за user; AI окремо ~$6 |
+| **Timely** | «Таймшит, що пише себе сам» — автоматичний AI-трекінг, мінімум тертя | **Memory Tracker**: фоновий авто-захват по застосунках → AI складає записи → 1-click approval | Work analytics: people/project dashboards, utilization, capacity, cost, billable vs non | Per-seat підписка; ціни не публічні на лендингу, trial + enterprise через продажі |
+
+### 3 спільні патерни
+1. **Час монетизується через гроші.** Усі прив'язують цінність до білабельних ставок +
+   інвойсів/прибутковості — голий час недостатній, платять за зв'язок «час→$».
+2. **Рух до зниження тертя вводу.** Auto-tracker (Clockify, Paymo, TimeCamp) та
+   AI-перший підхід (Timely, TimeCamp) — ручний таймер дедалі частіше вважають тертям.
+3. **Freemium з per-seat апселом.** Безкоштовний вхід з обмеженнями → монетизація через
+   команди й розширені звіти/інвойси.
+
+### 3 відмінності
+1. **Філософія вводу:** Harvest/Clockify — таймер-перші (ручний контроль);
+   Timely — автоматизм-перший (AI пише таймшит); TimeCamp — гібрид з AI-агентом.
+2. **Широта продукту:** Paymo — повноцінний PM (таски, Gantt) навколо часу;
+   Harvest/Timely — вузько час+білінг; Clockify/TimeCamp — час+моніторинг продуктивності.
+3. **Модель free:** TimeCamp дає необмежених користувачів безкоштовно;
+   Harvest/Paymo жорстко лімітують (1 seat / 2 проєкти); Clockify урізав free у 2026.
+
+### 3 відкриті питання (для TrackOn)
+1. Наш кут — простота й швидкість **ручного** трекінгу для соло-фрілансера. Чи не
+   програємо тренду на авто/AI-трекінг — і чи потрібен нам хоча б легкий авто-режим згодом?
+2. Усі прив'язують цінність до інвойсів+ставок. Чи достатньо нашого MVP (PDF + статуси,
+   одна валюта на інвойс) проти вбудованих платежів (Stripe/PayPal у Harvest) — і коли
+   додавати прийом оплат?
+3. Конкуренти — desktop/web-перші, мобільне як додаток. Чи є незайнятий простір у
+   «**mobile-first, максимально просто для одного фрілансера**», і чим конкретно ми
+   виграємо на телефоні проти Toggl/Harvest?
+
+### Джерела
+- Сайти продуктів: getharvest.com, clockify.me, paymoapp.com, timecamp.com, timely.com
+- UX/порівняння: [TallyHo — Best Time Tracking Apps for Freelancers](https://tallyho.app/blog/the-best-time-tracking-apps-for-freelancers-in-2025) ·
+  [Jobbers — Toggl vs Harvest vs Clockify 2026](https://www.jobbers.io/best-time-tracking-apps-for-freelancers-2026-toggl-vs-harvest-vs-clockify-compared/) ·
+  [Connecteam — Clockify vs Harvest](https://connecteam.com/clockify-vs-harvest/) ·
+  [Toggl blog — Clockify vs Harvest 2026](https://toggl.com/blog/clockify-vs-harvest)
 
 ## 5. Скріншоти / референси
 
-Зображення складати у [`screens/`](./screens/) і лінкувати звідси:
+Знято з **публічних сторінок** (headless Chrome) у [`screens/`](./screens/).
+Реальні **внутрішні екрани продуктів за логіном** не знімались — нема акаунтів;
+позначені `[?]` і потребують ручного доступу пізніше.
 
-- _TODO_
+### Знято (публічні лендинги/фічі)
+- `harvest-home.png` — Harvest, головна (таймер-віджет, звіти, білінг)
+- `harvest-features.png` — Harvest, сторінка можливостей
+- `clockify-home.png` — Clockify, головна (показано UI трекера)
+- `paymo-home.png` — Paymo, головна
+- `timecamp-home.png` — TimeCamp, головна
+- `timely-home.png` — Timely, головна (AI-таймшит)
+
+### Потрібно зняти за логіном `[?]`
+Ключові in-app екрани кожного продукту (нема облікових записів):
+- `[?]` Harvest: екран таймера, звіт за період, форма інвойсу
+- `[?]` Clockify: timer + timesheet, dashboard, reports
+- `[?]` Paymo: список проєктів, time entries, інвойс
+- `[?]` TimeCamp: таймер, productivity dashboard, billing/rates
+- `[?]` Timely: Memory Tracker / Hours view, project dashboard
+
+> Примітка: Clockify має окремі сторінки-фічі (timer/timesheet), але прямі URL
+> віддавали 404 — UI трекера видно на `clockify-home.png`.
