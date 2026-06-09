@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrackOn — Research</title>
+<style>
+  :root{
+    --bg:#fafafa; --surface:#fff; --text:#16181d; --muted:#6b7280; --border:#e6e7ea;
+    --accent:#ff5a3c; --accent-soft:#ffece7; --shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04);
+    --ok:#16a34a; --warn:#d97706; --q:#7c3aed;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0f1115; --surface:#171a21; --text:#e8eaee; --muted:#9aa1ad; --border:#262b34;
+      --accent:#ff6b4d; --accent-soft:#2a1a16; --shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3); }
+  }
+  html[data-theme="light"]{ --bg:#fafafa;--surface:#fff;--text:#16181d;--muted:#6b7280;--border:#e6e7ea;--accent:#ff5a3c;--accent-soft:#ffece7;--shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04);}
+  html[data-theme="dark"]{ --bg:#0f1115;--surface:#171a21;--text:#e8eaee;--muted:#9aa1ad;--border:#262b34;--accent:#ff6b4d;--accent-soft:#2a1a16;--shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px 80px;}
+  header.hero{padding:56px 0 32px;border-bottom:1px solid var(--border);margin-bottom:40px;}
+  .badge{display:inline-block;background:var(--accent-soft);color:var(--accent);font-weight:600;
+    font-size:13px;padding:4px 12px;border-radius:999px;letter-spacing:.02em;}
+  h1{font-size:40px;line-height:1.1;margin:16px 0 8px;letter-spacing:-.02em;}
+  .sub{color:var(--muted);font-size:18px;max-width:62ch;margin:0;}
+  .meta{color:var(--muted);font-size:13px;margin-top:18px;}
+  h2{font-size:26px;margin:48px 0 6px;letter-spacing:-.01em;}
+  h2 .num{color:var(--accent);font-weight:700;margin-right:10px;}
+  .lead{color:var(--muted);margin:0 0 20px;}
+  h3{font-size:17px;margin:26px 0 10px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;
+    padding:22px 24px;box-shadow:var(--shadow);margin:14px 0;}
+  .grid{display:grid;gap:14px;}
+  @media(min-width:720px){.grid.cols-3{grid-template-columns:repeat(3,1fr)}}
+  .pill{font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;display:inline-block;margin-bottom:8px;}
+  .pill.hard{background:var(--accent-soft);color:var(--accent);}
+  .pill.soft{background:rgba(124,58,237,.12);color:var(--q);}
+  .pill.asp{background:rgba(22,163,74,.12);color:var(--ok);}
+  ul.tight{margin:8px 0 0;padding-left:18px;}
+  ul.tight li{margin:4px 0;}
+  ul.tight li b{font-weight:600;}
+  .tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);background:var(--surface);}
+  table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px;}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+  thead th{background:var(--accent-soft);color:var(--text);position:sticky;top:0;font-size:13px;letter-spacing:.02em;}
+  tbody tr:last-child td{border-bottom:none;}
+  td.name{font-weight:700;white-space:nowrap;}
+  .findings{display:grid;gap:14px;}
+  @media(min-width:720px){.findings{grid-template-columns:repeat(3,1fr)}}
+  .finding h3{margin-top:0;display:flex;align-items:center;gap:8px;}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .dot.p{background:var(--accent)} .dot.d{background:var(--q)} .dot.o{background:var(--warn)}
+  ol.f{margin:0;padding-left:20px;} ol.f li{margin:8px 0;}
+  .gallery{display:grid;gap:16px;grid-template-columns:1fr;}
+  @media(min-width:640px){.gallery{grid-template-columns:repeat(2,1fr)}}
+  figure{margin:0;background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+  figure img{display:block;width:100%;height:240px;object-fit:cover;object-position:top;background:#0001;}
+  figcaption{padding:10px 14px;font-size:14px;color:var(--text);}
+  figcaption .src{color:var(--muted);font-size:12px;}
+  .todo{background:var(--surface);border:1px dashed var(--border);border-radius:14px;padding:16px 18px;}
+  .q{color:var(--warn);font-weight:700;}
+  a{color:var(--accent);}
+  .src-list{font-size:14px;color:var(--muted);}
+  .src-list a{color:var(--accent);text-decoration:none;}
+  .src-list a:hover{text-decoration:underline;}
+  .toggle{position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);
+    color:var(--text);border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer;box-shadow:var(--shadow);}
+  footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;}
+  .note{background:var(--accent-soft);border-radius:12px;padding:12px 16px;font-size:14px;margin:10px 0;}
+</style>
+</head>
+<body>
+<button class="toggle" id="themeBtn">◐ Тема</button>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="badge">TrackOn · Research</span>
+    <h1>Результати ресьорчу</h1>
+    <p class="sub">Аналіз конкурентів для застосунку трекінгу часу для фрілансерів: групи конкурентів, глибинне порівняння 5 продуктів, патерни й відкриті питання.</p>
+    <p class="meta">Стан: червень 2026 · Джерела: сайти продуктів + UX-огляди · Деталі — у <a href="research.md">research.md</a></p>
+  </header>
+
+  <!-- ПРОБЛЕМА / АУДИТОРІЯ -->
+  <section>
+    <h2><span class="num">01</span>Проблема та аудиторія</h2>
+    <div class="grid cols-3">
+      <div class="card">
+        <h3>Проблема</h3>
+        <p style="color:var(--muted);margin:0">Фрілансери трекають час по кількох клієнтах і потребують швидко затрекати (1–2 тапи), бачити час+гроші, звіти за період та інвойси зі статусами оплати.</p>
+      </div>
+      <div class="card">
+        <h3>Користувач</h3>
+        <p style="color:var(--muted);margin:0">Фрілансер з кількома клієнтами, працює переважно з телефону, цінує швидкість і простоту понад усе.</p>
+      </div>
+      <div class="card">
+        <h3>Наш кут</h3>
+        <p style="color:var(--muted);margin:0">Mobile-first, мінімалізм, максимально простий ручний трекінг + інвойси. Local-first зараз → синхронізація потім.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ГРУПИ КОНКУРЕНТІВ -->
+  <section>
+    <h2><span class="num">02</span>Конкуренти — 3 групи</h2>
+    <p class="lead">До 5 у групі. Для кожного: тип · чому в групі · що вивчити для нас.</p>
+
+    <h3><span class="pill hard">ХАРД</span> той самий продукт, аудиторія, ринок</h3>
+    <div class="card">
+      <ul class="tight">
+        <li><b>Harvest</b> — time tracking + invoicing. Класика «час→ставка→інвойс». <i>Вивчити:</i> потік запис→інвойс, модель ставок, статуси.</li>
+        <li><b>Clockify</b> — free time tracker. Велика фрілансерська база, мобільний. <i>Вивчити:</i> простота старту таймера, billable vs non.</li>
+        <li><b>Paymo</b> — freelancer PM + time + invoice. Близько до Клієнт→Проєкт. <i>Вивчити:</i> ієрархія, час→інвойс, звіти.</li>
+        <li><b>TimeCamp</b> — time tracking + billing. Ставки, білабельність. <i>Вивчити:</i> логіка rate та оверрайдів.</li>
+        <li><b>Timely</b> — mobile-first / auto tracking. <i>Вивчити:</i> мобільні патерни швидкого трекінгу.</li>
+      </ul>
+    </div>
+
+    <h3><span class="pill soft">СОФТ</span> інший продукт, той самий JTBD (трекати роботу)</h3>
+    <div class="card">
+      <ul class="tight">
+        <li><b>Trello</b> — kanban. Колонки-статуси ≈ наші не сплачено/відправлено/сплачено. <i>Вивчити:</i> kanban-статуси, швидке додавання.</li>
+        <li><b>Asana</b> — task/project mgmt. <i>Вивчити:</i> структура проєктів без перевантаження.</li>
+        <li><b>Jira</b> — issue tracking. Антиприклад складності. <i>Вивчити:</i> де складність вбиває швидкість; фільтри.</li>
+        <li><b>Notion</b> — docs + DB. <i>Вивчити:</i> view-патерни (таблиця/борд/календар) для звітів.</li>
+        <li><b>Todoist</b> — task manager. Еталон швидкого вводу. <i>Вивчити:</i> quick-add, мінімум тапів.</li>
+      </ul>
+    </div>
+
+    <h3><span class="pill asp">АСПІРАЦІЙНІ</span> міжнародні еталони категорії</h3>
+    <div class="card">
+      <ul class="tight">
+        <li><b>Toggl Track</b> — UX-еталон. <i>Вивчити:</i> one-tap таймер, персистентність, проста подача звітів.</li>
+        <li><b>Timely (Memory AI)</b> — авто/AI трекінг. <i>Вивчити:</i> автозаповнення дня, візуал, light/dark.</li>
+        <li><b>Timeular</b> — delightful app. <i>Вивчити:</i> мікровзаємодії, мотивація трекати.</li>
+        <li><b>RescueTime / Rize</b> — automatic insights. <i>Вивчити:</i> дашборд-метрики, тренди.</li>
+        <li><b>Sunsama</b> — calm productivity. <i>Вивчити:</i> візуальна мова, темп, відчуття простоти.</li>
+      </ul>
+    </div>
+    <div class="note">Toggl Track свідомо в аспіраційних, а не в ХАРД — для нас це UX-еталон категорії, а не вузький конкурент по фрілансерському білінгу.</div>
+  </section>
+
+  <!-- ГЛИБИННЕ ПОРІВНЯННЯ -->
+  <section>
+    <h2><span class="num">03</span>Глибинне порівняння (5 продуктів)</h2>
+    <p class="lead">Осі: основа продукту · ключовий механізм · звіти · монетизація.</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Продукт</th><th>Основа продукту</th><th>Ключовий механізм</th><th>Звіти</th><th>Монетизація</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Harvest</td>
+            <td>«Години → прибуток» для сервісних бізнесів і фрілансерів; час + білінг</td>
+            <td>Live-таймер <b>+ ручне введення</b> (day/week view)</td>
+            <td>Дашборди: бюджети, capacity, cost; розклад звітів; client-facing</td>
+            <td>Per-seat. Free (1 seat, 2 проєкти) / Teams $9 / Enterprise $14</td>
+          </tr>
+          <tr>
+            <td class="name">Clockify</td>
+            <td>Трекер часу й таймшити; «багато інструменту для одного»</td>
+            <td>Timer + тижневий timesheet + calendar + auto-tracker + kiosk</td>
+            <td>Time / activity / rate / profit; бюджети; CSV-експорт</td>
+            <td>Freemium per-seat. <b>Free урізано у 2026</b>: billable, CSV, private projects тепер платні</td>
+          </tr>
+          <tr>
+            <td class="name">Paymo</td>
+            <td>Інтегрований <b>проєкт-менеджмент</b> (таски + час + інвойси); Клієнт→Проєкт</td>
+            <td>Web/desktop/mobile + <b>Paymo Track</b> (авто-захват активності)</td>
+            <td>Прибутковість: маржа проєкту, profitability по клієнту, performance</td>
+            <td>Per-seat. Free (1/1/2) / Solo $5.90 / Plus $10.90 / Pro $16.90</td>
+          </tr>
+          <tr>
+            <td class="name">TimeCamp</td>
+            <td>AI workforce mgmt для прибутковості; ставки/білабельність</td>
+            <td>One-click timer + авто-моніторинг + <b>AI-агент (TIC)</b>, що сам заповнює таймшит</td>
+            <td>Real-time дашборди, productivity, labor cost, custom + BI, export</td>
+            <td>Freemium. <b>Free — необмежені користувачі/проєкти</b> / $3.99 / $6.99 / $9.99; AI ~$6</td>
+          </tr>
+          <tr>
+            <td class="name">Timely</td>
+            <td>«Таймшит, що пише себе сам» — автоматичний AI-трекінг, мінімум тертя</td>
+            <td><b>Memory Tracker</b>: фоновий авто-захват → AI складає записи → 1-click approval</td>
+            <td>Work analytics: people/project dashboards, utilization, capacity, billable vs non</td>
+            <td>Per-seat підписка; ціни не публічні; trial + enterprise через продажі</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ВИСНОВКИ -->
+  <section>
+    <h2><span class="num">04</span>Висновки</h2>
+    <div class="findings">
+      <div class="card finding">
+        <h3><span class="dot p"></span>3 спільні патерни</h3>
+        <ol class="f">
+          <li><b>Час монетизується через гроші</b> — ставки + інвойси/прибутковість; голий час недостатній.</li>
+          <li><b>Рух до зниження тертя вводу</b> — auto-tracker і AI-перший підхід; ручний таймер вважають тертям.</li>
+          <li><b>Freemium з per-seat апселом</b> — безкоштовний вхід → монетизація через команди й звіти.</li>
+        </ol>
+      </div>
+      <div class="card finding">
+        <h3><span class="dot d"></span>3 відмінності</h3>
+        <ol class="f">
+          <li><b>Філософія вводу:</b> Harvest/Clockify — таймер-перші; Timely — AI-перший; TimeCamp — гібрид.</li>
+          <li><b>Широта:</b> Paymo — повний PM; Harvest/Timely — вузько час+білінг; Clockify/TimeCamp — +моніторинг.</li>
+          <li><b>Модель free:</b> TimeCamp — необмежено; Harvest/Paymo — жорсткі ліміти; Clockify урізав у 2026.</li>
+        </ol>
+      </div>
+      <div class="card finding">
+        <h3><span class="dot o"></span>3 відкриті питання</h3>
+        <ol class="f">
+          <li>Чи не програємо тренду на авто/AI-трекінг — чи потрібен легкий авто-режим згодом?</li>
+          <li>Чи достатньо MVP (PDF + статуси, 1 валюта) проти вбудованих платежів (Stripe/PayPal)?</li>
+          <li>Де незайнятий простір у «mobile-first, просто для соло-фрілансера» проти Toggl/Harvest?</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- СКРІНШОТИ -->
+  <section>
+    <h2><span class="num">05</span>Скріншоти</h2>
+    <p class="lead">Знято з <b>публічних сторінок</b> (headless Chrome). Кліком — повний розмір.</p>
+    <div class="gallery">
+      <figure><a href="screens/harvest-home.png" target="_blank"><img src="screens/harvest-home.png" alt="Harvest home"></a><figcaption>Harvest — головна <span class="src">таймер, звіти, білінг</span></figcaption></figure>
+      <figure><a href="screens/harvest-features.png" target="_blank"><img src="screens/harvest-features.png" alt="Harvest features"></a><figcaption>Harvest — можливості</figcaption></figure>
+      <figure><a href="screens/clockify-home.png" target="_blank"><img src="screens/clockify-home.png" alt="Clockify home"></a><figcaption>Clockify — головна <span class="src">UI трекера</span></figcaption></figure>
+      <figure><a href="screens/paymo-home.png" target="_blank"><img src="screens/paymo-home.png" alt="Paymo home"></a><figcaption>Paymo — головна</figcaption></figure>
+      <figure><a href="screens/timecamp-home.png" target="_blank"><img src="screens/timecamp-home.png" alt="TimeCamp home"></a><figcaption>TimeCamp — головна</figcaption></figure>
+      <figure><a href="screens/timely-home.png" target="_blank"><img src="screens/timely-home.png" alt="Timely home"></a><figcaption>Timely — головна <span class="src">AI-таймшит</span></figcaption></figure>
+    </div>
+
+    <h3 style="margin-top:28px">Потрібно зняти за логіном <span class="q">[?]</span></h3>
+    <div class="todo">
+      Реальні in-app екрани не знімались (немає акаунтів). Потрібно вручну отримати доступ:
+      <ul class="tight">
+        <li><span class="q">[?]</span> Harvest: екран таймера · звіт за період · форма інвойсу</li>
+        <li><span class="q">[?]</span> Clockify: timer + timesheet · dashboard · reports</li>
+        <li><span class="q">[?]</span> Paymo: список проєктів · time entries · інвойс</li>
+        <li><span class="q">[?]</span> TimeCamp: таймер · productivity dashboard · billing/rates</li>
+        <li><span class="q">[?]</span> Timely: Memory Tracker / Hours view · project dashboard</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ДЖЕРЕЛА -->
+  <section>
+    <h2><span class="num">06</span>Джерела</h2>
+    <div class="card src-list">
+      <p style="margin:0 0 8px">Сайти продуктів: getharvest.com · clockify.me · paymoapp.com · timecamp.com · timely.com</p>
+      UX / порівняння:
+      <a href="https://tallyho.app/blog/the-best-time-tracking-apps-for-freelancers-in-2025" target="_blank">TallyHo</a> ·
+      <a href="https://www.jobbers.io/best-time-tracking-apps-for-freelancers-2026-toggl-vs-harvest-vs-clockify-compared/" target="_blank">Jobbers</a> ·
+      <a href="https://connecteam.com/clockify-vs-harvest/" target="_blank">Connecteam</a> ·
+      <a href="https://toggl.com/blog/clockify-vs-harvest" target="_blank">Toggl blog</a>
+    </div>
+  </section>
+
+  <footer>
+    TrackOn · згенеровано з даних ресьорчу · оновлюй разом з <a href="research.md">research.md</a>
+  </footer>
+</div>
+
+<script>
+  const btn = document.getElementById('themeBtn');
+  const root = document.documentElement;
+  const saved = localStorage.getItem('trackon-theme');
+  if(saved) root.setAttribute('data-theme', saved);
+  btn.addEventListener('click', ()=>{
+    const cur = root.getAttribute('data-theme')
+      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('trackon-theme', next);
+  });
+</script>
+</body>
+</html>
