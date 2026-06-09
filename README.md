@@ -28,7 +28,7 @@ IndexedDB через Dexie.js · Zustand
 
 | Папка | Що всередині |
 |---|---|
-| [`research/`](./research/) | Дослідження: [`research.md`](./research/research.md), наочний дашборд [`research.html`](./research/research.html) + [`screens/`](./research/screens/) |
+| [`research/`](./research/) | Дослідження: [`research.md`](./research/research.md), наочний дашборд [`research.html`](./research.html) + [`screens/`](./research/screens/) |
 | [`wireframes/`](./wireframes/) | Низькодеталізовані каркаси екранів (low-fi) |
 | [`concept/`](./concept/) | Високодеталізовані концепти (hi-fi), візуальний напрям |
 | [`tokens/`](./tokens/) | Дизайн-токени: кольори, типографіка, відступи, радіуси |
