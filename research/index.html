@@ -311,9 +311,50 @@
     </div>
   </section>
 
+  <!-- ПАТЕРНИ СТАРТУ -->
+  <section>
+    <h2><span class="num">07</span>UX-патерни швидкого старту</h2>
+    <p class="lead">Ключова задача — найшвидший старт. 5 принципово різних механізмів ініціації.</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Патерн</th><th>Як працює</th><th>Підходить</th><th>Ламається</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="name">1. Плитки-проєкти</td><td>Сітка кнопок; тап = старт таймера для проєкту</td><td>Кілька частих проєктів, мобільний, швидкість</td><td>Десятки проєктів; треба обрати задачу до старту</td></tr>
+          <tr><td class="name">2. Глобальна Start/Stop</td><td>Одна кнопка → «голий» таймер; проєкт потім</td><td>Не втратити час, класифікувати пізніше</td><td>Втрата контексту; білінг потребує проєкт одразу</td></tr>
+          <tr><td class="name">3. Natural-language</td><td>Текст «ClientX дизайн 2год» → парсер</td><td>Клавіатура, power-users</td><td>Мобільне (друк), парсинг, дискаверабельність</td></tr>
+          <tr><td class="name">4. Resume з історії</td><td>Тап «продовжити» → дубль + старт</td><td>Повторювана робота, є історія</td><td>Порожня історія; нові задачі</td></tr>
+          <tr><td class="name">5. Calendar-drag</td><td>Drag по таймлайну дня → блок на проєкт</td><td>Планувальники, десктоп, ретроспектива</td><td>Мобільний drag; трекінг «зараз»; багато кроків</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="color:var(--muted);font-size:14px;margin-top:10px">Пасивний auto-capture не включено — PWA його не тягне (див. §06).</p>
+
+    <h3>Прив'язка до контексту (CLAUDE.md)</h3>
+    <div class="grid cols-3">
+      <div class="card finding">
+        <h3><span class="dot p"></span>🥇 Патерн 1 — Плитки</h3>
+        <ol class="f">
+          <li>Mobile-first + «1–2 тапи»: плитка = один тап.</li>
+          <li>Жменя проєктів у фрілансера → сітка компактна, не ламається.</li>
+          <li>Мапінг: плитки=<code>Project</code> (є color); тап→<code>TimeEntry</code>; rate+currency фіксують гроші на старті; один таймер = switch.</li>
+        </ol>
+      </div>
+      <div class="card finding">
+        <h3><span class="dot o"></span>🥈 Патерн 4 — Resume <small>(за умови X)</small></h3>
+        <p style="margin:0;color:var(--muted)">X = коли є історія / щоденно повторювані проєкти. Надбудова над launchpad; продовжує «локальну пам'ять контексту» (§06).</p>
+      </div>
+      <div class="card finding">
+        <h3><span class="dot d"></span>🚫 Патерн 5 — Calendar-drag</h3>
+        <p style="margin:0;color:var(--muted)">Суперечить mobile-first (дрібний drag) і швидкому старту (парадигма планування). Добрий на десктопі — не наш сценарій. NL (§3) лишаємо вторинним ручним вводом.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- ДЖЕРЕЛА -->
   <section>
-    <h2><span class="num">07</span>Джерела</h2>
+    <h2><span class="num">08</span>Джерела</h2>
     <div class="card src-list">
       <p style="margin:0 0 8px">Сайти продуктів: getharvest.com · clockify.me · paymoapp.com · timecamp.com · timely.com</p>
       UX / порівняння:
