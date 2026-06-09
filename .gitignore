@@ -1,0 +1,15 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Node (для майбутнього додатку)
+node_modules/
+dist/
+.env
+.env.local
+*.log
