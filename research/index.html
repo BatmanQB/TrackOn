@@ -21,7 +21,7 @@
     font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     -webkit-font-smoothing:antialiased;}
   .wrap{max-width:1080px;margin:0 auto;padding:0 20px 80px;}
-  header.hero{padding:56px 0 32px;border-bottom:1px solid var(--border);margin-bottom:40px;}
+  header.hero{padding:56px 0 32px;border-bottom:1px solid var(--border);margin-bottom:24px;}
   .badge{display:inline-block;background:var(--accent-soft);color:var(--accent);font-weight:600;
     font-size:13px;padding:4px 12px;border-radius:999px;letter-spacing:.02em;}
   h1{font-size:40px;line-height:1.1;margin:16px 0 8px;letter-spacing:-.02em;}
@@ -34,42 +34,40 @@
   .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;
     padding:22px 24px;box-shadow:var(--shadow);margin:14px 0;}
   .grid{display:grid;gap:14px;}
-  @media(min-width:720px){.grid.cols-3{grid-template-columns:repeat(3,1fr)}}
-  .pill{font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;display:inline-block;margin-bottom:8px;}
-  .pill.hard{background:var(--accent-soft);color:var(--accent);}
-  .pill.soft{background:rgba(124,58,237,.12);color:var(--q);}
-  .pill.asp{background:rgba(22,163,74,.12);color:var(--ok);}
-  ul.tight{margin:8px 0 0;padding-left:18px;}
-  ul.tight li{margin:4px 0;}
-  ul.tight li b{font-weight:600;}
-  .tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);background:var(--surface);}
-  table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px;}
-  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
-  thead th{background:var(--accent-soft);color:var(--text);position:sticky;top:0;font-size:13px;letter-spacing:.02em;}
+  @media(min-width:720px){.grid.cols-3{grid-template-columns:repeat(3,1fr)}.grid.cols-2{grid-template-columns:repeat(2,1fr)}}
+  ul.tight{margin:8px 0 0;padding-left:18px;} ul.tight li{margin:5px 0;}
+  .tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);background:var(--surface);margin:14px 0;}
+  table{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px;}
+  th,td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--border);vertical-align:top;}
+  thead th{background:var(--accent-soft);color:var(--text);font-size:12.5px;letter-spacing:.02em;}
   tbody tr:last-child td{border-bottom:none;}
   td.name{font-weight:700;white-space:nowrap;}
+  .num-table{min-width:600px;}
+  .num-table td:not(.name),.num-table th:not(:first-child){text-align:center;}
+  a{color:var(--accent);} a:hover{text-decoration:underline;}
+  .src{font-size:12px;color:var(--muted);}
+  .src a{color:var(--muted);}
+  .tag{font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;}
+  .tag.q{background:rgba(217,119,6,.14);color:var(--warn);}
+  .tag.e{background:rgba(124,58,237,.14);color:var(--q);}
   .findings{display:grid;gap:14px;}
   @media(min-width:720px){.findings{grid-template-columns:repeat(3,1fr)}}
   .finding h3{margin-top:0;display:flex;align-items:center;gap:8px;}
   .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
   .dot.p{background:var(--accent)} .dot.d{background:var(--q)} .dot.o{background:var(--warn)}
   ol.f{margin:0;padding-left:20px;} ol.f li{margin:8px 0;}
+  .hypo{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin:10px 0;box-shadow:var(--shadow);}
+  .hypo b.k{color:var(--accent);}
   .gallery{display:grid;gap:16px;grid-template-columns:1fr;}
   @media(min-width:640px){.gallery{grid-template-columns:repeat(2,1fr)}}
   figure{margin:0;background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
-  figure img{display:block;width:100%;height:240px;object-fit:cover;object-position:top;background:#0001;}
-  figcaption{padding:10px 14px;font-size:14px;color:var(--text);}
-  figcaption .src{color:var(--muted);font-size:12px;}
-  .todo{background:var(--surface);border:1px dashed var(--border);border-radius:14px;padding:16px 18px;}
-  .q{color:var(--warn);font-weight:700;}
-  a{color:var(--accent);}
-  .src-list{font-size:14px;color:var(--muted);}
-  .src-list a{color:var(--accent);text-decoration:none;}
-  .src-list a:hover{text-decoration:underline;}
+  figure img{display:block;width:100%;height:220px;object-fit:cover;object-position:top;background:#0001;}
+  figcaption{padding:10px 14px;font-size:14px;}
+  .note{background:var(--accent-soft);border-radius:12px;padding:12px 16px;font-size:14px;margin:10px 0;}
   .toggle{position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);
     color:var(--text);border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer;box-shadow:var(--shadow);}
   footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;}
-  .note{background:var(--accent-soft);border-radius:12px;padding:12px 16px;font-size:14px;margin:10px 0;}
+  code{background:var(--accent-soft);padding:1px 6px;border-radius:6px;font-size:13px;}
 </style>
 </head>
 <body>
@@ -78,200 +76,92 @@
 
   <header class="hero">
     <span class="badge">TrackOn · Research</span>
-    <h1>Результати ресьорчу</h1>
-    <p class="sub">Аналіз конкурентів для застосунку трекінгу часу для фрілансерів: групи конкурентів, глибинне порівняння 5 продуктів, патерни й відкриті питання.</p>
-    <p class="meta">Стан: червень 2026 · Джерела: сайти продуктів + UX-огляди · Деталі — у <a href="research.md">research.md</a></p>
+    <h1>Зведення ресерчу</h1>
+    <p class="sub">Конкуренти · бенчмарк виміру «таймшит, що пише себе сам» · обраний патерн старту · gaps і гіпотези. Контекст продукту — у CLAUDE.md.</p>
+    <p class="meta">Стан: червень 2026 · Деталі — у <a href="research.md">research.md</a> · <span class="tag q">[?]</span> = не підтверджено · <span class="tag e">[оцінка]</span> = власна інтерпретація</p>
   </header>
 
-  <!-- ПРОБЛЕМА / АУДИТОРІЯ -->
+  <!-- 1. КОНКУРЕНТИ -->
   <section>
-    <h2><span class="num">01</span>Проблема та аудиторія</h2>
-    <div class="grid cols-3">
-      <div class="card">
-        <h3>Проблема</h3>
-        <p style="color:var(--muted);margin:0">Фрілансери трекають час по кількох клієнтах і потребують швидко затрекати (1–2 тапи), бачити час+гроші, звіти за період та інвойси зі статусами оплати.</p>
-      </div>
-      <div class="card">
-        <h3>Користувач</h3>
-        <p style="color:var(--muted);margin:0">Фрілансер з кількома клієнтами, працює переважно з телефону, цінує швидкість і простоту понад усе.</p>
-      </div>
-      <div class="card">
-        <h3>Наш кут</h3>
-        <p style="color:var(--muted);margin:0">Mobile-first, мінімалізм, максимально простий ручний трекінг + інвойси. Local-first зараз → синхронізація потім.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ГРУПИ КОНКУРЕНТІВ -->
-  <section>
-    <h2><span class="num">02</span>Конкуренти — 3 групи</h2>
-    <p class="lead">До 5 у групі. Для кожного: тип · чому в групі · що вивчити для нас.</p>
-
-    <h3><span class="pill hard">ХАРД</span> той самий продукт, аудиторія, ринок</h3>
-    <div class="card">
-      <ul class="tight">
-        <li><b>Harvest</b> — time tracking + invoicing. Класика «час→ставка→інвойс». <i>Вивчити:</i> потік запис→інвойс, модель ставок, статуси.</li>
-        <li><b>Clockify</b> — free time tracker. Велика фрілансерська база, мобільний. <i>Вивчити:</i> простота старту таймера, billable vs non.</li>
-        <li><b>Paymo</b> — freelancer PM + time + invoice. Близько до Клієнт→Проєкт. <i>Вивчити:</i> ієрархія, час→інвойс, звіти.</li>
-        <li><b>TimeCamp</b> — time tracking + billing. Ставки, білабельність. <i>Вивчити:</i> логіка rate та оверрайдів.</li>
-        <li><b>Timely</b> — mobile-first / auto tracking. <i>Вивчити:</i> мобільні патерни швидкого трекінгу.</li>
-      </ul>
-    </div>
-
-    <h3><span class="pill soft">СОФТ</span> інший продукт, той самий JTBD (трекати роботу)</h3>
-    <div class="card">
-      <ul class="tight">
-        <li><b>Trello</b> — kanban. Колонки-статуси ≈ наші не сплачено/відправлено/сплачено. <i>Вивчити:</i> kanban-статуси, швидке додавання.</li>
-        <li><b>Asana</b> — task/project mgmt. <i>Вивчити:</i> структура проєктів без перевантаження.</li>
-        <li><b>Jira</b> — issue tracking. Антиприклад складності. <i>Вивчити:</i> де складність вбиває швидкість; фільтри.</li>
-        <li><b>Notion</b> — docs + DB. <i>Вивчити:</i> view-патерни (таблиця/борд/календар) для звітів.</li>
-        <li><b>Todoist</b> — task manager. Еталон швидкого вводу. <i>Вивчити:</i> quick-add, мінімум тапів.</li>
-      </ul>
-    </div>
-
-    <h3><span class="pill asp">АСПІРАЦІЙНІ</span> міжнародні еталони категорії</h3>
-    <div class="card">
-      <ul class="tight">
-        <li><b>Toggl Track</b> — UX-еталон. <i>Вивчити:</i> one-tap таймер, персистентність, проста подача звітів.</li>
-        <li><b>Timely (Memory AI)</b> — авто/AI трекінг. <i>Вивчити:</i> автозаповнення дня, візуал, light/dark.</li>
-        <li><b>Timeular</b> — delightful app. <i>Вивчити:</i> мікровзаємодії, мотивація трекати.</li>
-        <li><b>RescueTime / Rize</b> — automatic insights. <i>Вивчити:</i> дашборд-метрики, тренди.</li>
-        <li><b>Sunsama</b> — calm productivity. <i>Вивчити:</i> візуальна мова, темп, відчуття простоти.</li>
-      </ul>
-    </div>
-    <div class="note">Toggl Track свідомо в аспіраційних, а не в ХАРД — для нас це UX-еталон категорії, а не вузький конкурент по фрілансерському білінгу.</div>
-  </section>
-
-  <!-- ГЛИБИННЕ ПОРІВНЯННЯ -->
-  <section>
-    <h2><span class="num">03</span>Глибинне порівняння (5 продуктів)</h2>
-    <p class="lead">Осі: основа продукту · ключовий механізм · звіти · монетизація.</p>
+    <h2><span class="num">01</span>Конкуренти</h2>
+    <p class="lead">Матриця за осями: основа · механізм · звіти · монетизація. Джерело — у крайній колонці.</p>
     <div class="tablewrap">
       <table>
         <thead>
-          <tr><th>Продукт</th><th>Основа продукту</th><th>Ключовий механізм</th><th>Звіти</th><th>Монетизація</th></tr>
+          <tr><th>Продукт</th><th>Основа</th><th>Ключовий механізм</th><th>Звіти</th><th>Монетизація</th><th>Джерело</th></tr>
         </thead>
         <tbody>
           <tr>
             <td class="name">Harvest</td>
-            <td>«Години → прибуток» для сервісних бізнесів і фрілансерів; час + білінг</td>
-            <td>Live-таймер <b>+ ручне введення</b> (day/week view)</td>
-            <td>Дашборди: бюджети, capacity, cost; розклад звітів; client-facing</td>
-            <td>Per-seat. Free (1 seat, 2 проєкти) / Teams $9 / Enterprise $14</td>
+            <td>«Години → прибуток»; час + білінг</td>
+            <td>Live-таймер <b>+ ручне введення</b></td>
+            <td>Бюджети, capacity, client-facing</td>
+            <td>Per-seat: Free (1 seat, 2 проєкти) / Teams $9 / Enterprise $14</td>
+            <td class="src"><a href="https://www.getharvest.com/pricing" target="_blank">pricing</a>; <code>harvest-home</code></td>
           </tr>
           <tr>
             <td class="name">Clockify</td>
-            <td>Трекер часу й таймшити; «багато інструменту для одного»</td>
-            <td>Timer + тижневий timesheet + calendar + auto-tracker + kiosk</td>
-            <td>Time / activity / rate / profit; бюджети; CSV-експорт</td>
-            <td>Freemium per-seat. <b>Free урізано у 2026</b>: billable, CSV, private projects тепер платні</td>
+            <td>Трекер часу й таймшити; команди + фрілансери</td>
+            <td>Timer + timesheet + calendar + auto + kiosk</td>
+            <td>Time / activity / rate / profit; CSV</td>
+            <td>Freemium per-seat; <b>free урізано 2026</b> (billable, CSV, private → платні)</td>
+            <td class="src"><a href="https://clockify.me/" target="_blank">site</a>, <a href="https://tallyho.app/blog/the-best-time-tracking-apps-for-freelancers-in-2025" target="_blank">TallyHo</a>; <code>clockify-home</code></td>
           </tr>
           <tr>
             <td class="name">Paymo</td>
-            <td>Інтегрований <b>проєкт-менеджмент</b> (таски + час + інвойси); Клієнт→Проєкт</td>
-            <td>Web/desktop/mobile + <b>Paymo Track</b> (авто-захват активності)</td>
-            <td>Прибутковість: маржа проєкту, profitability по клієнту, performance</td>
-            <td>Per-seat. Free (1/1/2) / Solo $5.90 / Plus $10.90 / Pro $16.90</td>
+            <td>Інтегрований <b>PM</b> (таски+час+інвойси); Клієнт→Проєкт</td>
+            <td>Web/desktop/mobile + <b>Paymo Track</b> (авто)</td>
+            <td>Прибутковість: маржа, profitability по клієнту</td>
+            <td>Per-seat: Free (1/1/2) / Solo $5.90 / Plus $10.90 / Pro $16.90</td>
+            <td class="src"><a href="https://www.paymoapp.com/pricing/" target="_blank">pricing</a>; <code>paymo-home</code></td>
           </tr>
           <tr>
             <td class="name">TimeCamp</td>
-            <td>AI workforce mgmt для прибутковості; ставки/білабельність</td>
-            <td>One-click timer + авто-моніторинг + <b>AI-агент (TIC)</b>, що сам заповнює таймшит</td>
-            <td>Real-time дашборди, productivity, labor cost, custom + BI, export</td>
-            <td>Freemium. <b>Free — необмежені користувачі/проєкти</b> / $3.99 / $6.99 / $9.99; AI ~$6</td>
+            <td>AI workforce mgmt; ставки/білабельність</td>
+            <td>One-click + авто-моніторинг + <b>AI-агент (TIC)</b></td>
+            <td>Real-time дашборди, labor cost, BI, export</td>
+            <td>Freemium: <b>Free необмежено</b> / $3.99 / $6.99 / $9.99; AI ~$6</td>
+            <td class="src"><a href="https://www.timecamp.com/" target="_blank">site</a>; <code>timecamp-home</code></td>
           </tr>
           <tr>
             <td class="name">Timely</td>
-            <td>«Таймшит, що пише себе сам» — автоматичний AI-трекінг, мінімум тертя</td>
-            <td><b>Memory Tracker</b>: фоновий авто-захват → AI складає записи → 1-click approval</td>
-            <td>Work analytics: people/project dashboards, utilization, capacity, billable vs non</td>
-            <td>Per-seat підписка; ціни не публічні; trial + enterprise через продажі</td>
+            <td>«Таймшит, що пише себе сам» — авто AI-трекінг</td>
+            <td><b>Memory Tracker</b> + <b>AutoSheet</b> (AI, 1-click)</td>
+            <td>Work analytics: people/project, utilization, billable</td>
+            <td>Per-seat; <b>ціни не публічні</b> <span class="tag q">[?]</span></td>
+            <td class="src"><a href="https://www.timely.com/features" target="_blank">features</a>; <code>timely-home</code></td>
           </tr>
         </tbody>
       </table>
     </div>
-  </section>
 
-  <!-- ВИСНОВКИ -->
-  <section>
-    <h2><span class="num">04</span>Висновки</h2>
-    <div class="findings">
-      <div class="card finding">
-        <h3><span class="dot p"></span>3 спільні патерни</h3>
+    <div class="grid cols-2">
+      <div class="card">
+        <h3>3 спільні патерни ринку</h3>
         <ol class="f">
-          <li><b>Час монетизується через гроші</b> — ставки + інвойси/прибутковість; голий час недостатній.</li>
-          <li><b>Рух до зниження тертя вводу</b> — auto-tracker і AI-перший підхід; ручний таймер вважають тертям.</li>
-          <li><b>Freemium з per-seat апселом</b> — безкоштовний вхід → монетизація через команди й звіти.</li>
+          <li><b>Час монетизується через гроші</b> — ставки + інвойси/прибутковість (усі 5).</li>
+          <li><b>Рух до зниження тертя вводу</b> — auto-tracker (Clockify/Paymo/TimeCamp), AI (Timely/TimeCamp).</li>
+          <li><b>Freemium з per-seat апселом</b> — безкоштовний вхід → платні тарифи (pricing-сторінки).</li>
         </ol>
       </div>
-      <div class="card finding">
-        <h3><span class="dot d"></span>3 відмінності</h3>
+      <div class="card">
+        <h3>3 відмінності</h3>
         <ol class="f">
           <li><b>Філософія вводу:</b> Harvest/Clockify — таймер-перші; Timely — AI-перший; TimeCamp — гібрид.</li>
-          <li><b>Широта:</b> Paymo — повний PM; Harvest/Timely — вузько час+білінг; Clockify/TimeCamp — +моніторинг.</li>
-          <li><b>Модель free:</b> TimeCamp — необмежено; Harvest/Paymo — жорсткі ліміти; Clockify урізав у 2026.</li>
-        </ol>
-      </div>
-      <div class="card finding">
-        <h3><span class="dot o"></span>3 відкриті питання</h3>
-        <ol class="f">
-          <li>Чи не програємо тренду на авто/AI-трекінг — чи потрібен легкий авто-режим згодом?</li>
-          <li>Чи достатньо MVP (PDF + статуси, 1 валюта) проти вбудованих платежів (Stripe/PayPal)?</li>
-          <li>Де незайнятий простір у «mobile-first, просто для соло-фрілансера» проти Toggl/Harvest?</li>
+          <li><b>Широта:</b> Paymo — повний PM; Harvest/Timely — вузько білінг; Clockify/TimeCamp — +моніторинг.</li>
+          <li><b>Модель free:</b> TimeCamp необмежено; Harvest/Paymo жорсткі ліміти; Clockify урізав 2026.</li>
         </ol>
       </div>
     </div>
   </section>
 
-  <!-- СКРІНШОТИ -->
+  <!-- 2. БЕНЧМАРК -->
   <section>
-    <h2><span class="num">05</span>Скріншоти</h2>
-    <p class="lead">Знято з <b>публічних сторінок</b> (headless Chrome). Кліком — повний розмір.</p>
-    <div class="gallery">
-      <figure><a href="screens/harvest-home.png" target="_blank"><img src="screens/harvest-home.png" alt="Harvest home"></a><figcaption>Harvest — головна <span class="src">таймер, звіти, білінг</span></figcaption></figure>
-      <figure><a href="screens/harvest-features.png" target="_blank"><img src="screens/harvest-features.png" alt="Harvest features"></a><figcaption>Harvest — можливості</figcaption></figure>
-      <figure><a href="screens/clockify-home.png" target="_blank"><img src="screens/clockify-home.png" alt="Clockify home"></a><figcaption>Clockify — головна <span class="src">UI трекера</span></figcaption></figure>
-      <figure><a href="screens/paymo-home.png" target="_blank"><img src="screens/paymo-home.png" alt="Paymo home"></a><figcaption>Paymo — головна</figcaption></figure>
-      <figure><a href="screens/timecamp-home.png" target="_blank"><img src="screens/timecamp-home.png" alt="TimeCamp home"></a><figcaption>TimeCamp — головна</figcaption></figure>
-      <figure><a href="screens/timely-home.png" target="_blank"><img src="screens/timely-home.png" alt="Timely home"></a><figcaption>Timely — головна <span class="src">AI-таймшит</span></figcaption></figure>
-    </div>
-
-    <h3 style="margin-top:28px">Потрібно зняти за логіном <span class="q">[?]</span></h3>
-    <div class="todo">
-      Реальні in-app екрани не знімались (немає акаунтів). Потрібно вручну отримати доступ:
-      <ul class="tight">
-        <li><span class="q">[?]</span> Harvest: екран таймера · звіт за період · форма інвойсу</li>
-        <li><span class="q">[?]</span> Clockify: timer + timesheet · dashboard · reports</li>
-        <li><span class="q">[?]</span> Paymo: список проєктів · time entries · інвойс</li>
-        <li><span class="q">[?]</span> TimeCamp: таймер · productivity dashboard · billing/rates</li>
-        <li><span class="q">[?]</span> Timely: Memory Tracker / Hours view · project dashboard</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ВИМІР: АВТОМАТИЧНИЙ ТРЕКІНГ -->
-  <section>
-    <h2><span class="num">06</span>Вимір: «таймшит, що пише себе сам»</h2>
-    <p class="lead">Автоматичний AI-трекінг, мінімум тертя. 5 best-in-class продуктів за 8 критеріями (1–5).</p>
-    <div class="note">⚠️ Частина «оглядів» — блог rize.io (упереджений на користь Rize). Оцінки — експертна інтерпретація публічних даних, без hands-on.</div>
-
-    <h3>Критерії (1–5)</h3>
-    <div class="card">
-      <ul class="tight">
-        <li><b>1. Автоматичність захвату</b> — фоновий збір без таймера</li>
-        <li><b>2. AI-категоризація</b> — система сама кладе час на проєкт/клієнта</li>
-        <li><b>3. Низьке тертя підтвердження</b> — від захвату до таймшита (≈1 клік)</li>
-        <li><b>4. Прозорість / довіра</b> — видно джерело запису, легко правити</li>
-        <li><b>5. Приватність / контроль</b> — локально vs хмара, хто що бачить</li>
-        <li><b>6. Покриття джерел</b> — апки/веб/доки/дзвінки/календар/мобільний</li>
-        <li><b>7. Точність білінгу</b> — idle, склейка відрізків → надійні години</li>
-        <li><b>8. Time-to-value</b> — працює з коробки без довгого налаштування</li>
-      </ul>
-    </div>
-
-    <h3>Оцінка</h3>
+    <h2><span class="num">02</span>Бенчмарк — «таймшит, що пише себе сам»</h2>
+    <p class="lead">Автоматичний AI-трекінг, мінімум тертя. Оцінки 1–5 <span class="tag e">[оцінка]</span> з публічних описів (без hands-on).</p>
+    <div class="note">⚠️ Блог <a href="https://rize.io/blog/best-automated-time-tracking-software" target="_blank">rize.io</a> упереджений на користь Rize — враховано.</div>
     <div class="tablewrap">
-      <table>
+      <table class="num-table">
         <thead>
           <tr><th>Критерій (1–5)</th><th>Rize</th><th>Timely</th><th>Memtime</th><th>RescueTime</th><th>TimeCamp</th></tr>
         </thead>
@@ -288,85 +178,104 @@
         </tbody>
       </table>
     </div>
+    <p class="src">Джерела механізмів: <a href="https://rize.io/" target="_blank">rize.io</a> · <a href="https://www.timely.com/features" target="_blank">timely.com</a> · <a href="https://memtime.com/" target="_blank">memtime.com</a> · <a href="https://www.rescuetime.com/" target="_blank">rescuetime.com</a> · <a href="https://www.timecamp.com/" target="_blank">timecamp.com</a></p>
 
-    <h3>Перенесення в MVP</h3>
-    <div class="note">Реальність: наш MVP — mobile-first <b>PWA, local-first, ручний таймер</b>. Браузер у пісочниці не читає нативні апки/доки й не крутиться у фоні → справжній auto-capture недоступний. «Пише себе сам» імітуємо дешевими механізмами.</div>
     <div class="grid cols-3">
       <div class="card finding">
-        <h3><span class="dot p"></span>✅ Беремо</h3>
+        <h3><span class="dot p"></span>✅ Топ-3 у MVP</h3>
         <ol class="f">
-          <li><b>One-tap confirm</b> (AutoSheet/Timely): стоп таймера → запис передзаповнений → 1 тап.</li>
-          <li><b>Idle-detection + підрізання</b> (Memory/Memtime): «тебе не було 20 хв — обрізати?».</li>
-          <li><b>Локальна пам'ять контексту</b> (Rize/Timely, легка): підказка проєкту за часом/останнім записом.</li>
+          <li><b>One-tap confirm</b> — стоп таймера → передзаповнено → 1 тап. <span class="src">Timely AutoSheet</span></li>
+          <li><b>Idle-detection + підрізання</b> — «не було 20 хв?». <span class="src">Memory/Memtime; Page Visibility <span class="tag q">[?]</span></span></li>
+          <li><b>Локальна пам'ять контексту</b> — підказка проєкту. <span class="src">патерни Rize/Timely</span></li>
         </ol>
       </div>
       <div class="card finding" style="grid-column:span 2">
-        <h3><span class="dot o"></span>❌ Не спрацює: повний фоновий auto-capture апок/сайтів (суть Rize/Timely)</h3>
+        <h3><span class="dot d"></span>❌ Не спрацює: повний фоновий auto-capture (суть Rize/Timely)</h3>
         <ol class="f">
           <li>PWA у пісочниці <b>не має доступу</b> до нативних апок/файлів і не працює у фоні постійно.</li>
           <li>Потребує нативного агента + хмари — суперечить <b>local-first / без бекенду</b> MVP.</li>
-          <li>На мобільному вебі тривалий фоновий моніторинг неможливий (дозволи). Гонитва зламала б козир «просто і швидко».</li>
+          <li>На мобільному вебі тривалий фоновий моніторинг неможливий <span class="tag q">[?]</span>. Архітектурне обмеження, не маркетинг.</li>
         </ol>
       </div>
     </div>
   </section>
 
-  <!-- ПАТЕРНИ СТАРТУ -->
+  <!-- 3. ПАТЕРНИ -->
   <section>
-    <h2><span class="num">07</span>UX-патерни швидкого старту</h2>
-    <p class="lead">Ключова задача — найшвидший старт. 5 принципово різних механізмів ініціації.</p>
-    <div class="tablewrap">
-      <table>
-        <thead>
-          <tr><th>Патерн</th><th>Як працює</th><th>Підходить</th><th>Ламається</th></tr>
-        </thead>
-        <tbody>
-          <tr><td class="name">1. Плитки-проєкти</td><td>Сітка кнопок; тап = старт таймера для проєкту</td><td>Кілька частих проєктів, мобільний, швидкість</td><td>Десятки проєктів; треба обрати задачу до старту</td></tr>
-          <tr><td class="name">2. Глобальна Start/Stop</td><td>Одна кнопка → «голий» таймер; проєкт потім</td><td>Не втратити час, класифікувати пізніше</td><td>Втрата контексту; білінг потребує проєкт одразу</td></tr>
-          <tr><td class="name">3. Natural-language</td><td>Текст «ClientX дизайн 2год» → парсер</td><td>Клавіатура, power-users</td><td>Мобільне (друк), парсинг, дискаверабельність</td></tr>
-          <tr><td class="name">4. Resume з історії</td><td>Тап «продовжити» → дубль + старт</td><td>Повторювана робота, є історія</td><td>Порожня історія; нові задачі</td></tr>
-          <tr><td class="name">5. Calendar-drag</td><td>Drag по таймлайну дня → блок на проєкт</td><td>Планувальники, десктоп, ретроспектива</td><td>Мобільний drag; трекінг «зараз»; багато кроків</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p style="color:var(--muted);font-size:14px;margin-top:10px">Пасивний auto-capture не включено — PWA його не тягне (див. §06).</p>
-
-    <h3>Прив'язка до контексту (CLAUDE.md)</h3>
+    <h2><span class="num">03</span>Патерни — обраний механізм старту</h2>
+    <p class="lead">З 5 принципово різних патернів (плитки · глобальна Start/Stop · natural-language · resume · calendar-drag). Приклади продуктів ілюстративні <span class="tag q">[?]</span>.</p>
     <div class="grid cols-3">
       <div class="card finding">
-        <h3><span class="dot p"></span>🥇 Патерн 1 — Плитки</h3>
+        <h3><span class="dot p"></span>🥇 Плитки-проєкти</h3>
+        <p style="margin:0 0 6px;color:var(--muted)">Сітка кнопок-проєктів; тап = миттєвий старт таймера.</p>
         <ol class="f">
           <li>Mobile-first + «1–2 тапи»: плитка = один тап.</li>
           <li>Жменя проєктів у фрілансера → сітка компактна, не ламається.</li>
-          <li>Мапінг: плитки=<code>Project</code> (є color); тап→<code>TimeEntry</code>; rate+currency фіксують гроші на старті; один таймер = switch.</li>
+          <li>Мапінг: плитки=<code>Project</code> (color); тап→<code>TimeEntry</code>; rate+currency фіксують гроші; один таймер = switch.</li>
         </ol>
       </div>
       <div class="card finding">
-        <h3><span class="dot o"></span>🥈 Патерн 4 — Resume <small>(за умови X)</small></h3>
-        <p style="margin:0;color:var(--muted)">X = коли є історія / щоденно повторювані проєкти. Надбудова над launchpad; продовжує «локальну пам'ять контексту» (§06).</p>
+        <h3><span class="dot o"></span>🥈 Resume <small>(за умови X)</small></h3>
+        <p style="margin:0;color:var(--muted)">X = коли є історія / щоденно повторювані проєкти. Надбудова над launchpad; продовжує «локальну пам'ять контексту» (§02).</p>
       </div>
       <div class="card finding">
-        <h3><span class="dot d"></span>🚫 Патерн 5 — Calendar-drag</h3>
-        <p style="margin:0;color:var(--muted)">Суперечить mobile-first (дрібний drag) і швидкому старту (парадигма планування). Добрий на десктопі — не наш сценарій. NL (§3) лишаємо вторинним ручним вводом.</p>
+        <h3><span class="dot d"></span>🚫 Calendar-drag</h3>
+        <p style="margin:0;color:var(--muted)">Суперечить mobile-first (дрібний drag) і швидкому старту (парадигма планування). NL лишаємо вторинним ручним вводом.</p>
       </div>
     </div>
+    <p class="src">Обґрунтування — з <a href="CLAUDE.md">CLAUDE.md</a> (mobile-first, ціль «1–2 тапи», модель Клієнт→Проєкт→Запис).</p>
   </section>
 
-  <!-- ДЖЕРЕЛА -->
+  <!-- 4. ВИСНОВКИ -->
   <section>
-    <h2><span class="num">08</span>Джерела</h2>
-    <div class="card src-list">
-      <p style="margin:0 0 8px">Сайти продуктів: getharvest.com · clockify.me · paymoapp.com · timecamp.com · timely.com</p>
-      UX / порівняння:
+    <h2><span class="num">04</span>Висновки — gaps і гіпотези</h2>
+
+    <div class="card">
+      <h3>Gaps</h3>
+      <ul class="tight">
+        <li><b>G1. Mobile-first як позиція</b> — усі 5 конкурентів desktop/web-перші (скріни <code>screens/*.png</code>; якість їхніх мобільних апок не тестувалась <span class="tag q">[?]</span>).</li>
+        <li><b>G2. Автоматизм vs простота</b> — ринок іде в auto/AI, але це недоступно у PWA (§02).</li>
+        <li><b>G3. Глибина білінгу</b> — у конкурентів вбудовані платежі (Stripe/PayPal, <code>harvest-home</code>); у нас лише PDF+статуси.</li>
+        <li><b>G4. Деградація free</b> — Clockify урізав free 2026; Harvest/Paymo жорстко лімітують.</li>
+      </ul>
+    </div>
+
+    <h3>Гіпотези — якщо / то / бо [дані]</h3>
+    <div class="hypo"><b class="k">H1.</b> <b>Якщо</b> старт = сітка плиток (1 тап), <b>то</b> час до старту впаде до 1–2 тапів, <b>бо</b> ціль/аудиторія в CLAUDE.md вимагають швидкості (фіт §03; «one-tap у лідерів» <span class="tag q">[?]</span>).</div>
+    <div class="hypo"><b class="k">H2.</b> <b>Якщо</b> зробити по-справжньому mobile-first, <b>то</b> отримаємо незайнятий простір, <b>бо</b> всі 5 конкурентів desktop/web-перші (G1). Ризик: треба аналіз їхніх мобільних апок <span class="tag q">[?]</span>.</div>
+    <div class="hypo"><b class="k">H3.</b> <b>Якщо</b> замість auto-capture дати «1-tap confirm + idle-trim + локальні підказки», <b>то</b> збережемо простоту й ~80% відчуття автоматизму, <b>бо</b> ринок рухається до зниження тертя (§02), а повний auto-capture у PWA недоступний (G2).</div>
+    <div class="hypo"><b class="k">H4.</b> <b>Якщо</b> інвойс = PDF + статуси (1 валюта), <b>то</b> покриємо базовий білінг, <b>бо</b> всі монетизують зв'язок час→інвойс (§01); платежі поза MVP, момент додавання відкритий <span class="tag q">[?]</span> (G3).</div>
+    <div class="hypo"><b class="k">H5.</b> <b>Якщо</b> позиціонувати як простий локальний інструмент для одного фрілансера, <b>то</b> виграємо на тлі деградації free, <b>бо</b> Clockify урізав free 2026, Harvest/Paymo лімітують 1 seat / 2 проєкти (G4).</div>
+  </section>
+
+  <!-- ДОДАТОК -->
+  <section>
+    <h2><span class="num">+</span>Додаток — скріни та джерела</h2>
+    <p class="lead">Знято з <b>публічних лендингів</b> (headless Chrome). Кліком — повний розмір.</p>
+    <div class="gallery">
+      <figure><a href="screens/harvest-home.png" target="_blank"><img src="screens/harvest-home.png" alt="Harvest"></a><figcaption>Harvest — головна</figcaption></figure>
+      <figure><a href="screens/harvest-features.png" target="_blank"><img src="screens/harvest-features.png" alt="Harvest features"></a><figcaption>Harvest — можливості</figcaption></figure>
+      <figure><a href="screens/clockify-home.png" target="_blank"><img src="screens/clockify-home.png" alt="Clockify"></a><figcaption>Clockify — головна</figcaption></figure>
+      <figure><a href="screens/paymo-home.png" target="_blank"><img src="screens/paymo-home.png" alt="Paymo"></a><figcaption>Paymo — головна</figcaption></figure>
+      <figure><a href="screens/timecamp-home.png" target="_blank"><img src="screens/timecamp-home.png" alt="TimeCamp"></a><figcaption>TimeCamp — головна</figcaption></figure>
+      <figure><a href="screens/timely-home.png" target="_blank"><img src="screens/timely-home.png" alt="Timely"></a><figcaption>Timely — головна</figcaption></figure>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <b>Не знято <span class="tag q">[?]</span></b> (за логіном, нема акаунтів): in-app екрани кожного продукту — таймер, dashboard, reports, форма інвойсу.
+    </div>
+    <p class="src" style="margin-top:14px">Огляди:
       <a href="https://tallyho.app/blog/the-best-time-tracking-apps-for-freelancers-in-2025" target="_blank">TallyHo</a> ·
       <a href="https://www.jobbers.io/best-time-tracking-apps-for-freelancers-2026-toggl-vs-harvest-vs-clockify-compared/" target="_blank">Jobbers</a> ·
       <a href="https://connecteam.com/clockify-vs-harvest/" target="_blank">Connecteam</a> ·
-      <a href="https://toggl.com/blog/clockify-vs-harvest" target="_blank">Toggl blog</a>
-    </div>
+      <a href="https://toggl.com/blog/clockify-vs-harvest" target="_blank">Toggl</a> ·
+      <a href="https://rize.io/blog/best-automated-time-tracking-software" target="_blank">Rize (упереджений)</a> ·
+      <a href="https://timingapp.com/blog/rescuetime-alternatives/" target="_blank">Timing</a> ·
+      <a href="https://thedigitalprojectmanager.com/tools/best-ai-time-tracking-software/" target="_blank">Digital PM</a>
+    </p>
   </section>
 
   <footer>
-    TrackOn · згенеровано з даних ресьорчу · оновлюй разом з <a href="research.md">research.md</a>
+    TrackOn · структура синхронізована з <a href="research.md">research.md</a> (4 секції + додаток)
   </footer>
 </div>
 
