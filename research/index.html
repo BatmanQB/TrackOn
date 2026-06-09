@@ -249,9 +249,71 @@
     </div>
   </section>
 
+  <!-- ВИМІР: АВТОМАТИЧНИЙ ТРЕКІНГ -->
+  <section>
+    <h2><span class="num">06</span>Вимір: «таймшит, що пише себе сам»</h2>
+    <p class="lead">Автоматичний AI-трекінг, мінімум тертя. 5 best-in-class продуктів за 8 критеріями (1–5).</p>
+    <div class="note">⚠️ Частина «оглядів» — блог rize.io (упереджений на користь Rize). Оцінки — експертна інтерпретація публічних даних, без hands-on.</div>
+
+    <h3>Критерії (1–5)</h3>
+    <div class="card">
+      <ul class="tight">
+        <li><b>1. Автоматичність захвату</b> — фоновий збір без таймера</li>
+        <li><b>2. AI-категоризація</b> — система сама кладе час на проєкт/клієнта</li>
+        <li><b>3. Низьке тертя підтвердження</b> — від захвату до таймшита (≈1 клік)</li>
+        <li><b>4. Прозорість / довіра</b> — видно джерело запису, легко правити</li>
+        <li><b>5. Приватність / контроль</b> — локально vs хмара, хто що бачить</li>
+        <li><b>6. Покриття джерел</b> — апки/веб/доки/дзвінки/календар/мобільний</li>
+        <li><b>7. Точність білінгу</b> — idle, склейка відрізків → надійні години</li>
+        <li><b>8. Time-to-value</b> — працює з коробки без довгого налаштування</li>
+      </ul>
+    </div>
+
+    <h3>Оцінка</h3>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Критерій (1–5)</th><th>Rize</th><th>Timely</th><th>Memtime</th><th>RescueTime</th><th>TimeCamp</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="name">1. Автоматичність захвату</td><td>5</td><td>5</td><td>5</td><td>5</td><td>5</td></tr>
+          <tr><td class="name">2. AI-категоризація</td><td>5</td><td>4</td><td>1</td><td>3</td><td>4</td></tr>
+          <tr><td class="name">3. Тертя підтвердження</td><td>4</td><td>4</td><td>2</td><td>3</td><td>4</td></tr>
+          <tr><td class="name">4. Прозорість / довіра</td><td>4</td><td>4</td><td>5</td><td>4</td><td>3</td></tr>
+          <tr><td class="name">5. Приватність / контроль</td><td>4</td><td>5</td><td>5</td><td>4</td><td>3</td></tr>
+          <tr><td class="name">6. Покриття джерел</td><td>4</td><td>5</td><td>4</td><td>3</td><td>4</td></tr>
+          <tr><td class="name">7. Точність білінгу</td><td>4</td><td>4</td><td>4</td><td>3</td><td>4</td></tr>
+          <tr><td class="name">8. Time-to-value</td><td>5</td><td>4</td><td>3</td><td>5</td><td>3</td></tr>
+          <tr style="font-weight:700;background:var(--accent-soft)"><td class="name">Середнє</td><td>4.4</td><td>4.4</td><td>3.6</td><td>3.75</td><td>3.75</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Перенесення в MVP</h3>
+    <div class="note">Реальність: наш MVP — mobile-first <b>PWA, local-first, ручний таймер</b>. Браузер у пісочниці не читає нативні апки/доки й не крутиться у фоні → справжній auto-capture недоступний. «Пише себе сам» імітуємо дешевими механізмами.</div>
+    <div class="grid cols-3">
+      <div class="card finding">
+        <h3><span class="dot p"></span>✅ Беремо</h3>
+        <ol class="f">
+          <li><b>One-tap confirm</b> (AutoSheet/Timely): стоп таймера → запис передзаповнений → 1 тап.</li>
+          <li><b>Idle-detection + підрізання</b> (Memory/Memtime): «тебе не було 20 хв — обрізати?».</li>
+          <li><b>Локальна пам'ять контексту</b> (Rize/Timely, легка): підказка проєкту за часом/останнім записом.</li>
+        </ol>
+      </div>
+      <div class="card finding" style="grid-column:span 2">
+        <h3><span class="dot o"></span>❌ Не спрацює: повний фоновий auto-capture апок/сайтів (суть Rize/Timely)</h3>
+        <ol class="f">
+          <li>PWA у пісочниці <b>не має доступу</b> до нативних апок/файлів і не працює у фоні постійно.</li>
+          <li>Потребує нативного агента + хмари — суперечить <b>local-first / без бекенду</b> MVP.</li>
+          <li>На мобільному вебі тривалий фоновий моніторинг неможливий (дозволи). Гонитва зламала б козир «просто і швидко».</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
   <!-- ДЖЕРЕЛА -->
   <section>
-    <h2><span class="num">06</span>Джерела</h2>
+    <h2><span class="num">07</span>Джерела</h2>
     <div class="card src-list">
       <p style="margin:0 0 8px">Сайти продуктів: getharvest.com · clockify.me · paymoapp.com · timecamp.com · timely.com</p>
       UX / порівняння:
