@@ -248,6 +248,74 @@
     <div class="hypo"><b class="k">H5.</b> <b>Якщо</b> позиціонувати як простий локальний інструмент для одного фрілансера, <b>то</b> виграємо на тлі деградації free, <b>бо</b> Clockify урізав free 2026, Harvest/Paymo лімітують 1 seat / 2 проєкти (G4).</div>
   </section>
 
+  <!-- 5. ВІЗУАЛЬНИЙ РЕФЕРЕНС -->
+  <section>
+    <h2><span class="num">05</span>Візуальний референс / напрям</h2>
+    <p class="lead">3 референси, надані тобою (стиль, що подобається). Назви застосунків невідомі <span class="tag q">[?]</span> — структуру читаю зі скрінів. Два з трьох майже 1:1 лягають на нашу модель.</p>
+
+    <div class="grid cols-3">
+      <figure style="margin:0;background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)">
+        <a href="screens/Tracker.png" target="_blank"><img src="screens/Tracker.png" alt="Tracker reference" style="display:block;width:100%;height:auto;background:#0a0a0a"></a>
+        <figcaption style="padding:12px 14px;font-size:14px">
+          <b>Tracker</b> — веб-трекер
+          <ul class="tight">
+            <li>Список, згрупований за <b>статусом</b> (In&nbsp;progress / Completed)</li>
+            <li>У рядку: <b>▶/⏸ в один тап</b> + назва + «Last worked»</li>
+            <li>Праворуч <b>Total price $ + Total time</b> на кожному</li>
+            <li>Активний проєкт — виділений банер; швидкий «Input task name»</li>
+          </ul>
+        </figcaption>
+      </figure>
+      <figure style="margin:0;background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)">
+        <a href="screens/desktop.png" target="_blank"><img src="screens/desktop.png" alt="Desktop widget reference" style="display:block;width:100%;height:auto;background:#0a0a0a"></a>
+        <figcaption style="padding:12px 14px;font-size:14px">
+          <b>desktop</b> — компактний віджет
+          <ul class="tight">
+            <li>Групування <b>за клієнтом</b> (GUIDESTAR, GLS) = наш <code>Client→Project</code></li>
+            <li>Рядок: чекбокс + назва + час + <b>▶ play</b></li>
+            <li>Внизу <b>«Earned this month €»</b> + експорт</li>
+            <li>Валюта €, великий підсумок — релевантно мультивалюті</li>
+          </ul>
+        </figcaption>
+      </figure>
+      <figure style="margin:0;background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)">
+        <a href="screens/Visual.png" target="_blank"><img src="screens/Visual.png" alt="Visual style reference" style="display:block;width:100%;height:auto;background:#0a0a0a"></a>
+        <figcaption style="padding:12px 14px;font-size:14px">
+          <b>Visual</b> — візуальна мова
+          <ul class="tight">
+            <li><b>Темна тема + один яскравий акцент</b> (лайм)</li>
+            <li>Великі жирні цифри; <b>кругле кільце прогресу</b> + дотові гейджі</li>
+            <li>Заокруглені картки; <b>pill-перемикач</b> вкладок</li>
+            <li>Лінійний графік «Today Statistics» з тултіпом</li>
+          </ul>
+        </figcaption>
+      </figure>
+    </div>
+
+    <h3>Що з цього беремо в напрям (інференс зі скрінів)</h3>
+    <div class="grid cols-2">
+      <div class="card finding">
+        <h3><span class="dot p"></span>Структура / взаємодія</h3>
+        <ul class="tight">
+          <li><b>Старт як список з ▶, а не лише сітка-grid.</b> Уточнює H1: launchpad можна зробити списком проєктів із play-кнопкою — той самий «1 тап», плюс безкоштовно дає <b>Resume</b> (§03, патерн 2-й).</li>
+          <li><b>Групуючі заголовки</b> — за клієнтом (desktop) і за статусом (Tracker) → лягають на <code>Client→Project</code> і статуси інвойсів (не сплачено/відправлено/сплачено).</li>
+          <li><b>Гроші завжди поруч із часом</b> (Total price $, Earned this month €) → підтверджує H4 і рішення «rate+currency на проєкті».</li>
+          <li><b>Стан таймера видно в рядку</b> (⏸ + «running for 0:30:12») → один активний таймер прямо в списку.</li>
+        </ul>
+      </div>
+      <div class="card finding">
+        <h3><span class="dot o"></span>Візуальна мова (→ tokens / concept)</h3>
+        <ul class="tight">
+          <li><b>Dark-first + один вивідний акцент</b> — конкретизує наше «мінімалізм, light+dark»: темна як герой, один яскравий колір (кандидат — лайм/неон).</li>
+          <li><b>Великі цифри</b> для часу й суми; <b>кільце прогресу</b> — кандидат для активного таймера / денної цілі.</li>
+          <li><b>Pill-перемикач</b> — готовий патерн для <b>Тиждень / Місяць / Період</b> у звітах.</li>
+          <li><b>Лінійний графік + тултіп</b> — орієнтир для звітів на екрані (§04 — звіти).</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note">Це <b>напрям</b>, не фінал: акцентний колір, кільце й графіки — гіпотези для перевірки у <code>concept/</code> та <code>tokens/</code>. Назви референс-застосунків невідомі <span class="tag q">[?]</span>.</div>
+  </section>
+
   <!-- ДОДАТОК -->
   <section>
     <h2><span class="num">+</span>Додаток — скріни та джерела</h2>
