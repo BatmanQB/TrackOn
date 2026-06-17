@@ -1,8 +1,8 @@
 # TrackOn
 
-Мобільний веб-застосунок (PWA) для трекінгу часу по проєктах — для фрілансерів.
+Кросплатформний веб-застосунок (адаптивний PWA) для трекінгу часу по проєктах — для фрілансерів.
 Швидко затрекати час, бачити витрати часу й грошей, формувати звіти за період
-та інвойси. Простий і швидкий інтерфейс, mobile-first.
+та інвойси. Простий і швидкий інтерфейс; первинний контекст — десктоп, адаптив до mobile.
 
 > **Цей README — живий індекс репозиторію.** Оновлюй його, коли з'являються нові
 > матеріали чи папки.
@@ -17,6 +17,20 @@
 - 📱 **PWA** — встановлюється на телефон, працює офлайн
 - 🌗 **Light / Dark** теми
 
+## Люди
+
+Хто наш користувач і що він намагається зробити — окремий шар ресерчу:
+
+- 👤 [`research/personas.md`](./research/personas.md) — **персони** (A primary / B / C), лог
+  3 інтерв'ю, cross-interview сигнали, розвилка PWA-vs-нативний агент (§8) і чесний
+  sanity-check слабких місць (§9).
+- 🎯 [`research/jtbd.md`](./research/jtbd.md) — **Jobs To Be Done**: main job, related/emotional/
+  social jobs, гіпотези, JTBD-матриця jobs×персони і **3 jobs у ядро MVP**.
+- 🖥️ [`personas.html`](./personas.html) — наочна темна сторінка (картки персон, ієрархія jobs, матриця).
+
+**Коротко:** primary — фрілансер-професіонал, що трекає з комп'ютера й цінує простоту;
+ядро MVP = почати облік без тертя · не загубитися у складності · білінг без paywall.
+
 ## Стек
 
 React + TypeScript + Vite · Tailwind CSS · PWA (vite-plugin-pwa) ·
@@ -28,7 +42,7 @@ IndexedDB через Dexie.js · Zustand
 
 | Папка | Що всередині |
 |---|---|
-| [`research/`](./research/) | Дослідження: [`research.md`](./research/research.md), наочний дашборд [`research.html`](./research.html) + [`screens/`](./research/screens/) |
+| [`research/`](./research/) | Дослідження: [`research.md`](./research/research.md), [`personas.md`](./research/personas.md), [`jtbd.md`](./research/jtbd.md), дашборди [`research.html`](./research.html) / [`personas.html`](./personas.html) + [`screens/`](./research/screens/) |
 | [`wireframes/`](./wireframes/) | Низькодеталізовані каркаси екранів (low-fi) |
 | [`concept/`](./concept/) | Високодеталізовані концепти (hi-fi), візуальний напрям |
 | [`tokens/`](./tokens/) | Дизайн-токени: кольори, типографіка, відступи, радіуси |
