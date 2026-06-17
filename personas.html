@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TrackOn — Persons & JTBD</title>
+<title>TrackOn — Персони</title>
 <style>
   :root{
     --bg:#fafafa; --surface:#fff; --text:#16181d; --muted:#6b7280; --border:#e6e7ea;
@@ -36,21 +36,14 @@
   .grid{display:grid;gap:14px;}
   @media(min-width:760px){.grid.cols-3{grid-template-columns:repeat(3,1fr)}.grid.cols-2{grid-template-columns:repeat(2,1fr)}}
   ul.tight{margin:8px 0 0;padding-left:18px;} ul.tight li{margin:5px 0;}
-  .tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);background:var(--surface);margin:14px 0;}
-  table{border-collapse:collapse;width:100%;min-width:880px;font-size:13px;}
-  th,td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--border);vertical-align:top;}
-  thead th{background:var(--accent-soft);color:var(--text);font-size:12.5px;letter-spacing:.02em;position:sticky;top:0;}
-  tbody tr:last-child td{border-bottom:none;}
-  td.job{font-weight:700;min-width:160px;}
   a{color:var(--accent);} a:hover{text-decoration:underline;}
-  .src{font-size:12px;color:var(--muted);}
-  .src a{color:var(--muted);}
+  .src{font-size:12px;color:var(--muted);} .src a{color:var(--muted);}
   code{background:var(--accent-soft);padding:1px 6px;border-radius:6px;font-size:13px;}
   .tag{font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;white-space:nowrap;}
   .tag.q{background:rgba(217,119,6,.16);color:var(--warn);}
-  .tag.e{background:rgba(124,58,237,.16);color:var(--q);}
   .tag.h{background:rgba(124,58,237,.16);color:var(--q);}
-  .tag.ok{background:rgba(22,163,74,.16);color:var(--ok);}
+  .imp{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:6px;font-weight:700;font-size:12.5px;}
+  .imp.iq{background:rgba(124,58,237,.16);color:var(--q);}
   /* persona cards */
   .personas{display:grid;gap:16px;}
   @media(min-width:760px){.personas{grid-template-columns:repeat(3,1fr)}}
@@ -61,60 +54,85 @@
   .pname{font-size:18px;font-weight:700;margin:2px 0 2px;}
   .pill{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;white-space:nowrap;}
   .pill.primary{background:var(--accent);color:#fff;}
-  .pill.sec{background:var(--accent-soft);color:var(--accent);}
   .pill.data{background:rgba(22,163,74,.16);color:var(--ok);}
   .pill.hypo{background:rgba(124,58,237,.16);color:var(--q);}
   .persona h4{margin:14px 0 4px;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);}
   .persona ul{margin:0;padding-left:16px;} .persona li{margin:4px 0;font-size:13.5px;}
   .quote{font-style:italic;color:var(--text);border-left:3px solid var(--accent);padding:6px 0 6px 12px;margin:12px 0 0;font-size:13.5px;}
-  /* job hierarchy */
-  .job-main{background:var(--accent-soft);border:1px solid var(--accent);border-radius:16px;padding:20px 24px;margin:14px 0;}
-  .job-main .lbl{color:var(--accent);font-weight:700;font-size:13px;letter-spacing:.04em;}
-  .job-main p{margin:6px 0 0;font-size:18px;line-height:1.45;}
-  .jrow{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin:10px 0;box-shadow:var(--shadow);}
-  .jrow .lbl{font-weight:700;color:var(--accent);margin-right:6px;}
-  .jrow .frm{font-size:15px;}
-  .jrow .frm b{color:var(--text);}
-  .imp{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:6px;font-weight:700;font-size:12.5px;}
-  .imp.i3{background:var(--accent);color:#fff;}
-  .imp.i2{background:rgba(217,119,6,.18);color:var(--warn);}
-  .imp.i1{background:var(--border);color:var(--muted);}
-  .imp.iq{background:rgba(124,58,237,.16);color:var(--q);}
-  .mk{font-weight:700;}
-  .mk.gap{color:var(--accent);} .mk.part{color:var(--warn);} .mk.closed{color:var(--ok);}
-  .note{background:var(--accent-soft);border-radius:12px;padding:12px 16px;font-size:14px;margin:12px 0;}
   .danger{border:1px solid var(--warn);border-left-width:4px;border-radius:12px;padding:6px 18px;margin:12px 0;background:var(--surface);box-shadow:var(--shadow);}
   ol.f{margin:0;padding-left:20px;} ol.f li{margin:8px 0;}
-  .toggle{position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);
-    color:var(--text);border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer;box-shadow:var(--shadow);z-index:10;}
+  .note{background:var(--accent-soft);border-radius:12px;padding:12px 16px;font-size:14px;margin:12px 0;}
   footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;}
-  .legend{display:flex;flex-wrap:wrap;gap:10px 18px;font-size:12.5px;color:var(--muted);margin:10px 0 0;}
-  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  /* sidebar nav */
+  html{scroll-behavior:smooth;}
+  :root{--sidebar-w:264px;}
+  .sidebar{position:fixed;left:0;top:0;width:var(--sidebar-w);height:100vh;overflow-y:auto;
+    background:var(--surface);border-right:1px solid var(--border);padding:22px 14px;z-index:40;
+    transform:translateX(-100%);transition:transform .22s ease;}
+  .sidebar.open{transform:translateX(0);box-shadow:var(--shadow);}
+  .side-brand{font-weight:700;font-size:14px;letter-spacing:.02em;padding:0 8px 14px;color:var(--text);}
+  .nav-label{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin:18px 8px 8px;}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;color:var(--text);text-decoration:none;font-weight:600;font-size:15px;}
+  .nav-item .ic{font-size:16px;width:20px;text-align:center;}
+  .nav-item:hover{background:var(--accent-soft);text-decoration:none;}
+  .nav-item.active{background:var(--accent-soft);color:var(--accent);border:1px solid var(--border);}
+  .nav-sub{display:flex;flex-direction:column;border-left:1px solid var(--border);margin:4px 0 8px 22px;padding-left:6px;}
+  .nav-sub a{display:flex;gap:10px;padding:7px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;}
+  .nav-sub a .n{min-width:14px;text-align:center;}
+  .nav-sub a:hover{background:var(--accent-soft);color:var(--text);text-decoration:none;}
+  .nav-sub a.cur{color:var(--accent);background:var(--accent-soft);}
+  .nav-sub a.cur .n{color:var(--accent);}
+  .nav-item.soon{color:var(--muted);cursor:default;} .nav-item.soon:hover{background:none;}
+  .soon-badge{margin-left:auto;font-size:10px;font-weight:700;letter-spacing:.05em;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:2px 9px;}
+  .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:30;opacity:0;pointer-events:none;transition:opacity .22s;}
+  .backdrop.show{opacity:1;pointer-events:auto;}
+  .menuBtn{position:fixed;top:16px;left:16px;z-index:50;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer;box-shadow:var(--shadow);}
+  .toggle{position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer;box-shadow:var(--shadow);}
+  section[id]{scroll-margin-top:18px;}
+  @media(min-width:1000px){
+    .sidebar{transform:none;box-shadow:none;}
+    body{padding-left:var(--sidebar-w);}
+    .menuBtn{display:none;} .backdrop{display:none;}
+  }
 </style>
 </head>
 <body>
+<button class="menuBtn" id="menuBtn">☰ Меню</button>
 <button class="toggle" id="themeBtn">◐ Тема</button>
+<div class="backdrop" id="backdrop"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="side-brand">TrackOn</div>
+
+  <div class="nav-label">Сторінки</div>
+  <a class="nav-item" href="research.html"><span class="ic">📄</span> Дослідження</a>
+  <a class="nav-item" href="jtbd.html"><span class="ic">🧭</span> JTBD</a>
+  <a class="nav-item active" href="personas.html"><span class="ic">👥</span> Персони</a>
+  <nav class="nav-sub">
+    <a href="#sec-personas"><span class="n">1</span> Персони</a>
+    <a href="#sec-fork"><span class="n">2</span> Розвилка PWA</a>
+    <a href="#sec-sanity"><span class="n">3</span> Sanity-check</a>
+  </nav>
+
+  <div class="nav-label">Скоро</div>
+  <span class="nav-item soon"><span class="ic">🎨</span> Дизайн-система <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🧩</span> Компоненти <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🖼️</span> Вайрфрейми <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🚀</span> Хендофф <span class="soon-badge">SOON</span></span>
+</aside>
+
 <div class="wrap">
 
   <header class="hero">
-    <span class="badge">TrackOn · Persons &amp; JTBD</span>
-    <h1>Персони та Jobs To Be Done</h1>
-    <p class="sub">Хто наш користувач, що він намагається зробити, і де наші ж дані суперечать нашим припущенням. Зведено з 3 інтерв'ю + ринкового ресерчу.</p>
-    <p class="meta">Стан: червень 2026 · Деталі — у <a href="research/personas.md">personas.md</a> · <a href="research/jtbd.md">jtbd.md</a> ·
-      <span class="tag q">[?]</span> = не підтверджено / мала вибірка · <span class="tag h">гіпотеза</span> = не в основному списку</p>
-    <div class="legend">
-      <span><span class="imp i3">3</span> висока важливість</span>
-      <span><span class="imp i2">2</span> середня</span>
-      <span><span class="imp i1">1</span> низька</span>
-      <span><span class="imp iq">?</span> немає даних</span>
-      <span><span class="mk gap">●</span> гэп ринку</span>
-      <span><span class="mk part">●</span> частково закрито</span>
-      <span><span class="mk closed">●</span> закрито ринком</span>
-    </div>
+    <span class="badge">TrackOn · Персони</span>
+    <h1>Персони</h1>
+    <p class="sub">Хто наш користувач і де наші ж дані суперечать припущенням. Зведено з 3 інтерв'ю + ринкового ресерчу. Jobs — на <a href="jtbd.html">сторінці JTBD</a>.</p>
+    <p class="meta">Стан: червень 2026 · Деталі — у <a href="research/personas.md">personas.md</a> ·
+      <span class="tag q">[?]</span> = не підтверджено / мала вибірка · <span class="tag h">гіпотеза</span></p>
   </header>
 
   <!-- 1. ПЕРСОНИ -->
-  <section>
+  <section id="sec-personas">
     <h2><span class="num">01</span>Персони</h2>
     <p class="lead">Зведено з Interview #1–3. Кожне інтерв'ю — <b>N=1, самозвіт</b>; 2/3 — side-gig дизайнери. Навіть «підтверджене» стоїть на трьох людях.</p>
 
@@ -178,7 +196,7 @@
         </ul>
         <p class="quote">«Готовий дати доступ до метаданих роботи, не до контенту. Саме тут межа між автоматизацією і spyware.»</p>
         <h4>Чому не primary</h4>
-        <ul><li>Її мрія — контекстний автотрекінг — вимагає нативного агента, чого PWA не дає (§8 розвилка). Висока WTP → кандидат у primary, якщо зміниться архітектура.</li></ul>
+        <ul><li>Її мрія — контекстний автотрекінг — вимагає нативного агента, чого PWA не дає (розвилка нижче). Висока WTP → кандидат у primary, якщо зміниться архітектура.</li></ul>
       </div>
 
       <!-- C -->
@@ -213,165 +231,30 @@
     </div>
   </section>
 
-  <!-- 2. JOBS -->
-  <section>
-    <h2><span class="num">02</span>Ієрархія Jobs</h2>
-    <p class="lead">Формат «Коли [ситуація] · я хочу [мотивація] · щоб [результат]». Без назв функцій — лише прогрес людини.</p>
-
-    <div class="job-main">
-      <span class="lbl">MAIN JOB</span>
-      <p><b>Коли</b> я виконую оплачувану роботу для кількох клієнтів, <b>я хочу</b> без зусиль зафіксувати, куди дівся мій час, <b>щоб</b> упевнено отримати за нього справедливу й безсуперечну оплату.</p>
-      <p class="src" style="margin-top:8px">Звідки: усі 3 інтерв'ю + ринок «час→гроші» (research §1.2) + <code>CLAUDE.md §1</code></p>
-    </div>
-
-    <h3>Related jobs — на шляху до main</h3>
-    <div class="jrow"><div class="frm"><span class="lbl">R1</span><b>Коли</b> я переходжу до задачі, <b>я хочу</b> почати рахувати час майже не відриваючись від справи, <b>щоб</b> не втратити ні фокус, ні перші хвилини.</div><div class="src">A (1 клік старт/стоп) · B («не 10 хв на 30 хв») · research H1/§3</div></div>
-    <div class="jrow"><div class="frm"><span class="lbl">R2</span><b>Коли</b> я не зафіксував час одразу, <b>я хочу</b> чесно відновити його заднім числом, <b>щоб</b> облік лишався повним, а я не почувався так, ніби подарував комусь роботу.</div><div class="src">I#1 (тригери) · I#2 (приблизно) · I#3 (review) · O5/O9</div></div>
-    <div class="jrow"><div class="frm"><span class="lbl">R3</span><b>Коли</b> я перемикаюся між клієнтами, <b>я хочу</b> тримати їхній час чітко розділеним, <b>щоб</b> могти чесно пояснити кожному, за що він платить.</div><div class="src">I#3 (стоп/старт «заради чесності») · PainOnSocial/r/freelance</div></div>
-    <div class="jrow"><div class="frm"><span class="lbl">R4</span><b>Коли</b> настає час просити оплату, <b>я хочу</b> перетворити відстежений час на готову до відправлення суму без ручного перерахунку, <b>щоб</b> швидше отримати гроші й не наробити помилок.</div><div class="src">I#1 (Doc) · I#2 (калькулятор) · I#3 (мрія про чернетку) · G3/H4</div></div>
-    <div class="jrow"><div class="frm"><span class="lbl">R5</span><b>Коли</b> минає тиждень/місяць, <b>я хочу</b> побачити, на що реально пішов час і скільки він приніс, <b>щоб</b> приймати кращі рішення про навантаження й ставки.</div><div class="src">I#3 (аналітика) · research §7 · <span class="tag q">[?]</span> для A — не просили</div></div>
-
-    <div class="grid cols-2">
+  <!-- 2. РОЗВИЛКА -->
+  <section id="sec-fork">
+    <h2><span class="num">02</span>Розвилка — PWA vs нативний агент</h2>
+    <p class="lead">Найцінніша персона (B) хоче контекстний автотрекінг (VS Code / Git / Jira / Slack), а він вимагає нативного агента — браузер бачить ~20–30% дня. Наш продукт — PWA. Це не баг ресерчу, а межа платформи (research §2 / G2).</p>
+    <div class="grid cols-3">
       <div class="card">
-        <h3 style="margin-top:0">Emotional jobs</h3>
-        <div class="jrow" style="margin-top:8px"><div class="frm"><span class="lbl">E1</span><b>Коли</b> я виставляю суму, <b>я хочу</b> бути впевненим, що цифри точні й справедливі, <b>щоб</b> не сумніватися в собі.</div><div class="src">I#1 (страх занизити) · I#3 · <span class="tag q">[?]</span> розкол: I#2 «не турбує»</div></div>
-        <div class="jrow"><div class="frm"><span class="lbl">E2</span><b>Коли</b> я опановую інструмент, <b>я хочу</b> почуватися вправним, а не дурним перед складністю, <b>щоб</b> робота лишалася легкою.</div><div class="src">I#1 (Harvest онбординг) · I#3 («як CRM») · Connecteam</div></div>
-        <div class="jrow"><div class="frm"><span class="lbl">E3</span><b>Коли</b> інструмент бачить, як я працюю, <b>я хочу</b> зберегти контроль над тим, що він знає, <b>щоб</b> довіряти йому й не почуватися під наглядом.</div><div class="src">I#3 (метадані/контент) · <span class="tag q">[?]</span> N=1</div></div>
+        <h3 style="margin-top:0">1 · Чистий PWA <small>(поточний курс)</small></h3>
+        <p style="margin:0;font-size:14px">Обслуговуємо A і B <b>частково</b>: найшвидший ручний таймер + 1-tap confirm + idle-trim + invoice-draft. Свідомо <b>не</b> граємо в автотрекінг. Дешево, чесно з local-first; стеля по B обмежена.</p>
       </div>
       <div class="card">
-        <h3 style="margin-top:0">Social jobs</h3>
-        <div class="jrow" style="margin-top:8px"><div class="frm"><span class="lbl">S1</span><b>Коли</b> я звітую клієнту за час, <b>я хочу</b> виглядати організованим і чесним, <b>щоб</b> клієнт довіряв мені й хотів працювати далі.</div><div class="src">I#2 (чистий звіт) · I#3 (описи «зрозумілі клієнту») · research §1</div></div>
-        <h3>Гіпотези <span class="tag h">не в основному списку</span></h3>
-        <ul class="tight">
-          <li><b>HJ1</b> «щоб облік відбувався сам» — хоче лише B; A/C проти; впирається в архітектуру.</li>
-          <li><b>HJ2</b> «час на будь-якому пристрої» — лише I#1; умовне за к-стю пристроїв.</li>
-          <li><b>HJ3</b> «який клієнт вигідний» — лише ринок; жодна персона не просила.</li>
-          <li><b>HJ4</b> «легко продовжити регулярне» — патерн §3, у інтерв'ю не звучав.</li>
-        </ul>
+        <h3 style="margin-top:0">2 · PWA + нативний компаньйон</h3>
+        <p style="margin:0;font-size:14px">Desktop-агент лише на <b>метаданих</b> (активний застосунок, назва репо/workspace, URL тикета, час активності). Закриває ядро B, але це <b>велика робота</b> + хмара/синк + суперечить «без-бекенду MVP».</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">3 · Гібрид у часі</h3>
+        <p style="margin:0;font-size:14px">MVP = шлях 1; нативний агент — окремий пост-MVP трек, якщо валідація B масштабується (поки N=1).</p>
       </div>
     </div>
+    <div class="note">📌 Поки не міняємо <code>CLAUDE.md</code> (MVP = шлях 1). Перед рішенням: ще <b>2–3 інтерв'ю фултайм-девів</b> + оцінка обсягу агента. Якщо шлях 2/3 — діє межа <b>метадані можна, контент ніколи</b>, без вивантаження контенту в хмару.</div>
   </section>
 
-  <!-- 3. МАТРИЦЯ -->
-  <section>
-    <h2><span class="num">03</span>JTBD-матриця</h2>
-    <p class="lead">Рядки — jobs, колонки — персони. У клітинці — важливість 1–3 і чим підтверджено. <b><span class="imp iq">?</span> = немає даних</b> (не середнє).</p>
-    <div class="tablewrap">
-      <table>
-        <thead>
-          <tr><th>Job</th><th>A <small>(primary)</small></th><th>B</th><th>C</th><th>Функція</th><th>Конкуренти (research)</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="job">Main — час → справедлива оплата</td>
-            <td><span class="imp i3">3</span> «швидко й просто» (I#1/2)</td>
-            <td><span class="imp i3">3</span> «не має заважати» (I#3)</td>
-            <td><span class="imp iq">3?</span> суть персони</td>
-            <td>Старт у 1 дію + ставка/валюта на проєкті</td>
-            <td><span class="mk closed">●</span> закрито всіма (§1.2)</td>
-          </tr>
-          <tr>
-            <td class="job">R1 — почати, не втрачаючи фокус</td>
-            <td><span class="imp i3">3</span> топ-3 (I#1/2)</td>
-            <td><span class="imp i3">3</span> «не 10 хв на 30» (I#3)</td>
-            <td><span class="imp iq">2?</span> гіпотет. персона</td>
-            <td>Плитки-launchpad + персистентний таймер</td>
-            <td><span class="mk part">●</span> «1–2 дії» ніхто не дотягує</td>
-          </tr>
-          <tr>
-            <td class="job">R2 — відновити забутий час</td>
-            <td><span class="imp i3">3</span> тригери/приблизно</td>
-            <td><span class="imp i2">2</span> review (I#3)</td>
-            <td><span class="imp iq">3?</span> забуває (O5)</td>
-            <td>Ручний запис + редагування + idle-trim</td>
-            <td><span class="mk closed">●</span> ручний ввід усюди</td>
-          </tr>
-          <tr>
-            <td class="job">R3 — клієнти роздільно й прозоро</td>
-            <td><span class="imp i2">2</span> 1–3 клієнти (I#2)</td>
-            <td><span class="imp i3">3</span> «заради чесності» (I#3)</td>
-            <td><span class="imp iq">?</span> немає даних</td>
-            <td>Клієнт→Проєкт→Запис, один таймер</td>
-            <td><span class="mk closed">●</span> закрито (Toggl/Harvest)</td>
-          </tr>
-          <tr>
-            <td class="job">R4 — час → оплата без зведення</td>
-            <td><span class="imp i2">2</span> Doc/калькулятор</td>
-            <td><span class="imp i3">3</span> мрія про чернетку</td>
-            <td><span class="imp iq">?</span> немає даних</td>
-            <td>Інвойс із записів (години×ставка) + статуси</td>
-            <td><span class="mk part">●</span> Harvest «як CRM»; free <b>ховає білінг</b> (O6, G3)</td>
-          </tr>
-          <tr>
-            <td class="job">R5 — зрозуміти, куди пішов час</td>
-            <td><span class="imp i1">1</span> не просили</td>
-            <td><span class="imp i3">3</span> «де злив час» (I#3)</td>
-            <td><span class="imp iq">?</span> уникає адміну</td>
-            <td>Звіти по проєкту/клієнту/періоду</td>
-            <td><span class="mk closed">●</span> звіти всюди; аналітика в авто-трекерів</td>
-          </tr>
-          <tr>
-            <td class="job">E1 — чесний у цифрах</td>
-            <td><span class="imp iq">2?</span> розкол I#1↔I#2</td>
-            <td><span class="imp i3">3</span> центральна (I#3)</td>
-            <td><span class="imp iq">?</span></td>
-            <td>Оверрайд ставки + коментар</td>
-            <td><span class="mk part">●</span> непрямо через акуратний білінг</td>
-          </tr>
-          <tr style="background:var(--accent-soft)">
-            <td class="job">E2 — не загубленим у складності</td>
-            <td><span class="imp i3">3</span> Harvest онбординг (I#1)</td>
-            <td><span class="imp i3">3</span> «як CRM» (I#3)</td>
-            <td><span class="imp iq">2?</span> без інтерв'ю</td>
-            <td>Мінімалізм UI (<code>CLAUDE.md §9</code>)</td>
-            <td><span class="mk part">●</span> ЧАСТКОВИЙ гэп — <b>Toggl задовольняє 2/3</b></td>
-          </tr>
-          <tr>
-            <td class="job">E3 — приватність / контроль</td>
-            <td><span class="imp i1">1</span> байдуже (I#2)</td>
-            <td><span class="imp i3">3</span> метадані/контент (I#3)</td>
-            <td><span class="imp iq">2?</span> розкол «стеження»</td>
-            <td>Local-first, без бекенду (MVP)</td>
-            <td><span class="mk part">●</span> Timely «no surveillance»; межа по контенту — гэп</td>
-          </tr>
-          <tr>
-            <td class="job">S1 — професійним перед клієнтом</td>
-            <td><span class="imp i2">2</span> чистий звіт (I#2)</td>
-            <td><span class="imp i3">3</span> описи «зрозумілі» (I#3)</td>
-            <td><span class="imp iq">?</span></td>
-            <td>Звіт + інвойс client-facing</td>
-            <td><span class="mk closed">●</span> закрито (§1, Harvest)</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- 4. ВИСНОВОК -->
-  <section>
-    <h2><span class="num">04</span>Висновок та чесні слабкі місця</h2>
-
-    <div class="grid cols-2">
-      <div class="card">
-        <h3 style="margin-top:0">🎯 3 jobs у ядро MVP</h3>
-        <p class="src">Важливі для primary (A) + ринок не закриває.</p>
-        <ol class="f">
-          <li><b>E2 — не загубитися у складності.</b> Заявлений клин, <b>але з осторогою:</b> Toggl задовольняє 2/3 — гэп вужчий, ніж «❌». Закрити Q2 перед ставкою.</li>
-          <li><b>R1 — почати, не втрачаючи фокус.</b> Ринок не дотягує до «1–2 дії».</li>
-          <li><b>R4 — час → оплата без зведення.</b> Free-трекери ховають білінг за paywall; щілина = <b>білінг без paywall у простому локальному інструменті</b>.</li>
-        </ol>
-      </div>
-      <div class="card">
-        <h3 style="margin-top:0">✂️ Кандидати на виліт</h3>
-        <p class="src">Не закривають жоден job.</p>
-        <ol class="f">
-          <li><b>Mobile-first / телефон-пріоритет</b> — <b>3/3 трекають з комп'ютера</b>.</li>
-          <li><b>Конвертація валют</b> — ніхто не просив.</li>
-          <li><b>Повний фоновий автотрекінг</b> — лише HJ1, архітектурно неможливий у PWA.</li>
-          <li><b>Глибокі реквізити / складні поля</b> — годують анти-паттерн E2 («як CRM»).</li>
-        </ol>
-      </div>
-    </div>
+  <!-- 3. SANITY-CHECK -->
+  <section id="sec-sanity">
+    <h2><span class="num">03</span>Чесні слабкі місця</h2>
 
     <h3>🔴 Найнебезпечніший список — керують продуктом, стоять на <span class="tag q">[?]</span> / вигаданому</h3>
     <div class="danger"><p><b>1. Персона A як PRIMARY.</b> Уся пріоритизація зважена на side-gig дизайнера — бо це перші дані, не бо доведено, що це найцінніший ринок. Стоїть на 2 людях.</p></div>
@@ -399,12 +282,13 @@
         <p class="src">TopTracker · TMetric · FreshBooks · Bonsai</p>
       </div>
     </div>
-    <div class="note">📌 <b>Зсув стратегії:</b> «простота» — понизити з головного клину до гігієни; новий кандидат у клин — <b>«безкоштовний білінг без paywall + надійність даних»</b> (перетин Q1+Q2+Q3) <span class="tag q">[?]</span>. Primary: A — орієнтир UX, монетизація цілиться в B.</div>
+    <div class="note">📌 <b>Зсув стратегії:</b> «простота» — понизити з головного клину до гігієни; новий кандидат у клин — <b>«безкоштовний білінг без paywall + надійність даних»</b> (перетин Q1+Q2+Q3) <span class="tag q">[?]</span>. Primary: A — орієнтир UX, монетизація цілиться в B. Повна матриця jobs — на <a href="jtbd.html#sec-matrix">сторінці JTBD</a>.</div>
   </section>
 
   <footer>
-    TrackOn · синхронізовано з <a href="research/personas.md">personas.md</a> (§6–9) + <a href="research/jtbd.md">jtbd.md</a> ·
-    валідація — <a href="research/research.md">research.md §5</a> · загальний ресерч — <a href="research.html">research.html</a>
+    TrackOn · синхронізовано з <a href="research/personas.md">personas.md</a> (§6–9) ·
+    jobs — <a href="jtbd.html">jtbd.html</a> · валідація — <a href="research/research.md">research.md §5</a> ·
+    загальний ресерч — <a href="research.html">research.html</a>
   </footer>
 </div>
 
@@ -420,6 +304,25 @@
     root.setAttribute('data-theme', next);
     localStorage.setItem('trackon-theme', next);
   });
+  const sb = document.getElementById('sidebar');
+  const bd = document.getElementById('backdrop');
+  const mb = document.getElementById('menuBtn');
+  const closeNav = ()=>{ sb.classList.remove('open'); bd.classList.remove('show'); };
+  mb.addEventListener('click', ()=>{ sb.classList.toggle('open'); bd.classList.toggle('show'); });
+  bd.addEventListener('click', closeNav);
+  sb.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click', closeNav));
+  const subLinks = [...sb.querySelectorAll('.nav-sub a')];
+  const map = {};
+  subLinks.forEach(a=>{ map[a.getAttribute('href').slice(1)] = a; });
+  const spy = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        subLinks.forEach(x=>x.classList.remove('cur'));
+        if(map[e.target.id]) map[e.target.id].classList.add('cur');
+      }
+    });
+  }, {rootMargin:'-20% 0px -70% 0px'});
+  document.querySelectorAll('section[id]').forEach(s=>spy.observe(s));
 </script>
 </body>
 </html>

@@ -68,10 +68,76 @@
     color:var(--text);border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer;box-shadow:var(--shadow);}
   footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;}
   code{background:var(--accent-soft);padding:1px 6px;border-radius:6px;font-size:13px;}
+  /* sidebar nav */
+  html{scroll-behavior:smooth;}
+  :root{--sidebar-w:264px;}
+  .sidebar{position:fixed;left:0;top:0;width:var(--sidebar-w);height:100vh;overflow-y:auto;
+    background:var(--surface);border-right:1px solid var(--border);padding:22px 14px;z-index:40;
+    transform:translateX(-100%);transition:transform .22s ease;}
+  .sidebar.open{transform:translateX(0);box-shadow:var(--shadow);}
+  .side-brand{font-weight:700;font-size:14px;letter-spacing:.02em;padding:0 8px 14px;color:var(--text);}
+  .nav-label{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--muted);
+    text-transform:uppercase;margin:18px 8px 8px;}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;
+    color:var(--text);text-decoration:none;font-weight:600;font-size:15px;}
+  .nav-item .ic{font-size:16px;width:20px;text-align:center;}
+  .nav-item:hover{background:var(--accent-soft);text-decoration:none;}
+  .nav-item.active{background:var(--accent-soft);color:var(--accent);border:1px solid var(--border);}
+  .nav-sub{display:flex;flex-direction:column;border-left:1px solid var(--border);
+    margin:4px 0 8px 22px;padding-left:6px;}
+  .nav-sub a{display:flex;gap:10px;padding:7px 12px;border-radius:8px;color:var(--muted);
+    text-decoration:none;font-size:14px;}
+  .nav-sub a .n{min-width:14px;text-align:center;}
+  .nav-sub a:hover{background:var(--accent-soft);color:var(--text);text-decoration:none;}
+  .nav-sub a.cur{color:var(--accent);background:var(--accent-soft);}
+  .nav-sub a.cur .n{color:var(--accent);}
+  .nav-item.soon{color:var(--muted);cursor:default;}
+  .nav-item.soon:hover{background:none;}
+  .soon-badge{margin-left:auto;font-size:10px;font-weight:700;letter-spacing:.05em;color:var(--muted);
+    border:1px solid var(--border);border-radius:999px;padding:2px 9px;}
+  .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:30;opacity:0;pointer-events:none;
+    transition:opacity .22s;}
+  .backdrop.show{opacity:1;pointer-events:auto;}
+  .menuBtn{position:fixed;top:16px;left:16px;z-index:50;background:var(--surface);
+    border:1px solid var(--border);color:var(--text);border-radius:999px;padding:8px 14px;
+    font-size:13px;cursor:pointer;box-shadow:var(--shadow);}
+  section[id]{scroll-margin-top:18px;}
+  @media(min-width:1000px){
+    .sidebar{transform:none;box-shadow:none;}
+    body{padding-left:var(--sidebar-w);}
+    .menuBtn{display:none;}
+    .backdrop{display:none;}
+  }
 </style>
 </head>
 <body>
+<button class="menuBtn" id="menuBtn">☰ Меню</button>
 <button class="toggle" id="themeBtn">◐ Тема</button>
+<div class="backdrop" id="backdrop"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="side-brand">TrackOn</div>
+
+  <div class="nav-label">Сторінки</div>
+  <a class="nav-item active" href="research.html"><span class="ic">📄</span> Дослідження</a>
+  <nav class="nav-sub">
+    <a href="#sec-competitors"><span class="n">1</span> Конкуренти</a>
+    <a href="#sec-benchmark"><span class="n">2</span> Бенчмарк</a>
+    <a href="#sec-patterns"><span class="n">3</span> UX-патерни</a>
+    <a href="#sec-conclusions"><span class="n">4</span> Висновки</a>
+    <a href="#sec-visual"><span class="n">5</span> Візуальний референс</a>
+    <a href="#sec-appendix"><span class="n">+</span> Додаток</a>
+  </nav>
+  <a class="nav-item" href="jtbd.html"><span class="ic">🧭</span> JTBD</a>
+  <a class="nav-item" href="personas.html"><span class="ic">👥</span> Персони</a>
+
+  <div class="nav-label">Скоро</div>
+  <span class="nav-item soon"><span class="ic">🎨</span> Дизайн-система <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🧩</span> Компоненти <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🖼️</span> Вайрфрейми <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🚀</span> Хендофф <span class="soon-badge">SOON</span></span>
+</aside>
+
 <div class="wrap">
 
   <header class="hero">
@@ -82,7 +148,7 @@
   </header>
 
   <!-- 1. КОНКУРЕНТИ -->
-  <section>
+  <section id="sec-competitors">
     <h2><span class="num">01</span>Конкуренти</h2>
     <p class="lead">Матриця за осями: основа · механізм · звіти · монетизація. Джерело — у крайній колонці.</p>
     <div class="tablewrap">
@@ -156,7 +222,7 @@
   </section>
 
   <!-- 2. БЕНЧМАРК -->
-  <section>
+  <section id="sec-benchmark">
     <h2><span class="num">02</span>Бенчмарк — «таймшит, що пише себе сам»</h2>
     <p class="lead">Автоматичний AI-трекінг, мінімум тертя. Оцінки 1–5 <span class="tag e">[оцінка]</span> з публічних описів (без hands-on).</p>
     <div class="note">⚠️ Блог <a href="https://rize.io/blog/best-automated-time-tracking-software" target="_blank">rize.io</a> упереджений на користь Rize — враховано.</div>
@@ -201,7 +267,7 @@
   </section>
 
   <!-- 3. ПАТЕРНИ -->
-  <section>
+  <section id="sec-patterns">
     <h2><span class="num">03</span>Патерни — обраний механізм старту</h2>
     <p class="lead">З 5 принципово різних патернів (плитки · глобальна Start/Stop · natural-language · resume · calendar-drag). Приклади продуктів ілюстративні <span class="tag q">[?]</span>.</p>
     <div class="grid cols-3">
@@ -227,7 +293,7 @@
   </section>
 
   <!-- 4. ВИСНОВКИ -->
-  <section>
+  <section id="sec-conclusions">
     <h2><span class="num">04</span>Висновки — gaps і гіпотези</h2>
 
     <div class="card">
@@ -249,7 +315,7 @@
   </section>
 
   <!-- 5. ВІЗУАЛЬНИЙ РЕФЕРЕНС -->
-  <section>
+  <section id="sec-visual">
     <h2><span class="num">05</span>Візуальний референс / напрям</h2>
     <p class="lead">3 референси, надані тобою (стиль, що подобається). Назви застосунків невідомі <span class="tag q">[?]</span> — структуру читаю зі скрінів. Два з трьох майже 1:1 лягають на нашу модель.</p>
 
@@ -317,7 +383,7 @@
   </section>
 
   <!-- ДОДАТОК -->
-  <section>
+  <section id="sec-appendix">
     <h2><span class="num">+</span>Додаток — скріни та джерела</h2>
     <p class="lead">Знято з <b>публічних лендингів</b> (headless Chrome). Кліком — повний розмір.</p>
     <div class="gallery">
@@ -359,6 +425,29 @@
     root.setAttribute('data-theme', next);
     localStorage.setItem('trackon-theme', next);
   });
+
+  // sidebar: mobile toggle
+  const sb = document.getElementById('sidebar');
+  const bd = document.getElementById('backdrop');
+  const mb = document.getElementById('menuBtn');
+  const closeNav = ()=>{ sb.classList.remove('open'); bd.classList.remove('show'); };
+  mb.addEventListener('click', ()=>{ sb.classList.toggle('open'); bd.classList.toggle('show'); });
+  bd.addEventListener('click', closeNav);
+  sb.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click', closeNav));
+
+  // sidebar: scroll-spy for active sub-link
+  const subLinks = [...sb.querySelectorAll('.nav-sub a')];
+  const map = {};
+  subLinks.forEach(a=>{ map[a.getAttribute('href').slice(1)] = a; });
+  const spy = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        subLinks.forEach(x=>x.classList.remove('cur'));
+        if(map[e.target.id]) map[e.target.id].classList.add('cur');
+      }
+    });
+  }, {rootMargin:'-20% 0px -70% 0px'});
+  document.querySelectorAll('section[id]').forEach(s=>spy.observe(s));
 </script>
 </body>
 </html>

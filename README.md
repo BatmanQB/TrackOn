@@ -26,7 +26,9 @@
   sanity-check слабких місць (§9).
 - 🎯 [`research/jtbd.md`](./research/jtbd.md) — **Jobs To Be Done**: main job, related/emotional/
   social jobs, гіпотези, JTBD-матриця jobs×персони і **3 jobs у ядро MVP**.
-- 🖥️ [`personas.html`](./personas.html) — наочна темна сторінка (картки персон, ієрархія jobs, матриця).
+- 🖥️ Наочні темні сторінки з єдиною навігацією: [`personas.html`](./personas.html) (картки персон,
+  розвилка, sanity-check) · [`jtbd.html`](./jtbd.html) (ієрархія jobs + матриця) ·
+  [`research.html`](./research.html) (конкуренти/бенчмарк/висновки).
 
 **Коротко:** primary — фрілансер-професіонал, що трекає з комп'ютера й цінує простоту;
 ядро MVP = почати облік без тертя · не загубитися у складності · білінг без paywall.
