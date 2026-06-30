@@ -7,6 +7,9 @@ Thumbs.db
 .idea/
 *.swp
 
+# Claude Code local config / tooling
+.claude/
+
 # Node (для майбутнього додатку)
 node_modules/
 dist/

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrackOn — Інформаційна архітектура</title>
+<style>
+  :root{
+    --bg:#fafafa; --surface:#fff; --text:#16181d; --muted:#6b7280; --border:#e6e7ea;
+    --accent:#ff5a3c; --accent-soft:#ffece7; --shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04);
+    --ok:#16a34a; --warn:#d97706; --q:#7c3aed;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0f1115; --surface:#171a21; --text:#e8eaee; --muted:#9aa1ad; --border:#262b34;
+      --accent:#ff6b4d; --accent-soft:#2a1a16; --shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3); }
+  }
+  html[data-theme="light"]{ --bg:#fafafa;--surface:#fff;--text:#16181d;--muted:#6b7280;--border:#e6e7ea;--accent:#ff5a3c;--accent-soft:#ffece7;--shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04);}
+  html[data-theme="dark"]{ --bg:#0f1115;--surface:#171a21;--text:#e8eaee;--muted:#9aa1ad;--border:#262b34;--accent:#ff6b4d;--accent-soft:#2a1a16;--shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px 80px;}
+  header.hero{padding:56px 0 32px;border-bottom:1px solid var(--border);margin-bottom:24px;}
+  .badge{display:inline-block;background:var(--accent-soft);color:var(--accent);font-weight:600;
+    font-size:13px;padding:4px 12px;border-radius:999px;letter-spacing:.02em;}
+  h1{font-size:40px;line-height:1.1;margin:16px 0 8px;letter-spacing:-.02em;}
+  .sub{color:var(--muted);font-size:18px;max-width:62ch;margin:0;}
+  .meta{color:var(--muted);font-size:13px;margin-top:18px;}
+  h2{font-size:26px;margin:48px 0 6px;letter-spacing:-.01em;}
+  h2 .num{color:var(--accent);font-weight:700;margin-right:10px;}
+  .lead{color:var(--muted);margin:0 0 20px;}
+  h3{font-size:17px;margin:26px 0 10px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;
+    padding:22px 24px;box-shadow:var(--shadow);margin:14px 0;}
+  .grid{display:grid;gap:14px;}
+  @media(min-width:720px){.grid.cols-3{grid-template-columns:repeat(3,1fr)}.grid.cols-2{grid-template-columns:repeat(2,1fr)}}
+  ul.tight{margin:8px 0 0;padding-left:18px;} ul.tight li{margin:5px 0;}
+  a{color:var(--accent);} a:hover{text-decoration:underline;}
+  .src{font-size:12px;color:var(--muted);}
+  .tag{font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;}
+  .tag.q{background:rgba(217,119,6,.14);color:var(--warn);}
+  .finding h3{margin-top:0;display:flex;align-items:center;gap:8px;}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .dot.p{background:var(--accent)} .dot.d{background:var(--q)} .dot.o{background:var(--warn)}
+  .note{background:var(--accent-soft);border-radius:12px;padding:12px 16px;font-size:14px;margin:10px 0;}
+  .toggle{position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);
+    color:var(--text);border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer;box-shadow:var(--shadow);}
+  footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;}
+  code{background:var(--accent-soft);padding:1px 6px;border-radius:6px;font-size:13px;}
+  .jobchips{display:inline-flex;flex-wrap:wrap;gap:5px;vertical-align:middle;}
+  .chip{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid var(--border);
+    background:var(--accent-soft);color:var(--accent);}
+  .chip.soft{background:transparent;color:var(--muted);}
+  .chip.orphan{background:rgba(217,119,6,.14);color:var(--warn);border-color:transparent;}
+  .dim{color:var(--muted);font-size:13px;}
+  .mermaid{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin:14px 0;box-shadow:var(--shadow);overflow-x:auto;text-align:center;}
+  /* job tooltips (Деталізований список) */
+  #ia-tree .card .chip{position:relative;}
+  #ia-tree .card .chip[data-tip]{cursor:help;}
+  #ia-tree .card .chip[data-tip]:hover::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%);background:var(--text);color:var(--bg);font-size:12px;font-weight:500;line-height:1.45;letter-spacing:0;padding:8px 11px;border-radius:8px;width:max-content;max-width:280px;white-space:normal;text-align:left;box-shadow:var(--shadow);z-index:60;pointer-events:none;}
+  #ia-tree .card .chip[data-tip]:hover::before{content:"";position:absolute;left:50%;bottom:calc(100% + 3px);transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--text);z-index:60;pointer-events:none;}
+  /* IA tree */
+  ul.tree{margin:8px 0 0;padding-left:6px;list-style:none;}
+  ul.tree ul{margin:6px 0;padding-left:18px;border-left:1px solid var(--border);list-style:none;}
+  ul.tree li{margin:9px 0;}
+  ul.tree li b{font-weight:700;}
+  .root{font-weight:700;font-size:15px;padding:6px 0 2px;}
+  .shell{font-size:11px;font-weight:700;letter-spacing:.04em;border:1px solid var(--border);
+    border-radius:6px;padding:1px 7px;color:var(--muted);margin-left:6px;white-space:nowrap;}
+  /* sidebar nav */
+  html{scroll-behavior:smooth;}
+  :root{--sidebar-w:264px;}
+  .sidebar{position:fixed;left:0;top:0;width:var(--sidebar-w);height:100vh;overflow-y:auto;
+    background:var(--surface);border-right:1px solid var(--border);padding:22px 14px;z-index:40;
+    transform:translateX(-100%);transition:transform .22s ease;}
+  .sidebar.open{transform:translateX(0);box-shadow:var(--shadow);}
+  .side-brand{font-weight:700;font-size:14px;letter-spacing:.02em;padding:0 8px 14px;color:var(--text);}
+  .nav-label{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--muted);
+    text-transform:uppercase;margin:18px 8px 8px;}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;
+    color:var(--text);text-decoration:none;font-weight:600;font-size:15px;}
+  .nav-item .ic{font-size:16px;width:20px;text-align:center;}
+  .nav-item:hover{background:var(--accent-soft);text-decoration:none;}
+  .nav-item.active{background:var(--accent-soft);color:var(--accent);border:1px solid var(--border);}
+  .nav-sub{display:flex;flex-direction:column;border-left:1px solid var(--border);
+    margin:4px 0 8px 22px;padding-left:6px;}
+  .nav-sub a{display:flex;gap:10px;padding:7px 12px;border-radius:8px;color:var(--muted);
+    text-decoration:none;font-size:14px;}
+  .nav-sub a .n{min-width:14px;text-align:center;}
+  .nav-sub a:hover{background:var(--accent-soft);color:var(--text);text-decoration:none;}
+  .nav-sub a.cur{color:var(--accent);background:var(--accent-soft);}
+  .nav-item.soon{color:var(--muted);cursor:default;} .nav-item.soon:hover{background:none;}
+  .soon-badge{margin-left:auto;font-size:10px;font-weight:700;letter-spacing:.05em;color:var(--muted);
+    border:1px solid var(--border);border-radius:999px;padding:2px 9px;}
+  .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:30;opacity:0;pointer-events:none;
+    transition:opacity .22s;}
+  .backdrop.show{opacity:1;pointer-events:auto;}
+  .menuBtn{position:fixed;top:16px;left:16px;z-index:50;background:var(--surface);
+    border:1px solid var(--border);color:var(--text);border-radius:999px;padding:8px 14px;
+    font-size:13px;cursor:pointer;box-shadow:var(--shadow);}
+  section[id]{scroll-margin-top:18px;}
+  @media(min-width:1000px){
+    .sidebar{transform:none;box-shadow:none;}
+    body{padding-left:var(--sidebar-w);}
+    .menuBtn{display:none;}
+    .backdrop{display:none;}
+  }
+</style>
+</head>
+<body>
+<button class="menuBtn" id="menuBtn">☰ Меню</button>
+<button class="toggle" id="themeBtn">◐ Тема</button>
+<div class="backdrop" id="backdrop"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="side-brand">TrackOn</div>
+
+  <div class="nav-label">Сторінки</div>
+  <a class="nav-item" href="research.html"><span class="ic">📄</span> Дослідження</a>
+  <a class="nav-item" href="jtbd.html"><span class="ic">🧭</span> JTBD</a>
+  <a class="nav-item" href="personas.html"><span class="ic">👥</span> Персони</a>
+  <a class="nav-item" href="sitemap.html"><span class="ic">🗺️</span> Карта сайту</a>
+  <a class="nav-item active" href="ia.html"><span class="ic">🗂️</span> Інформаційна архітектура</a>
+  <nav class="nav-sub">
+    <a href="#ia-tree"><span class="n">1</span> Єдине дерево</a>
+    <a href="#ia-shells"><span class="n">2</span> Оболонки</a>
+    <a href="#ia-notes"><span class="n">3</span> Крос-входи й глибина</a>
+    <a href="#ia-flows"><span class="n">4</span> Флоу-діаграми</a>
+  </nav>
+
+  <div class="nav-label">Скоро</div>
+  <span class="nav-item soon"><span class="ic">🎨</span> Дизайн-система <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🧩</span> Компоненти <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🖼️</span> Вайрфрейми <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🚀</span> Хендофф <span class="soon-badge">SOON</span></span>
+</aside>
+
+<div class="wrap">
+
+  <header class="hero">
+    <span class="badge">TrackOn · Information Architecture</span>
+    <h1>Інформаційна архітектура</h1>
+    <p class="sub">Єдине дерево навігації продукту — усі екрани зі <a href="sitemap.html">sitemap</a> і <a href="flows.md">flows</a> в одній структурі. Стани (empty/loading/error) тут не показані — це не екрани.</p>
+    <p class="meta">Джерело — <a href="ia.md">ia.md</a> · 🟢 глобальне · 🟡 контекстне · 🔵 глибоке · ⏱ персистентне · <code>R#</code> = job (<a href="jtbd.html">jtbd</a>)</p>
+  </header>
+
+  <!-- 1. ДЕРЕВО -->
+  <section id="ia-tree">
+    <h2><span class="num">01</span>Єдине дерево</h2>
+    <p class="lead">Стартовий екран — <b>Трекер</b>. 3 глобальні входи + персистентний таймер; решта — контекстне (🟡) і глибоке (🔵). <code>⇢</code> контекстний перехід · <code>→</code> крос-вхід.</p>
+
+    <pre class="mermaid">
+flowchart TD
+    APP(["TrackOn — адаптивний PWA"])
+    APP -.->|персистентно| TIMER["⏱ Активний таймер + Stop"]:::glob
+    APP --> TR["🟢 Трекер (стартовий)"]:::glob
+    APP --> ZV["🟢 Звіти"]:::glob
+    APP --> INV["🟢 Інвойси"]:::glob
+    APP --> SET["🔵 Налаштування"]:::deep
+    TR --> TRL["Лаунчпад проєктів"]
+    TR --> TRS["Зведення: час + гроші"]
+    TR --> PF["🟡 Форма проєкту"]:::ctx
+    PF --> CLF["🟡 Форма клієнта"]:::ctx
+    TR --> JR["🟡 Журнал записів"]:::ctx
+    JR --> ED["Запис — редагування"]
+    JR --> NEWE["+ Ручний запис"]
+    ZV --> ZVC["Контроли: період / розріз"]
+    ZV --> ZVD["Записи зрізу (drill-down)"]
+    INV --> INVL["Список інвойсів"]
+    INV --> INVN["🟡 Новий інвойс (потік)"]:::ctx
+    INV --> INVD["Деталь інвойсу"]
+    SET --> SETP["Профіль виконавця"]
+    SET --> SETT["Тема (контрол)"]
+    SET --> SETD["Дані / приватність"]
+    SET --> SETS["Етап 2: Акаунт / синк"]
+    ZVD -.->|крос-вхід R4| INVN
+    INVN -.->|нема клієнтів| CLF
+    INVN -.->|нема ставки| PF
+    INVN -.->|профіль порожній| SET
+    classDef glob fill:#e8f7ee,stroke:#16a34a,color:#0a5530;
+    classDef ctx fill:#fff7e6,stroke:#d97706,color:#7c2d12;
+    classDef deep fill:#f3eaff,stroke:#7c3aed,color:#4c1d95;
+    </pre>
+
+    <h3>Деталізований список</h3>
+    <div class="card">
+      <div class="root">TrackOn <span class="dim">· адаптивний PWA · офлайн-first</span></div>
+      <ul class="tree">
+        <li>⏱ <b>Активний таймер</b> — індикатор + Stop <span class="jobchips"><span class="chip">R1</span></span> <span class="shell">персистентно</span> <span class="dim">— на кожному екрані</span></li>
+
+        <li>🟢 <b>ТРЕКЕР</b> <span class="dim">(Головний, стартовий)</span> <span class="jobchips"><span class="chip">R1</span><span class="chip">Main</span></span> <span class="shell">global</span>
+          <ul>
+            <li>Лаунчпад проєктів (плитки / список, ▶/⏸) <span class="jobchips"><span class="chip">R1</span></span></li>
+            <li>Зведення «час + гроші по валютах» <span class="jobchips"><span class="chip">Main</span></span></li>
+            <li>🟡 <b>+ Проєкт</b> → Форма проєкту <span class="jobchips"><span class="chip">R3</span><span class="chip">Main/R4</span></span>
+              <ul><li>🟡 Клієнт — вибір / створення → <b>Форма клієнта</b> <span class="jobchips"><span class="chip">R3</span><span class="chip">S1</span></span></li></ul>
+            </li>
+            <li>🟡 <b>Журнал записів</b> (вкладка) <span class="jobchips"><span class="chip">R2</span><span class="chip">E1</span></span>
+              <ul>
+                <li>Запис — деталь / редагування <span class="jobchips"><span class="chip">R2</span><span class="chip">E1</span></span></li>
+                <li>+ Ручний запис <span class="jobchips"><span class="chip">R2</span></span></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li>🟢 <b>ЗВІТИ</b> <span class="jobchips"><span class="chip">R5</span></span> <span class="shell">global</span>
+          <ul>
+            <li>Контроли (період / розріз) <span class="jobchips"><span class="chip">R5</span></span></li>
+            <li>Записи зрізу (drill-down) <span class="jobchips"><span class="chip">R5</span></span>
+              <ul><li>→ «Виставити рахунок за період» ⇢ Інвойси <span class="jobchips"><span class="chip">R4</span></span> <span class="dim">крос-вхід</span></li></ul>
+            </li>
+          </ul>
+        </li>
+
+        <li>🟢 <b>ІНВОЙСИ</b> <span class="jobchips"><span class="chip">R4</span><span class="chip">S1</span><span class="chip">E1</span></span> <span class="shell">global</span>
+          <ul>
+            <li>Список інвойсів (за статусом) <span class="jobchips"><span class="chip">R4</span><span class="chip">S1</span></span></li>
+            <li>🟡 <b>Новий інвойс</b> (потік): вибір клієнта → період → записи (автодобір) → підсумок → PDF <span class="jobchips"><span class="chip">R4</span></span>
+              <ul>
+                <li>(нема клієнтів) ⇢ Форма клієнта <span class="jobchips"><span class="chip">R3</span></span></li>
+                <li>(нема ставки) ⇢ Форма проєкту <span class="jobchips"><span class="chip">R4</span></span></li>
+                <li>(профіль порожній) ⇢ Налаштування <span class="jobchips"><span class="chip">R4</span><span class="chip">S1</span></span></li>
+              </ul>
+            </li>
+            <li>Деталь інвойсу (unpaid → sent → paid) <span class="jobchips"><span class="chip">R4</span><span class="chip">S1</span></span></li>
+          </ul>
+        </li>
+
+        <li>🔵 <b>НАЛАШТУВАННЯ</b> <span class="dim">(глибоко)</span> <span class="jobchips"><span class="chip soft">R4/S1 [?]</span></span> <span class="shell">deep</span>
+          <ul>
+            <li>Профіль виконавця (реквізити шапки інвойсу) <span class="jobchips"><span class="chip">R4</span><span class="chip">S1</span></span></li>
+            <li>Тема (light / dark / auto) — контрол <span class="jobchips"><span class="chip orphan">не job</span></span></li>
+            <li>Дані / приватність (локально на пристрої) <span class="jobchips"><span class="chip soft">E3 [?]</span></span></li>
+            <li>[Етап 2, поза MVP] Акаунт / синк <span class="jobchips"><span class="chip soft">HJ2 [?]</span></span></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="note">17 екранів зі <code>sitemap.md</code>/<code>flows.md</code> + підекрани Налаштувань — усі в дереві. Жодного осиротілого: <b>Тема</b> лишена контролом (не екран); решта мають job.</div>
+  </section>
+
+  <!-- 2. ОБОЛОНКИ -->
+  <section id="ia-shells">
+    <h2><span class="num">02</span>Оболонки навігації</h2>
+    <div class="grid cols-3">
+      <div class="card finding">
+        <h3><span class="dot" style="background:var(--ok)"></span>🟢 Глобальна</h3>
+        <p style="margin:0;color:var(--muted)">Видно завжди.</p>
+        <ul class="tight">
+          <li>⏱ Активний таймер (+ Stop)</li>
+          <li>Трекер · Звіти · Інвойси</li>
+          <li>Стартовий екран — <b>Трекер</b> (1-тап-старт)</li>
+        </ul>
+      </div>
+      <div class="card finding">
+        <h3><span class="dot o"></span>🟡 Контекстна</h3>
+        <p style="margin:0;color:var(--muted)">Вхід у потоці, біля об'єкта.</p>
+        <ul class="tight">
+          <li>Форма проєкту / Форма клієнта</li>
+          <li>Журнал записів + ручний запис</li>
+          <li>Кроки потоку інвойсу</li>
+        </ul>
+      </div>
+      <div class="card finding">
+        <h3><span class="dot d"></span>🔵 Глибока</h3>
+        <p style="margin:0;color:var(--muted)">Рідкісне.</p>
+        <ul class="tight">
+          <li>Налаштування (з overflow/профілю)</li>
+          <li>Профіль · Тема · Приватність</li>
+          <li>[Етап 2] Акаунт / синк</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. КРОС-ВХОДИ Й ГЛИБИНА -->
+  <section id="ia-notes">
+    <h2><span class="num">03</span>Крос-входи й глибина</h2>
+    <div class="grid cols-2">
+      <div class="card finding">
+        <h3><span class="dot p"></span>Крос-входи (з flows.md)</h3>
+        <ul class="tight">
+          <li><b>Звіти → Інвойси</b>: «Виставити рахунок за період» (R4) — з drill-down зрізу.</li>
+          <li><b>Потік інвойсу ⇢</b> Форма клієнта (нема клієнтів) · Форма проєкту (нема ставки) · Налаштування (профіль порожній → шапка інвойсу неповна).</li>
+        </ul>
+      </div>
+      <div class="card finding">
+        <h3><span class="dot p"></span>Глибина</h3>
+        <p style="margin:0;color:var(--muted)">Main job (затрекати) — <b style="color:var(--accent)">1 тап</b> з Трекера. Найглибша часта дія — інвойс — <b>3 тапи</b>. Підрахунок — у <a href="sitemap.html">sitemap «Навігація»</a>.</p>
+      </div>
+    </div>
+    <div class="note">Стани <code>empty / loading / error</code> у це дерево не входять — це не екрани. Повний перелік станів кожного екрана — у <a href="sitemap.html">sitemap «Внутрішні рівні»</a>; шляхи між ними — у <a href="flows.md">flows.md</a>.</div>
+  </section>
+
+  <!-- 4. ФЛОУ-ДІАГРАМИ -->
+  <section id="ia-flows">
+    <h2><span class="num">04</span>Флоу-діаграми</h2>
+    <p class="lead">Шляхи людини між екранами дерева, за job. Повні списки рішень/станів і легенда форм — у <a href="flows.md">flows.md</a>.</p>
+
+    <h3>R1 — Почати облік, не втрачаючи фокус (+ Main)</h3>
+    <pre class="mermaid">
+flowchart TD
+    S(["Старт: відкрив застосунок"]) --> LD0("Loading: відновлення стану")
+    LD0 --> TR["Трекер — лаунчпад проєктів"]
+    TR --> Q1{"Є проєкти?"}
+    Q1 -->|ні| EM1("Empty: нема проєктів — CTA плюс Проєкт")
+    EM1 --> Q2{"Натиснув плюс Проєкт?"}
+    Q2 -->|ні| D1(["Тупик: кинув на онбордингу"])
+    Q2 -->|так| PF["Форма проєкту"]
+    PF --> Q3{"Дані валідні?"}
+    Q3 -->|ні| ERR1("Error: помилка валідації")
+    ERR1 --> PF
+    Q3 -->|так| CL["Клієнт — вибір / створення"]
+    CL --> SV("Loading: збереження / офлайн")
+    SV --> Q4{"Збереглось локально?"}
+    Q4 -->|так| TR
+    Q4 -->|ні| ERR2("Error: збій збереження")
+    ERR2 --> Q6{"Повторити?"}
+    Q6 -->|так| SV
+    Q6 -->|ні| DLOC(["Кінець: лишилось чернеткою локально"])
+    Q1 -->|так| Q5{"Тап по проєкту — інший таймер активний?"}
+    Q5 -->|так| SW("Switch: стоп попередній, старт нового")
+    Q5 -->|ні| RUN("Активний таймер крутиться")
+    SW --> RUN
+    RUN --> OK(["Успіх: час трекається у 1 тап"])
+    linkStyle 3,5,8,14,17,20 stroke:#dc2626,stroke-width:2px,color:#dc2626
+    linkStyle 6,10,13,16,18,19 stroke:#16a34a,stroke-width:2px,color:#16a34a
+    </pre>
+
+    <h3>R2 — Відновити час, який забув зафіксувати</h3>
+    <pre class="mermaid">
+flowchart TD
+    S(["Згадав: забув затрекати час"]) --> TR["Трекер — лаунчпад проєктів"]
+    TR --> JR["Журнал записів"]
+    JR --> Q1{"Журнал порожній?"}
+    Q1 -->|так| EM("Empty: журнал порожній — CTA Ручний запис")
+    EM --> NEW["Ручний запис"]
+    Q1 -->|ні| Q2{"Запис існує — лише виправити?"}
+    Q2 -->|так| ED["Запис — деталь / редагування"]
+    Q2 -->|ні| NEW
+    ED --> VAL{"Проєкт обрано і час невідʼємний?"}
+    NEW --> VAL
+    VAL -->|ні| ERR("Error: нема проєкту або некоректний інтервал")
+    ERR --> NEW
+    VAL -->|так| Q3{"Памʼятає точний час?"}
+    Q3 -->|ні| APPROX("Стан: приблизний запис, позначка уточнити")
+    Q3 -->|так| EXACT("Стан: точний запис")
+    APPROX --> SV("Loading: збереження")
+    EXACT --> SV
+    SV --> Q4{"Збереглось?"}
+    Q4 -->|ні| ERR2("Error: збій збереження")
+    ERR2 --> Q5{"Повторити?"}
+    Q5 -->|так| SV
+    Q5 -->|ні| DLOC(["Кінець: чернетка локально"])
+    Q4 -->|так| OK(["Успіх: час відновлено, облік повний"])
+    linkStyle 5,7,10,13,18,21 stroke:#dc2626,stroke-width:2px,color:#dc2626
+    linkStyle 3,6,12,14,20,22 stroke:#16a34a,stroke-width:2px,color:#16a34a
+    </pre>
+
+    <h3>R3 — Тримати роботу різних клієнтів роздільно й прозоро</h3>
+    <pre class="mermaid">
+flowchart TD
+    S(["Зайшов новий клієнт або проєкт"]) --> TR["Трекер — лаунчпад проєктів"]
+    TR --> PF["Форма проєкту"]
+    PF --> Q0{"Форма зрозуміла, не перевантажує?"}
+    Q0 -->|ні| D1(["Тупик: кинув — відчуття CRM (E2)"])
+    Q0 -->|так| Q1{"Клієнт уже існує?"}
+    Q1 -->|ні| CL["Клієнт — вибір / створення"]
+    CL --> Q2{"Ввести реквізити для інвойсу зараз?"}
+    Q2 -->|ні| SKIP("Стан: реквізити пропущено, опційні")
+    Q2 -->|так| CLF["Форма клієнта"]
+    SKIP --> QR{"Задати ставку і валюту?"}
+    CLF --> QR
+    Q1 -->|так| QR
+    QR -->|ні| NR("Стан: проєкт трекає лише час, без грошей")
+    QR -->|так| WR("Стан: ставка і валюта задані")
+    NR --> VAL{"Дані валідні?"}
+    WR --> VAL
+    VAL -->|ні| ERR("Error: помилка валідації")
+    ERR --> PF
+    VAL -->|так| SV("Loading: збереження")
+    SV --> Q3{"Збереглось?"}
+    Q3 -->|ні| ERR2("Error: збій збереження")
+    ERR2 --> Q4{"Повторити?"}
+    Q4 -->|так| SV
+    Q4 -->|ні| DLOC(["Кінець: чернетка локально"])
+    Q3 -->|так| OK(["Успіх: проєкт у лаунчпаді, клієнти роздільні"])
+    linkStyle 3,5,7,12,16,20,23 stroke:#dc2626,stroke-width:2px,color:#dc2626
+    linkStyle 4,8,11,13,18,22,24 stroke:#16a34a,stroke-width:2px,color:#16a34a
+    </pre>
+
+    <h3>R4 — Перетворити час на оплату без ручного зведення</h3>
+    <pre class="mermaid">
+flowchart TD
+    S(["Час просити оплату"]) --> INV["Список інвойсів"]
+    INV --> Q0{"Перший інвойс?"}
+    Q0 -->|так| EM0("Empty: ще нема інвойсів — CTA Виставити рахунок")
+    EM0 --> Q7{"Є хоч один клієнт?"}
+    Q0 -->|ні| Q7
+    Q7 -->|ні| EMC("Empty: нема клієнтів")
+    EMC --> NEWC["Форма клієнта"]
+    NEWC --> CLI
+    Q7 -->|так| CLI["Інвойс: вибір клієнта"]
+    CLI --> PER["Інвойс: період"]
+    PER --> LDE("Loading: автодобір записів")
+    LDE --> ENT["Інвойс: записи (автодобір)"]
+    ENT --> Q1{"Є білабельні записи в періоді?"}
+    Q1 -->|ні| EM1("Empty: нема записів за період")
+    EM1 --> Q8{"Змінити період?"}
+    Q8 -->|так| PER
+    Q8 -->|ні| INV
+    Q1 -->|так| Q2{"У проєктів є ставка?"}
+    Q2 -->|ні| FIX["Форма проєкту"]
+    FIX --> ENT
+    Q2 -->|так| SUM["Інвойс: підсумок"]
+    SUM --> Q9{"Профіль виконавця заповнений?"}
+    Q9 -->|ні| SET["Налаштування"]
+    SET --> SUM
+    Q9 -->|так| Q3{"Підтвердити генерацію PDF?"}
+    Q3 -->|ні| INV
+    Q3 -->|так| LD("Loading: генерація PDF")
+    LD --> Q4{"PDF згенеровано?"}
+    Q4 -->|ні| ERR("Error: помилка PDF")
+    ERR --> Q3
+    Q4 -->|так| DET["Деталь інвойсу"]
+    DET --> Q5{"Відправити клієнту?"}
+    Q5 -->|ні| DRAFT(["Кінець: чернетка у Списку інвойсів"])
+    DRAFT --> INV
+    Q5 -->|так| SENT("Стан: відправлено (sent)")
+    SENT --> Q6{"Оплачено?"}
+    Q6 -->|ні| WAIT(["Очікування: чекає оплати"])
+    WAIT --> DET
+    Q6 -->|так| OK(["Успіх: оплачено (paid)"])
+    linkStyle 4,5,13,16,18,22,25,28,32,36 stroke:#dc2626,stroke-width:2px,color:#dc2626
+    linkStyle 2,8,15,17,20,24,26,30,34,38 stroke:#16a34a,stroke-width:2px,color:#16a34a
+    </pre>
+
+    <h3>R5 — Зрозуміти, куди насправді пішов мій час</h3>
+    <pre class="mermaid">
+flowchart TD
+    S(["Кінець тижня або місяця"]) --> REP["Звіти — зведення"]
+    REP --> CTRL["Звіти — контроли (період / розріз)"]
+    CTRL --> LDR("Loading: обрахунок за період")
+    LDR --> Q1{"Є дані за період?"}
+    Q1 -->|ні| EM("Empty: нема даних за період")
+    EM --> Q2{"Змінити період?"}
+    Q2 -->|так| CTRL
+    Q2 -->|ні| D1(["Кінець: порожній звіт"])
+    Q1 -->|так| SUM("Стан: час і гроші по валютах")
+    SUM --> Q3{"Поглибитись у зріз?"}
+    Q3 -->|ні| OK(["Успіх: зрозумів, куди пішов час"])
+    Q3 -->|так| DRILL["Звіти — записи зрізу"]
+    DRILL --> Q4{"Виставити рахунок за період?"}
+    Q4 -->|так| CROSS["Інвойс: вибір клієнта"]
+    Q4 -->|ні| OK
+    linkStyle 4,7,10,14 stroke:#dc2626,stroke-width:2px,color:#dc2626
+    linkStyle 6,8,11,13 stroke:#16a34a,stroke-width:2px,color:#16a34a
+    </pre>
+  </section>
+
+  <footer>
+    TrackOn · IA зведено з <a href="sitemap.html">sitemap.html</a> + <a href="flows.md">flows.md</a> · jobs — <a href="jtbd.html">jtbd.html</a>. Джерело — <a href="ia.md">ia.md</a>. Далі — вайрфрейми.
+  </footer>
+</div>
+
+<script>
+  const btn = document.getElementById('themeBtn');
+  const root = document.documentElement;
+  const saved = localStorage.getItem('trackon-theme');
+  if(saved) root.setAttribute('data-theme', saved);
+  btn.addEventListener('click', ()=>{
+    const cur = root.getAttribute('data-theme')
+      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('trackon-theme', next);
+  });
+  const sb = document.getElementById('sidebar');
+  const bd = document.getElementById('backdrop');
+  const mb = document.getElementById('menuBtn');
+  const closeNav = ()=>{ sb.classList.remove('open'); bd.classList.remove('show'); };
+  mb.addEventListener('click', ()=>{ sb.classList.toggle('open'); bd.classList.toggle('show'); });
+  bd.addEventListener('click', closeNav);
+  sb.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click', closeNav));
+  const subLinks = [...sb.querySelectorAll('.nav-sub a')];
+  const map = {};
+  subLinks.forEach(a=>{ map[a.getAttribute('href').slice(1)] = a; });
+  const spy = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        subLinks.forEach(x=>x.classList.remove('cur'));
+        if(map[e.target.id]) map[e.target.id].classList.add('cur');
+      }
+    });
+  }, {rootMargin:'-20% 0px -70% 0px'});
+  document.querySelectorAll('section[id]').forEach(s=>spy.observe(s));
+
+  // job tooltips on chips у «Деталізований список»
+  const JOBS = {
+    Main:'Main — зафіксувати, куди дівся час, щоб отримати справедливу й безсуперечну оплату',
+    R1:'R1 — почати облік, не втрачаючи фокус (старт у 1–2 дії)',
+    R2:'R2 — відновити час, який забув зафіксувати (ручний запис заднім числом)',
+    R3:'R3 — тримати роботу різних клієнтів роздільно й прозоро',
+    R4:'R4 — перетворити час на оплату без ручного зведення (інвойс)',
+    R5:'R5 — зрозуміти, куди насправді пішов час (звіти / аналітика)',
+    E1:'E1 — почуватися чесним і впевненим у цифрах',
+    E2:'E2 — почуватися компетентним, не загубленим у складності',
+    E3:'E3 — зберегти приватність і контроль над своїми даними',
+    S1:'S1 — виглядати професійним і прозорим перед клієнтом',
+    HJ2:'HJ2 (гіпотеза) — щоб мій час був доступний на будь-якому пристрої (синк)'
+  };
+  document.querySelectorAll('#ia-tree .card .chip').forEach(chip=>{
+    const t = chip.textContent.trim();
+    if(/не\s*job/i.test(t)){ chip.dataset.tip = 'Тема — UI-преференс, не закриває жодного job (екран-сирота)'; return; }
+    const codes = t.match(/Main|HJ\d|R\d|E\d|S\d/g);
+    if(!codes) return;
+    const tip = [...new Set(codes)].map(c=>JOBS[c]).filter(Boolean).join('  ·  ');
+    if(tip) chip.dataset.tip = tip;
+  });
+</script>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  const isDark = (document.documentElement.getAttribute('data-theme')
+    || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
+  mermaid.initialize({ startOnLoad: true, theme: isDark ? 'dark' : 'default' });
+</script>
+</body>
+</html>

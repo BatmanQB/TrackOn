@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrackOn — Sitemap / Сутності</title>
+<style>
+  :root{
+    --bg:#fafafa; --surface:#fff; --text:#16181d; --muted:#6b7280; --border:#e6e7ea;
+    --accent:#ff5a3c; --accent-soft:#ffece7; --shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04);
+    --ok:#16a34a; --warn:#d97706; --q:#7c3aed;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0f1115; --surface:#171a21; --text:#e8eaee; --muted:#9aa1ad; --border:#262b34;
+      --accent:#ff6b4d; --accent-soft:#2a1a16; --shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3); }
+  }
+  html[data-theme="light"]{ --bg:#fafafa;--surface:#fff;--text:#16181d;--muted:#6b7280;--border:#e6e7ea;--accent:#ff5a3c;--accent-soft:#ffece7;--shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04);}
+  html[data-theme="dark"]{ --bg:#0f1115;--surface:#171a21;--text:#e8eaee;--muted:#9aa1ad;--border:#262b34;--accent:#ff6b4d;--accent-soft:#2a1a16;--shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px 80px;}
+  header.hero{padding:56px 0 32px;border-bottom:1px solid var(--border);margin-bottom:24px;}
+  .badge{display:inline-block;background:var(--accent-soft);color:var(--accent);font-weight:600;
+    font-size:13px;padding:4px 12px;border-radius:999px;letter-spacing:.02em;}
+  h1{font-size:40px;line-height:1.1;margin:16px 0 8px;letter-spacing:-.02em;}
+  .sub{color:var(--muted);font-size:18px;max-width:62ch;margin:0;}
+  .meta{color:var(--muted);font-size:13px;margin-top:18px;}
+  h2{font-size:26px;margin:48px 0 6px;letter-spacing:-.01em;}
+  h2 .num{color:var(--accent);font-weight:700;margin-right:10px;}
+  .lead{color:var(--muted);margin:0 0 20px;}
+  h3{font-size:17px;margin:26px 0 10px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;
+    padding:22px 24px;box-shadow:var(--shadow);margin:14px 0;}
+  .grid{display:grid;gap:14px;}
+  @media(min-width:720px){.grid.cols-3{grid-template-columns:repeat(3,1fr)}.grid.cols-2{grid-template-columns:repeat(2,1fr)}}
+  ul.tight{margin:8px 0 0;padding-left:18px;} ul.tight li{margin:5px 0;}
+  .tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);background:var(--surface);margin:14px 0;}
+  table{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px;}
+  th,td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--border);vertical-align:top;}
+  thead th{background:var(--accent-soft);color:var(--text);font-size:12.5px;letter-spacing:.02em;}
+  tbody tr:last-child td{border-bottom:none;}
+  td.name{font-weight:700;white-space:nowrap;}
+  a{color:var(--accent);} a:hover{text-decoration:underline;}
+  .src{font-size:12px;color:var(--muted);}
+  .src a{color:var(--muted);}
+  .tag{font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;}
+  .tag.q{background:rgba(217,119,6,.14);color:var(--warn);}
+  .tag.e{background:rgba(124,58,237,.14);color:var(--q);}
+  .findings{display:grid;gap:14px;}
+  .finding h3{margin-top:0;display:flex;align-items:center;gap:8px;}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .dot.p{background:var(--accent)} .dot.d{background:var(--q)} .dot.o{background:var(--warn)}
+  ol.f{margin:0;padding-left:20px;} ol.f li{margin:8px 0;}
+  .note{background:var(--accent-soft);border-radius:12px;padding:12px 16px;font-size:14px;margin:10px 0;}
+  .toggle{position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);
+    color:var(--text);border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer;box-shadow:var(--shadow);}
+  footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;}
+  code{background:var(--accent-soft);padding:1px 6px;border-radius:6px;font-size:13px;}
+  /* entity-card extras */
+  .field-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--muted);margin:14px 0 4px;}
+  .jobchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
+  .chip{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;border:1px solid var(--border);
+    background:var(--accent-soft);color:var(--accent);}
+  .chip.soft{background:transparent;color:var(--muted);}
+  .rel{font-size:13.5px;color:var(--text);}
+  .open-card{opacity:.96;}
+  .open-card h3 .dot{background:var(--warn);}
+  .invariant{font-size:12.5px;color:var(--muted);border-left:2px solid var(--border);padding-left:10px;margin-top:12px;}
+  /* relations diagram */
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-weight:700;font-size:14px;}
+  .ent{background:var(--accent-soft);color:var(--accent);border:1px solid var(--border);
+    border-radius:10px;padding:8px 14px;white-space:nowrap;}
+  .ent.open{background:transparent;color:var(--muted);border-style:dashed;}
+  .arr{color:var(--muted);font-size:18px;}
+  .flow-note{color:var(--muted);font-weight:400;font-size:13px;}
+  /* screen tree */
+  .group-sub{color:var(--muted);font-weight:400;font-size:13px;margin-left:6px;}
+  .screen-row{padding:12px 2px;border-top:1px solid var(--border);}
+  .screen-row:first-of-type{border-top:none;padding-top:4px;}
+  .screen-name{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .screen-name .pin{color:var(--accent);}
+  .chip.who{background:rgba(124,58,237,.12);color:var(--q);border-color:transparent;}
+  .chip.orphan{background:rgba(217,119,6,.14);color:var(--warn);border-color:transparent;}
+  .screen-row p{margin:5px 0 0;}
+  /* internal levels */
+  .states{font-size:12.5px;color:var(--muted);margin:4px 0 10px;border-left:2px solid var(--border);padding-left:10px;}
+  .lvl{font-size:10px;font-weight:700;color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:1px 6px;margin-left:6px;white-space:nowrap;}
+  ul.tree{margin:8px 0 0;padding-left:18px;} ul.tree li{margin:7px 0;}
+  ul.tree ul{margin:6px 0;padding-left:18px;border-left:1px solid var(--border);}
+  .dim{color:var(--muted);font-size:13px;}
+  /* traceability matrix */
+  table.matrix{min-width:680px;}
+  table.matrix td:not(.job),table.matrix th:not(:first-child){text-align:center;padding:9px 8px;}
+  table.matrix td.job{font-weight:700;white-space:nowrap;font-size:13px;}
+  table.matrix td.yes{color:var(--accent);font-weight:700;}
+  table.matrix th.orphan-col{color:var(--warn);}
+  table.matrix th{font-size:12px;}
+  /* sidebar nav */
+  html{scroll-behavior:smooth;}
+  :root{--sidebar-w:264px;}
+  .sidebar{position:fixed;left:0;top:0;width:var(--sidebar-w);height:100vh;overflow-y:auto;
+    background:var(--surface);border-right:1px solid var(--border);padding:22px 14px;z-index:40;
+    transform:translateX(-100%);transition:transform .22s ease;}
+  .sidebar.open{transform:translateX(0);box-shadow:var(--shadow);}
+  .side-brand{font-weight:700;font-size:14px;letter-spacing:.02em;padding:0 8px 14px;color:var(--text);}
+  .nav-label{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--muted);
+    text-transform:uppercase;margin:18px 8px 8px;}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;
+    color:var(--text);text-decoration:none;font-weight:600;font-size:15px;}
+  .nav-item .ic{font-size:16px;width:20px;text-align:center;}
+  .nav-item:hover{background:var(--accent-soft);text-decoration:none;}
+  .nav-item.active{background:var(--accent-soft);color:var(--accent);border:1px solid var(--border);}
+  .nav-sub{display:flex;flex-direction:column;border-left:1px solid var(--border);
+    margin:4px 0 8px 22px;padding-left:6px;}
+  .nav-sub a{display:flex;gap:10px;padding:7px 12px;border-radius:8px;color:var(--muted);
+    text-decoration:none;font-size:14px;}
+  .nav-sub a .n{min-width:14px;text-align:center;}
+  .nav-sub a:hover{background:var(--accent-soft);color:var(--text);text-decoration:none;}
+  .nav-sub a.cur{color:var(--accent);background:var(--accent-soft);}
+  .nav-sub a.cur .n{color:var(--accent);}
+  .nav-item.soon{color:var(--muted);cursor:default;} .nav-item.soon:hover{background:none;}
+  .soon-badge{margin-left:auto;font-size:10px;font-weight:700;letter-spacing:.05em;color:var(--muted);
+    border:1px solid var(--border);border-radius:999px;padding:2px 9px;}
+  .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:30;opacity:0;pointer-events:none;
+    transition:opacity .22s;}
+  .backdrop.show{opacity:1;pointer-events:auto;}
+  .menuBtn{position:fixed;top:16px;left:16px;z-index:50;background:var(--surface);
+    border:1px solid var(--border);color:var(--text);border-radius:999px;padding:8px 14px;
+    font-size:13px;cursor:pointer;box-shadow:var(--shadow);}
+  section[id]{scroll-margin-top:18px;}
+  @media(min-width:1000px){
+    .sidebar{transform:none;box-shadow:none;}
+    body{padding-left:var(--sidebar-w);}
+    .menuBtn{display:none;}
+    .backdrop{display:none;}
+  }
+</style>
+</head>
+<body>
+<button class="menuBtn" id="menuBtn">☰ Меню</button>
+<button class="toggle" id="themeBtn">◐ Тема</button>
+<div class="backdrop" id="backdrop"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="side-brand">TrackOn</div>
+
+  <div class="nav-label">Сторінки</div>
+  <a class="nav-item" href="research.html"><span class="ic">📄</span> Дослідження</a>
+  <a class="nav-item" href="jtbd.html"><span class="ic">🧭</span> JTBD</a>
+  <a class="nav-item" href="personas.html"><span class="ic">👥</span> Персони</a>
+  <a class="nav-item active" href="sitemap.html"><span class="ic">🗺️</span> Карта сайту</a>
+  <nav class="nav-sub">
+    <a href="#sec-entities"><span class="n">1</span> Сутності</a>
+    <a href="#sec-open"><span class="n">2</span> Під питанням</a>
+    <a href="#sec-coverage"><span class="n">3</span> Покриття job→сутність</a>
+    <a href="#sec-screens"><span class="n">4</span> Екрани</a>
+    <a href="#sec-nav"><span class="n">5</span> Навігація</a>
+    <a href="#sec-levels"><span class="n">6</span> Внутрішні рівні</a>
+    <a href="#sec-trace"><span class="n">7</span> Трасування</a>
+  </nav>
+  <a class="nav-item" href="ia.html"><span class="ic">🗂️</span> Інформаційна архітектура</a>
+
+  <div class="nav-label">Скоро</div>
+  <span class="nav-item soon"><span class="ic">🎨</span> Дизайн-система <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🧩</span> Компоненти <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🖼️</span> Вайрфрейми <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🚀</span> Хендофф <span class="soon-badge">SOON</span></span>
+</aside>
+
+<div class="wrap">
+
+  <header class="hero">
+    <span class="badge">TrackOn · Sitemap</span>
+    <h1>Карта сайту — Сутності</h1>
+    <p class="sub">Інвентар головних об'єктів, з якими людина оперує, щоб закрити свої jobs. Будується <b>від jobs</b>, не від екранів: спершу сутності — екрани й навігація пізніше.</p>
+    <p class="meta">Стан: червень 2026 · Чернетка — у <a href="sitemap.md">sitemap.md</a> · Jobs — у <a href="jtbd.html">jtbd.html</a> · Модель даних — <a href="CLAUDE.md">CLAUDE.md §4</a> · <span class="tag q">[?]</span> = об'єкт лише припускається</p>
+  </header>
+
+  <div class="note">Дисципліна: модель даних <code>CLAUDE.md §4</code> тут — <b>підказка, а не аксіома</b>. Що в моделі є, але жоден підтверджений job не вимагає — винесено в «Під питанням». Похідні вьюшки (звіт) і стани (активний таймер) сутностями <b>не</b> вважаються.</div>
+
+  <!-- 1. СУТНОСТІ -->
+  <section id="sec-entities">
+    <h2><span class="num">01</span>Сутності — основні</h2>
+    <p class="lead">Чотири об'єкти, кожен виправданий конкретним job із <a href="jtbd.html">jtbd.md</a>. Жодної сутності без job у цьому списку немає.</p>
+
+    <div class="card">
+      <div class="field-label" style="margin-top:0">Звʼязки сутностей</div>
+      <div class="flow">
+        <span class="ent">Клієнт</span><span class="arr">→</span>
+        <span class="ent">Проєкт</span><span class="arr">→</span>
+        <span class="ent">Запис часу</span>
+        <span class="arr" style="margin:0 4px">·</span>
+        <span class="ent">Інвойс</span>
+        <span class="flow-note">← Клієнт + обрані Записи</span>
+      </div>
+      <p class="invariant">Інваріант: одночасно лише один <b>Запис часу</b> у стані «активний» (<code>endedAt=null</code>) — «один активний таймер» (<code>CLAUDE.md §5</code>).</p>
+    </div>
+
+    <div class="grid cols-2 findings">
+
+      <!-- Запис часу -->
+      <div class="card finding">
+        <h3><span class="dot p"></span>Запис часу <small style="color:var(--muted);font-weight:400">· TimeEntry</small></h3>
+        <p style="margin:0;color:var(--muted)">Центральний об'єкт — носій відповіді «куди дівся мій час».</p>
+        <div class="field-label">Поля / частини</div>
+        <ul class="tight">
+          <li>проєкт (до якого належить)</li>
+          <li>початок <code>startedAt</code> · кінець <code>endedAt</code> (null поки активний)</li>
+          <li>тривалість <code>durationSec</code></li>
+          <li>коментар <code>note</code></li>
+          <li>оверрайд ставки <code>rateOverride</code> (nullable)</li>
+          <li>джерело <code>source</code>: <code>timer | manual</code></li>
+        </ul>
+        <div class="field-label">Породжує job</div>
+        <div class="jobchips">
+          <span class="chip">Main</span><span class="chip">R1 · timer</span>
+          <span class="chip">R2 · manual</span><span class="chip">E1</span>
+          <span class="chip soft">R3 · частково</span>
+        </div>
+        <p class="src" style="margin:8px 0 0">R1 — старт таймера у роботі; R2 — ручний запис заднім числом; E1 — <code>note</code>+<code>rateOverride</code> дають точність (I#1 оверрайд на таск, I#3 опис задачі).</p>
+        <div class="field-label">Звʼязки</div>
+        <p class="rel">Належить одному <b>Проєкту</b>; включається в <b>Інвойс</b> (<code>entryIds</code>); агрегується у звіт (вьюшка, не сутність).</p>
+      </div>
+
+      <!-- Проєкт -->
+      <div class="card finding">
+        <h3><span class="dot p"></span>Проєкт <small style="color:var(--muted);font-weight:400">· Project</small></h3>
+        <p style="margin:0;color:var(--muted)">Одиниця, проти якої трекається час; несе гроші (ставку + валюту).</p>
+        <div class="field-label">Поля / частини</div>
+        <ul class="tight">
+          <li>назва <code>name</code> · колір <code>color</code></li>
+          <li>валюта <code>currency</code>: <code>UAH | USD | EUR</code></li>
+          <li>ставка <code>hourlyRate</code> (nullable — <code>null</code> = лише час, без грошей)</li>
+          <li>клієнт <code>clientId</code> · архівність <code>archived</code></li>
+        </ul>
+        <div class="field-label">Породжує job</div>
+        <div class="jobchips">
+          <span class="chip">R3</span><span class="chip">R1 · плитка-старт</span>
+          <span class="chip">Main / R4</span><span class="chip">R5 · розріз</span>
+        </div>
+        <p class="src" style="margin:8px 0 0">R3 — одиниця розділення роботи (стоп/старт на перемиканні, I#3); R1 — плитка launchpad = проєкт; Main/R4 — несе rate+currency → гроші фіксуються на старті.</p>
+        <div class="field-label">Звʼязки</div>
+        <p class="rel">Належить <b>Клієнту</b>; має багато <b>Записів часу</b>.</p>
+      </div>
+
+      <!-- Клієнт -->
+      <div class="card finding">
+        <h3><span class="dot p"></span>Клієнт <small style="color:var(--muted);font-weight:400">· Client</small></h3>
+        <p style="margin:0;color:var(--muted)">Той, кому виставляєш рахунок і перед ким звітуєш.</p>
+        <div class="field-label">Поля / частини</div>
+        <ul class="tight">
+          <li>назва <code>name</code></li>
+          <li>реквізити для інвойсу (контакт) — <b>опційно</b></li>
+          <li>архівність <code>archived</code></li>
+        </ul>
+        <div class="field-label">Породжує job</div>
+        <div class="jobchips">
+          <span class="chip">R3</span><span class="chip">R4</span>
+          <span class="chip">S1</span><span class="chip">R5 · розріз</span>
+        </div>
+        <p class="src" style="margin:8px 0 0">R3 — тримати клієнтів роздільно й прозоро (job прямо про клієнта); R4 — інвойс групується по клієнту; S1 — адресат звіту/рахунку.</p>
+        <div class="field-label">Звʼязки</div>
+        <p class="rel">Має багато <b>Проєктів</b>; суб'єкт <b>Інвойсу</b>; розріз у звіті.</p>
+      </div>
+
+      <!-- Інвойс -->
+      <div class="card finding">
+        <h3><span class="dot p"></span>Інвойс / Рахунок <small style="color:var(--muted);font-weight:400">· Invoice</small></h3>
+        <p style="margin:0;color:var(--muted)">Перетворений на гроші, готовий до відправлення документ.</p>
+        <div class="field-label">Поля / частини</div>
+        <ul class="tight">
+          <li>клієнт <code>clientId</code> · валюта <code>currency</code> (одна на інвойс)</li>
+          <li>період <code>periodFrom</code> – <code>periodTo</code></li>
+          <li>включені записи <code>entryIds</code></li>
+          <li>сума <code>total</code> = час × ставка</li>
+          <li>статус <code>status</code>: <code>unpaid | sent | paid</code></li>
+        </ul>
+        <div class="field-label">Породжує job</div>
+        <div class="jobchips">
+          <span class="chip">R4 · ядро MVP</span><span class="chip">S1</span><span class="chip">E1</span>
+        </div>
+        <p class="src" style="margin:8px 0 0">R4 — час → готова сума без ручного зведення («мрія про чернетку рахунку», I#3); S1 — client-facing; E1 — впевненість, що цифри точні.</p>
+        <div class="field-label">Звʼязки</div>
+        <p class="rel">Належить <b>Клієнту</b>; посилається на <b>Записи часу</b>; одна валюта = валюта проєктів/клієнта.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 2. ПІД ПИТАННЯМ -->
+  <section id="sec-open">
+    <h2><span class="num">02</span>Під питанням</h2>
+    <p class="lead">Об'єкти без підтвердженого job, відкриті питання брифу, або стани/проєкції, які <b>не</b> є самостійними сутностями.</p>
+
+    <div class="grid cols-2 findings">
+      <div class="card finding open-card">
+        <h3><span class="dot o"></span>Профіль виконавця / Налаштування інвойсу <span class="tag q">[?]</span></h3>
+        <p style="margin:0;color:var(--muted)">Дані виконавця для шапки інвойсу (ім'я, контакт, платіжні реквізити); можливо дефолтна валюта, тема UI.</p>
+        <p class="rel" style="margin-top:10px"><b>Job:</b> слабко — <b>R4</b> + <b>S1</b> (інвойс мусить містити відправника). Прямо персонами як об'єкт не названо.</p>
+        <p class="src" style="margin:8px 0 0"><b>Чому під питанням:</b> у <code>CLAUDE.md §12</code> це відкрите питання, а не сутність моделі §4. Може бути просто кількома полями налаштувань.</p>
+      </div>
+
+      <div class="card finding open-card">
+        <h3><span class="dot o"></span>Тег / Категорія запису <span class="tag q">[?]</span></h3>
+        <p style="margin:0;color:var(--muted)">Тип роботи (<code>development/bugfix/meeting…</code>), прив'язка до запису.</p>
+        <p class="rel" style="margin-top:10px"><b>Job:</b> лише <b>R5</b>, і то сильно лише для Персони B (I#3: «баги/фічі/мітинги») + гіпотеза по тегах.</p>
+        <p class="src" style="margin:8px 0 0"><b>Чому під питанням:</b> R5 для primary (A) = 1; теги явно <b>поза MVP</b> і у відкритих питаннях (<code>CLAUDE.md §12</code>). Не вводити, поки R5 не підніметься даними.</p>
+      </div>
+
+      <div class="card finding open-card">
+        <h3><span class="dot o"></span>Активний таймер — <b>не сутність</b></h3>
+        <p style="margin:0;color:var(--muted)">Це <b>стан</b> Запису часу (<code>source=timer</code>, <code>endedAt=null</code>), не самостійний об'єкт. R1 вимагає, щоб таймер пережив перезавантаження — це персистентність відкритого запису (+ можливо маленький запис стану застосунку <span class="tag q">[?]</span>), а не нова сутність.</p>
+      </div>
+
+      <div class="card finding open-card">
+        <h3><span class="dot o"></span>Звіт — <b>не сутність</b></h3>
+        <p style="margin:0;color:var(--muted)">R5 і S1 породжують <b>потребу бачити</b> зведення, але звіт — це агрегація над Записами за період/розрізом (<code>CLAUDE.md §7</code>: «тільки на екрані», без збереження/експорту). Власних полів і стану нема → проєкція, не сутність.</p>
+      </div>
+
+      <div class="card finding open-card">
+        <h3><span class="dot o"></span>Ставка / Грошова сума — <b>не сутність</b></h3>
+        <p style="margin:0;color:var(--muted)">Ставка — поле <b>Проєкту</b> (<code>hourlyRate</code>) + оверрайд <b>Запису</b> (<code>rateOverride</code>). Сума — обчислення (зберігається лише <code>Invoice.total</code>). Окремого об'єкта жоден job не вимагає.</p>
+      </div>
+
+      <div class="card finding open-card">
+        <h3><span class="dot o"></span>E3 (приватність) — <b>не сутність</b></h3>
+        <p style="margin:0;color:var(--muted)">Обмеження/архітектура (local-first, межа «метадані OK / контент = spyware», I#3), а не об'єкт, з яким людина оперує. Впливає на рішення, не на інвентар.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ПОКРИТТЯ -->
+  <section id="sec-coverage">
+    <h2><span class="num">03</span>Перевірка покриття — job → сутність</h2>
+    <p class="lead">Контроль, що (а) кожна основна сутність має job і (б) жоден діяльний job не лишився без носія.</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Job (jtbd.md)</th><th>Несуть сутності</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="name">Main — час → справедлива оплата</td><td>Запис часу · Проєкт (ставка/валюта) · Інвойс</td></tr>
+          <tr><td class="name">R1 — почати облік, не втрачаючи фокус</td><td>Запис часу (timer) · Проєкт (плитка-старт)</td></tr>
+          <tr><td class="name">R2 — відновити забутий час</td><td>Запис часу (manual)</td></tr>
+          <tr><td class="name">R3 — клієнти роздільно й прозоро</td><td>Клієнт · Проєкт · (належність Запису)</td></tr>
+          <tr><td class="name">R4 — час → оплата без зведення</td><td>Інвойс · Клієнт · Проєкт (ставка) · Запис часу</td></tr>
+          <tr><td class="name">R5 — куди пішов час</td><td>Проєкт/Клієнт як розрізи · звіт = вьюшка · <b>Тег</b> <span class="tag q">[?]</span> для розрізу по типу роботи</td></tr>
+          <tr><td class="name">E1 — чесність у цифрах</td><td>Запис часу (<code>note</code>, <code>rateOverride</code>) · Інвойс (<code>total</code>)</td></tr>
+          <tr><td class="name">E2 — не загубитися у складності</td><td><span class="src">— якісна вимога до всіх; не породжує об'єкта</span></td></tr>
+          <tr><td class="name">E3 — приватність <span class="tag q">[?]</span></td><td><span class="src">— обмеження архітектури, не об'єкт</span></td></tr>
+          <tr><td class="name">S1 — професійний перед клієнтом</td><td>Інвойс · Клієнт · звіт (вьюшка)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid cols-3" style="margin-top:14px">
+      <div class="card finding">
+        <h3><span class="dot p"></span>✅ Покрито</h3>
+        <p style="margin:0;color:var(--muted)">4 сутності (Запис · Проєкт · Клієнт · Інвойс) покривають усі діяльні jobs. Жодної сутності без job в основному списку.</p>
+      </div>
+      <div class="card finding">
+        <h3><span class="dot o"></span>⚠️ Гэп R5</h3>
+        <p style="margin:0;color:var(--muted)">R5 повністю закривається лише з <b>Тегом</b> (під питанням) — інакше тільки розріз по проєкту/клієнту, без «по типу роботи». Чесний гэп, не привід вводити Тег зараз.</p>
+      </div>
+      <div class="card finding">
+        <h3><span class="dot d"></span>○ Без об'єкта</h3>
+        <p style="margin:0;color:var(--muted)">E2/E3 не породжують сутностей — це якісна вимога й обмеження. Правильно лишити без об'єкта.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. ЕКРАНИ -->
+  <section id="sec-screens">
+    <h2><span class="num">04</span>Екрани — чернетка ієрархії</h2>
+    <p class="lead">Виведено <b>з того, що людина намагається зробити</b> (jobs × сутності), а <b>не</b> зі структури конкурентів. Принцип: вузол без job у дерево не потрапляє; глибина поки мінімальна (рівні форм/деталей — на кроці 3).</p>
+
+    <div class="note">
+      <b>Персони:</b> <span class="chip who">A</span> primary (Олег, side-gig дизайнер) ·
+      <span class="chip who">B</span> secondary (Дмитро, фултайм-розробник) · <span class="chip who">A+B</span> обом.
+      <b style="margin-left:8px">Job</b> (кожен код → <a href="jtbd.html">jtbd.md</a>):
+      <code>Main</code> · <code>R1</code> почати облік · <code>R2</code> відновити час · <code>R3</code> клієнти роздільно ·
+      <code>R4</code> час→оплата · <code>R5</code> куди пішов час · <code>E1</code> чесність · <code>S1</code> професійність.
+    </div>
+
+    <!-- ① -->
+    <div class="card">
+      <h3 style="margin-top:6px"><span class="dot p"></span>① Затрекати час <span class="group-sub">— щоденна петля людини</span></h3>
+      <div class="screen-row">
+        <div class="screen-name"><span class="pin">▸</span> Головний / Лаунчпад трекінгу</div>
+        <div class="jobchips"><span class="chip">R1</span><span class="chip">Main</span><span class="chip who">A+B · ядро A</span></div>
+        <p class="src">старт у 1 тап по проєкту; несе зведення «час + гроші по валютах» (Main). Активний таймер — стан цього екрана.</p>
+      </div>
+      <div class="screen-row">
+        <div class="screen-name"><span class="pin">▸</span> Записи часу — журнал, ручний запис і правки</div>
+        <div class="jobchips"><span class="chip">R2</span><span class="chip">E1</span><span class="chip who">A+B · ядро A</span></div>
+        <p class="src">місце «відновити забутий час» і вечірнього review записів.</p>
+      </div>
+    </div>
+
+    <!-- ② -->
+    <div class="card">
+      <h3 style="margin-top:6px"><span class="dot p"></span>② Розкласти роботу по клієнтах <span class="group-sub">— структура, рідша за трекінг</span></h3>
+      <div class="screen-row">
+        <div class="screen-name"><span class="pin">▸</span> Клієнти і проєкти — список + ставка / валюта / колір</div>
+        <div class="jobchips"><span class="chip">R3</span><span class="chip">Main/R4</span><span class="chip who">A+B</span></div>
+        <p class="src">проєкт несе rate+currency → гроші фіксуються вже на старті трекінгу.</p>
+      </div>
+    </div>
+
+    <!-- ③ -->
+    <div class="card">
+      <h3 style="margin-top:6px"><span class="dot p"></span>③ Перетворити час на оплату</h3>
+      <div class="screen-row">
+        <div class="screen-name"><span class="pin">▸</span> Інвойси — сформувати з записів → сума → PDF + статуси</div>
+        <div class="jobchips"><span class="chip">R4</span><span class="chip">S1</span><span class="chip">E1</span><span class="chip who">A+B · ядро B</span></div>
+        <p class="src">вибір записів за період по клієнту; «час → готова сума» без ручного зведення. Для A це A=2 (дратує, не must), для B — ядро.</p>
+      </div>
+    </div>
+
+    <!-- ④ -->
+    <div class="card">
+      <h3 style="margin-top:6px"><span class="dot o"></span>④ Зрозуміти, куди пішов час</h3>
+      <div class="screen-row">
+        <div class="screen-name"><span class="pin">▸</span> Звіти — період × розріз (по проєкту / по клієнту)</div>
+        <div class="jobchips"><span class="chip">R5</span><span class="chip who">переважно B · A=1</span></div>
+        <p class="src">аналітика «баги/фічі/мітинги» — ядро B; для primary рідкісний.</p>
+      </div>
+    </div>
+
+    <!-- ⑤ -->
+    <div class="card">
+      <h3 style="margin-top:6px"><span class="dot o"></span>⑤ Налаштувати себе як виконавця</h3>
+      <div class="screen-row">
+        <div class="screen-name"><span class="pin">▸</span> Налаштування — профіль для шапки інвойсу + тема <span class="tag q">[?]</span></div>
+        <div class="jobchips"><span class="chip soft">R4 / S1 · слабко</span><span class="chip who">A+B · рідко</span></div>
+        <p class="src">job слабкий: лише реквізити-відправника на інвойс (<code>CLAUDE.md §12</code>, відкрите питання).</p>
+      </div>
+    </div>
+
+    <h3>Хто чим живе — primary vs secondary</h3>
+    <div class="grid cols-2">
+      <div class="card finding">
+        <h3><span class="dot p"></span>Primary (A)</h3>
+        <p style="margin:0;color:var(--muted)">Щоденно живе в групі <b>①</b> (Головний + Записи часу — <code>ядро A</code>); периферійно заходить у <b>②</b> (1–3 клієнти) і <b>③</b> (інвойс, A=2 — «дратує», не must). Групи <b>④/⑤</b> для A рідкісні (R5 для A=1).</p>
+      </div>
+      <div class="card finding">
+        <h3><span class="dot d"></span>Secondary (B)</h3>
+        <p style="margin:0;color:var(--muted)">Спирається на ту саму петлю <b>①</b>, але <b>③ Інвойси</b> та <b>④ Звіти</b> для нього — <b>ядро</b> (R4=3, R5=3: invoice-draft + аналітика). Саме тут B відрізняється від A.</p>
+      </div>
+    </div>
+
+    <h3>Межі — щоб не плутати й не копіювати ринок</h3>
+    <div class="grid cols-2">
+      <div class="card finding open-card">
+        <h3><span class="dot o"></span>Це стани, не екрани</h3>
+        <ul class="tight">
+          <li><b>Активний таймер</b> — стан Головного (<code>endedAt=null</code>).</li>
+          <li><b>Порожній стан</b> (нема проєктів / записів / інвойсів) — empty-стан екрана.</li>
+          <li><b>Помилка / офлайн / синк</b>, <b>завантаження</b>, <b>перший запуск</b> — стани, не екрани.</li>
+        </ul>
+      </div>
+      <div class="card finding open-card">
+        <h3><span class="dot d"></span>Свідомо виключено <span class="chip orphan">були б SIROTA</span></h3>
+        <ul class="tight">
+          <li><b>Команда / ролі</b> — одинак, жоден job (<code>CLAUDE.md §11</code>).</li>
+          <li><b>Прибутковість / маржа по клієнту</b> — гіпотеза HJ3 з ринку, ніхто не просив.</li>
+          <li><b>Календар / таймлайн-планувальник</b> — суперечить R1 (<code>research.md §3</code>).</li>
+          <li><b>Інтеграції / платіжний шлюз</b> — поза MVP, не закриває job.</li>
+          <li><b>Стрічка автотрекінгу</b> — HJ1, архітектурно поза PWA (<code>personas.md §8</code>).</li>
+          <li><b>Онбординг-візард</b> — E2 наскрізна вимога до всіх екранів, не окремий екран.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. НАВІГАЦІЯ -->
+  <section id="sec-nav">
+    <h2><span class="num">05</span>Навігація</h2>
+    <p class="lead">Виведено з job-кластерів (§04), а не з конвенцій. Три шари: <b>глобальне</b> (видно завжди) — лише входи в кластери, куди людина свідомо й повторювано повертається; <b>контекстне</b> — у потоці, біля об'єкта; <b>глибоке</b> — рідкісні дії.</p>
+
+    <h3>Глобальна навігація — 3 входи, кожен = окремий job-кластер</h3>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Пункт</th><th>Job</th><th>Чому глобальний (не «бо так у всіх»)</th><th>Вага A / B</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name">Трекер <small style="color:var(--muted)">(Головний)</small></td>
+            <td><span class="chip">R1</span> <span class="chip">Main</span></td>
+            <td>Тут відбувається сам main job; 1-тап-старт і щоденна петля — мусить бути екраном за замовчуванням і завжди досяжним.</td>
+            <td>A=3 / B=3 · ядро обом</td>
+          </tr>
+          <tr>
+            <td class="name">Звіти</td>
+            <td><span class="chip">R5</span></td>
+            <td>Окремий режим «проаналізувати», куди йдуть свідомо (тижневий review), а не мимохідь під час трекінгу.</td>
+            <td>A=1 / B=3 · провідне B</td>
+          </tr>
+          <tr>
+            <td class="name">Інвойси</td>
+            <td><span class="chip">R4</span> <span class="chip">S1</span></td>
+            <td>Грошовий результат; повторюється платіжним циклом; білінг — окремий режим від трекінгу, тож окремий вхід.</td>
+            <td>A=2 / B=3 · провідне B</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="note" style="margin:14px 0 0"><b>Глобальний, але не пункт-меню:</b> індикатор <b>активного таймера</b> (стан + Stop) — на кожному екрані, щоб зупинити/побачити облік звідусіль (закриває «кінець» R1 без повернення на Трекер).</div>
+      <div class="card finding open-card" style="margin:14px 0 0">
+        <h3><span class="dot o"></span>Свідомо НЕ в глобальному меню</h3>
+        <ul class="tight">
+          <li><b>Клієнти і проєкти</b> (R3) — рідкісне після створення; складено <b>всередину Трекера</b> (лаунчпад = і є список проєктів; «+ Проєкт» і керування там само). Проєкти, які стартуєш, і є ті, якими керуєш.</li>
+          <li><b>Налаштування / профіль виконавця</b> (R4/S1 слабко <span class="tag q">[?]</span>) — у глибокому шарі.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Глибина до main job — підрахунок тапів</h3>
+    <p class="lead" style="margin-bottom:8px">Main job: <b>затрекати задачу</b> (почати облік). Primary A, усталений стан (проєкти вже є).</p>
+    <div class="card" style="text-align:center">
+      <div class="flow" style="justify-content:center">
+        <span class="ent">Запуск → екран «Трекер»</span>
+        <span class="flow-note">0 тапів (перший екран)</span>
+        <span class="arr">→</span>
+        <span class="ent">тап по рядку проєкту</span>
+        <span class="flow-note">1 тап → таймер пішов</span>
+      </div>
+      <p style="margin:14px 0 0;font-size:22px;font-weight:700"><span style="color:var(--accent)">Глибина = 1 тап</span> <span style="font-size:14px;color:var(--muted);font-weight:400">· ліміт «≤ 3» з запасом, переструктурування не треба</span></p>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card finding">
+        <h3><span class="dot p"></span>Що тримає це на 1 (а не на 4)</h3>
+        <ul class="tight">
+          <li>Лаунчпад = <b>перший екран</b> (не дашборд і не клієнти попереду).</li>
+          <li>Гроші зафіксовані на <b>проєкті</b> заздалегідь (<code>rate</code>+<code>currency</code>) → старт не питає ставку.</li>
+          <li>Опис задачі (<code>note</code>) — <b>необов'язковий</b>, додається після старту, не блокує.</li>
+          <li><b>Один активний таймер</b> → тап іншого проєкту = switch, без діалогів.</li>
+        </ul>
+        <p class="src" style="margin-top:10px"><b>Холодний старт</b> (перший запуск, проєктів нема) — разово ~3 тапи: Трекер(порожньо) → «+ Проєкт» → зберегти → тап. Це <b>стан</b>, не усталена глибина.</p>
+      </div>
+      <div class="card finding">
+        <h3><span class="dot p"></span>Контроль інших шляхів</h3>
+        <div class="tablewrap" style="margin:0;box-shadow:none">
+          <table style="min-width:0">
+            <tbody>
+              <tr><td class="name">Затрекати (main)</td><td>Трекер → тап проєкту</td><td style="text-align:center;font-weight:700;color:var(--accent)">1</td></tr>
+              <tr><td class="name">Зупинити облік</td><td>тап індикатора таймера</td><td style="text-align:center">1</td></tr>
+              <tr><td class="name">Виправити час (R2)</td><td>Трекер → журнал → запис → правка</td><td style="text-align:center">2–3</td></tr>
+              <tr><td class="name">Додати проєкт (R3)</td><td>Трекер → «+» → форма</td><td style="text-align:center">2</td></tr>
+              <tr><td class="name">Виставити рахунок (R4)</td><td>Інвойси → «+» → клієнт/період → Generate</td><td style="text-align:center">3</td></tr>
+              <tr><td class="name">Подивитись звіт (R5)</td><td>Звіти → перемкнути період</td><td style="text-align:center">1</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <h3>Шари: глобальне / контекстне / глибоке</h3>
+    <div class="grid cols-3">
+      <div class="card finding">
+        <h3><span class="dot" style="background:var(--ok)"></span>🟢 Глобальне</h3>
+        <p style="margin:0;color:var(--muted)">Видно завжди.</p>
+        <ul class="tight">
+          <li>Трекер · Звіти · Інвойси (3 входи)</li>
+          <li>Індикатор активного таймера зі Stop</li>
+        </ul>
+      </div>
+      <div class="card finding">
+        <h3><span class="dot o"></span>🟡 Контекстне</h3>
+        <p style="margin:0;color:var(--muted)">У потоці, біля об'єкта.</p>
+        <ul class="tight">
+          <li>Журнал + ручний запис/правка (R2·E1) — у Трекері</li>
+          <li>Додати/редагувати проєкт, ставку, колір (R3) — з «+» / рядка</li>
+          <li>Додати/обрати клієнта (R3) — з форми проєкту й інвойсу</li>
+          <li>«Виставити рахунок за період» (R4) — з клієнта/звіту</li>
+          <li>Оверрайд ставки + коментар (E1) — у правці запису</li>
+        </ul>
+      </div>
+      <div class="card finding">
+        <h3><span class="dot d"></span>🔵 Глибоке</h3>
+        <p style="margin:0;color:var(--muted)">Рідкісні дії, прибрані з очей.</p>
+        <ul class="tight">
+          <li>Налаштування / профіль для інвойсу + тема (R4/S1 <span class="tag q">[?]</span>)</li>
+          <li>Архівування / видалення клієнта чи проєкта</li>
+          <li><span class="tag q">[?]</span> Теги, синк між пристроями — поза MVP</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note"><b>Компроміс (свідомо):</b> глобальне меню (3 входи) розміряне під <b>ядро B</b> (R4+R5). Для A дві з трьох вкладок рідкісні (R5=1, R4=2), але сховати їх — поховало б ядрові для B job. Тримаємо 3, проте <b>Трекер лишається героєм</b> (перший екран, 1-тап-старт), тож щоденний досвід A не страждає. Кожен із трьох входів закриває окремий job; Клієнти/Проєкти й Налаштування окремого <b>щоденного</b> job не закривають — тому не в глобальному.</div>
+  </section>
+
+  <!-- 6. ВНУТРІШНІ РІВНІ -->
+  <section id="sec-levels">
+    <h2><span class="num">06</span>Внутрішні рівні екранів</h2>
+    <p class="lead">Розкриваю L2–L3 під кожним екраном. Принципи незмінні: біля вузла — job; вузол без job = <span class="chip orphan">SIROTA</span>; стани (empty/error/таймер) — не вузли, перелічені окремо; <span class="tag q">[?]</span> — припускаю. Глибина до main job лишається <b>1 тап</b> — нові рівні висять на гілках R2–R5, не на R1.</p>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <h3 style="margin-top:6px"><span class="dot p"></span>① Трекер <small class="dim">Головний</small> <span class="lvl">L1 · global</span></h3>
+        <div class="jobchips"><span class="chip">R1</span><span class="chip">Main</span></div>
+        <p class="states">стани: первинне завантаження (loading) · порожньо (нема проєктів) · активний таймер крутиться · збереження/офлайн · збій збереження</p>
+        <ul class="tree">
+          <li><b>Список проєктів-плиток</b> (лаунчпад) <span class="chip">R1</span><br><span class="dim">рядок = колір · назва · клієнт · сьогодні (час+гроші) · ▶/⏸</span></li>
+          <li><b>Блок «час + гроші по валютах»</b> <span class="chip">Main</span> <span class="dim">— блок (стан, не підекран)</span></li>
+          <li><b>Журнал записів</b> ▸ вкладка <span class="chip">R2</span><span class="chip">E1</span> <span class="lvl">L2</span>
+            <ul>
+              <li><b>Запис — деталь / редагування</b> <span class="lvl">L3</span><br><span class="dim">поля: проєкт · від–до / тривалість · note · rateOverride · дії: зберегти · видалити · розбити <span class="tag q">[?]</span> · стани: помилка валідації (кінець раніший за початок / нема проєкту) · приблизний запис (уточнити)</span></li>
+              <li><b>+ Ручний запис</b> (manual) <span class="chip">R2</span> <span class="lvl">L3</span> <span class="dim">— та сама форма</span></li>
+            </ul>
+          </li>
+          <li><b>+ Проєкт</b> → Форма проєкту <span class="chip">R3</span> <span class="dim">— вхід у ②</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:6px"><span class="dot p"></span>② Клієнти і проєкти <small class="dim">контекстне, з Трекера</small> <span class="lvl">L2</span></h3>
+        <div class="jobchips"><span class="chip">R3</span><span class="chip">Main/R4</span></div>
+        <ul class="tree">
+          <li><b>Форма проєкту</b> (створити / редагувати) <span class="chip">R3</span> <span class="lvl">L2</span><br>
+            <span class="dim">поля: назва · колір · клієнт(вибір/+) · currency · hourlyRate (nullable) · архів · стани: новий / редагування / помилка валідації / збереження (loading) / збій збереження</span>
+            <ul>
+              <li><b>Клієнт — вибір / створення</b> <span class="chip">R3</span> <span class="lvl">L3</span><br><span class="dim">Форма клієнта: назва · реквізити для інвойсу (опц.)</span></li>
+            </ul>
+          </li>
+          <li><span class="dim">дія (глибока): архівувати проєкт → чистий лаунчпад (R1/E2)</span></li>
+          <li class="dim">НЕ дублюємо «список проєктів» — це лаунчпад Трекера; «деталь проєкту» = Звіти з фільтром по проєкту</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:6px"><span class="dot p"></span>③ Інвойси <span class="lvl">L1 · global</span></h3>
+        <div class="jobchips"><span class="chip">R4</span><span class="chip">S1</span><span class="chip">E1</span></div>
+        <p class="states">стани: порожньо · нема клієнтів · чернетка · автодобір записів (loading) · нема записів за період · профіль виконавця порожній (шапка неповна) · генерація PDF (loading) · згенеровано · помилка PDF</p>
+        <ul class="tree">
+          <li><b>Список інвойсів</b> (групування за статусом) <span class="chip">R4</span><span class="chip">S1</span><br><span class="dim">рядок: клієнт · період · сума · статус (unpaid/sent/paid)</span></li>
+          <li><b>Новий інвойс / «Виставити рахунок»</b> → потік <span class="chip">R4</span> <span class="lvl">L2</span> <span class="dim">(один екран-кроки, не візард)</span>
+            <ul>
+              <li class="dim">1) клієнт (або з контексту) · 2) період · 3) записи: автодобір білабельних + toggle <span class="chip">E1</span> (фінальна перевірка — I#3) · 4) підсумок: години × ставка = сума/валюта</li>
+              <li class="dim">дії: Generate PDF (R4) · позначити «відправлено» (S1)</li>
+            </ul>
+          </li>
+          <li><b>Деталь інвойсу</b> <span class="chip">R4</span><span class="chip">S1</span> <span class="lvl">L2</span><br><span class="dim">включені записи · сума · статус · дії: unpaid→sent→paid · повторний PDF · видалити (глибока)</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:6px"><span class="dot o"></span>④ Звіти <span class="lvl">L1 · global</span></h3>
+        <div class="jobchips"><span class="chip">R5</span></div>
+        <p class="states">стани: обрахунок за період (loading) · порожньо (нема даних за період)</p>
+        <ul class="tree">
+          <li><b>Контроли</b>: період (тиждень/місяць/діапазон) · розріз (проєкт/клієнт) <span class="chip">R5</span> <span class="dim">— частина екрана</span></li>
+          <li><b>Зведення</b>: час + гроші (по валютах) + breakdown <span class="chip">R5</span> <span class="lvl">L1</span></li>
+          <li><b>Drill-down</b>: тап зрізу → записи цього зрізу <span class="chip">R5</span> <span class="lvl">L2</span> <span class="dim">(= журнал з фільтром)</span></li>
+          <li><b>«Виставити рахунок за період»</b> → ③ <span class="chip">R4</span> <span class="dim">— крос-вхід</span></li>
+          <li class="dim">виключено: CSV/PDF-експорт звіту — поза MVP (CLAUDE.md §7)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card finding open-card">
+        <h3><span class="dot o"></span>⑤ Налаштування <span class="lvl">L1 · глибокий</span></h3>
+        <div class="jobchips"><span class="chip soft">R4/S1 · слабко</span><span class="tag q">[?]</span></div>
+        <ul class="tree">
+          <li><b>Профіль виконавця</b> (реквізити шапки інвойсу) <span class="chip">R4</span><span class="chip">S1</span> <span class="tag q">[?]</span> <span class="lvl">L2</span> <span class="dim">— вхід також з R4: перевірка профілю перед PDF</span></li>
+          <li><b>Тема</b> (light / dark / auto) <span class="chip orphan">SIROTA</span> <span class="dim">— бриф §9, не job</span></li>
+          <li><b>Дані/приватність</b>: «локально на пристрої» <span class="dim">— E3 <span class="tag q">[?]</span> інфо-стан, не дія</span></li>
+          <li class="dim">[Етап 2, поза MVP] Акаунт / синк — HJ2 <span class="tag q">[?]</span></li>
+        </ul>
+      </div>
+      <div class="card finding">
+        <h3><span class="dot d"></span>Класифікація · сироти · глибина</h3>
+        <ul class="tight">
+          <li><b>Розбити запис</b> <span class="tag q">[?]</span> — на I#3 (power-B); E1/R5. Контекстна дія в правці запису, не вузол MVP.</li>
+          <li><b>Архівувати</b> — слабкий job (чистота лаунчпада R1/E2); глибока дія.</li>
+          <li><b>Видалити</b> запис/інвойс — корекція хибних даних (R2/E1); глибока дія.</li>
+          <li><b>Тема</b> <span class="chip orphan">SIROTA</span> — вимога брифа, але жоден jtbd-job її не породжує. Чесно лишена сиротою.</li>
+          <li><b>Експорт звіту, акаунт/синк</b> — виключено / Етап 2 (поза MVP).</li>
+          <li>✅ <b>Глибина не регресувала</b>: нові рівні на гілках R2–R5, не на R1. Main job = <b>1 тап</b>; найглибша часта дія (інвойс) = 3 тапи.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. ТРАСУВАННЯ -->
+  <section id="sec-trace">
+    <h2><span class="num">07</span>Трасування</h2>
+    <p class="lead">Матриця покриття: <b>рядки — усі jobs</b> (main + related + emotional/social), <b>колонки — усі екрани</b>. <span class="chip">✓</span> — екран реально бере участь у закритті job. Мета — <b>жодного порожнього рядка чи стовпця</b>.</p>
+    <p class="src">Скорочення: <b>Тр</b> Трекер · <b>Жр</b> Журнал · <b>Зп</b> Запис-ред. · <b>Рз</b> Ручний запис · <b>ФП</b> Форма проєкту · <b>ФК</b> Форма клієнта · <b>СІ</b> Список інвойсів · <b>НІ</b> Новий інвойс (потік) · <b>ДІ</b> Деталь інвойсу · <b>Зв</b> Звіти · <b>Зд</b> Звіти-зріз · <b>Нл</b> Налаштування · <b>Тм</b> Тема.</p>
+    <div class="tablewrap">
+      <table class="matrix">
+        <thead>
+          <tr><th>Job</th><th>Тр</th><th>Жр</th><th>Зп</th><th>Рз</th><th>ФП</th><th>ФК</th><th>СІ</th><th>НІ</th><th>ДІ</th><th>Зв</th><th>Зд</th><th>Нл</th><th class="orphan-col">Тм</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="job">Main — час → оплата</td><td class="yes">✓</td><td></td><td></td><td></td><td class="yes">✓</td><td></td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="job">R1 — почати облік</td><td class="yes">✓</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="job">R2 — відновити час</td><td></td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="job">R3 — клієнти роздільно</td><td></td><td></td><td></td><td></td><td class="yes">✓</td><td class="yes">✓</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="job">R4 — час → оплата</td><td></td><td></td><td></td><td></td><td class="yes">✓</td><td></td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td></td><td></td><td class="yes">✓</td><td></td></tr>
+          <tr><td class="job">R5 — куди пішов час</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="yes">✓</td><td class="yes">✓</td><td></td><td></td></tr>
+          <tr><td class="job">E1 — чесність у цифрах</td><td></td><td class="yes">✓</td><td class="yes">✓</td><td></td><td></td><td></td><td></td><td class="yes">✓</td><td class="yes">✓</td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="job">E2 — не загубитися</td><td class="yes">✓*</td><td></td><td></td><td></td><td class="yes">✓*</td><td class="yes">✓*</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="job">E3 — приватність <span class="tag q">[?]</span></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="yes">✓*</td><td></td></tr>
+          <tr><td class="job">S1 — професійний</td><td></td><td></td><td></td><td></td><td></td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td></td><td></td><td class="yes">✓</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card finding open-card">
+        <h3><span class="dot d"></span>ЕКРАНИ-СИРОТИ <span class="dim">стовпці без ✓</span></h3>
+        <ul class="tight">
+          <li><b>Тм — Тема</b> (light/dark/auto) <span class="chip orphan">SIROTA</span>. Жоден job не породжує (бриф §9, не jtbd) — суто UI-преференс.<br><b>→ Видалити як «екран»:</b> це перемикач-утиліта в <b>Налаштуваннях</b>, не екран. Виносимо зі списку екранів → стовпців-сиріт <b>0</b>.</li>
+        </ul>
+      </div>
+      <div class="card finding open-card">
+        <h3><span class="dot o"></span>JOBS-СИРОТИ <span class="dim">рядки без ✓</span></h3>
+        <p style="margin:0 0 8px"><b>0 повних сиріт</b> — кожен job має ≥1 екран.</p>
+        <p class="src" style="margin:0"><b>⚠️ Слабке покриття (у backlog):</b></p>
+        <ul class="tight">
+          <li><b>E2</b> — закривається <b>наскрізно</b> (1-тап Трекер + не-CRM форми), власного екрана не потребує. <b>→ прив'язати</b> як принцип, не додавати екран. Ризик: розростання форм деградує E2.</li>
+          <li><b>E3</b> <span class="tag q">[?]</span> — закривається <b>архітектурою</b> (local-first), комунікується нотою в Налаштуваннях; підкріплення слабке (N=1). <b>→ backlog:</b> явна privacy-секція, якщо E3 підтвердиться.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="src"><b>✓*</b> — непряме покриття: E2 (простота) — наскрізна якість екранів, не дія; E3 (приватність) — закриває архітектура (local-first), екран лише комунікує.</p>
+    <div class="note"><b>Підсумок:</b> після виносу Теми з інвентаря екранів — <b>жодного порожнього рядка і стовпця</b>. 12 екранів × 10 jobs: кожен екран служить ≥1 job, кожен job має ≥1 екран (E2/E3 — непрямо <b>✓*</b>). <b>Flow-покриття:</b> <code>Налаштування</code> тепер проходиться у <a href="flows.md">flows.md</a> R4 (перевірка профілю перед PDF) — flow-сироту усунено, перший інвойс не дає порожню шапку.</div>
+  </section>
+
+  <footer>
+    TrackOn · сутності + екрани + навігація + внутрішні рівні + трасування синхронізовано з <a href="sitemap.md">sitemap.md</a> · jobs — <a href="jtbd.html">jtbd.html</a> · flows — <a href="flows.md">flows.md</a> · модель — <a href="CLAUDE.md">CLAUDE.md §4</a>. Далі — вайрфрейми.
+  </footer>
+</div>
+
+<script>
+  const btn = document.getElementById('themeBtn');
+  const root = document.documentElement;
+  const saved = localStorage.getItem('trackon-theme');
+  if(saved) root.setAttribute('data-theme', saved);
+  btn.addEventListener('click', ()=>{
+    const cur = root.getAttribute('data-theme')
+      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('trackon-theme', next);
+  });
+
+  // sidebar: mobile toggle
+  const sb = document.getElementById('sidebar');
+  const bd = document.getElementById('backdrop');
+  const mb = document.getElementById('menuBtn');
+  const closeNav = ()=>{ sb.classList.remove('open'); bd.classList.remove('show'); };
+  mb.addEventListener('click', ()=>{ sb.classList.toggle('open'); bd.classList.toggle('show'); });
+  bd.addEventListener('click', closeNav);
+  sb.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click', closeNav));
+
+  // sidebar: scroll-spy for active sub-link
+  const subLinks = [...sb.querySelectorAll('.nav-sub a')];
+  const map = {};
+  subLinks.forEach(a=>{ map[a.getAttribute('href').slice(1)] = a; });
+  const spy = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        subLinks.forEach(x=>x.classList.remove('cur'));
+        if(map[e.target.id]) map[e.target.id].classList.add('cur');
+      }
+    });
+  }, {rootMargin:'-20% 0px -70% 0px'});
+  document.querySelectorAll('section[id]').forEach(s=>spy.observe(s));
+</script>
+</body>
+</html>
