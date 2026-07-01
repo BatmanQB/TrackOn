@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wireframe — Журнал записів · завантаження</title>
+<style>
+  /* ===== Тема + сайдбар — той самий стиль, що в research.html ===== */
+  :root{
+    --bg:#fafafa; --surface:#fff; --text:#16181d; --muted:#6b7280; --border:#e6e7ea;
+    --accent:#ff5a3c; --accent-soft:#ffece7; --shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0f1115; --surface:#171a21; --text:#e8eaee; --muted:#9aa1ad; --border:#262b34;
+      --accent:#ff6b4d; --accent-soft:#2a1a16; --shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3); }
+  }
+  html[data-theme="light"]{ --bg:#fafafa;--surface:#fff;--text:#16181d;--muted:#6b7280;--border:#e6e7ea;--accent:#ff5a3c;--accent-soft:#ffece7;--shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04);}
+  html[data-theme="dark"]{ --bg:#0f1115;--surface:#171a21;--text:#e8eaee;--muted:#9aa1ad;--border:#262b34;--accent:#ff6b4d;--accent-soft:#2a1a16;--shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+  a{color:var(--accent);}
+  :root{--sidebar-w:264px;}
+  .sidebar{position:fixed;left:0;top:0;width:var(--sidebar-w);height:100vh;overflow-y:auto;
+    background:var(--surface);border-right:1px solid var(--border);padding:22px 14px;z-index:40;
+    transform:translateX(-100%);transition:transform .22s ease;}
+  .sidebar.open{transform:translateX(0);box-shadow:var(--shadow);}
+  .side-brand{font-weight:700;font-size:14px;letter-spacing:.02em;padding:0 8px 14px;color:var(--text);}
+  .nav-label{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin:18px 8px 8px;}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;color:var(--text);text-decoration:none;font-weight:600;font-size:15px;}
+  .nav-item .ic{font-size:16px;width:20px;text-align:center;}
+  .nav-item:hover{background:var(--accent-soft);text-decoration:none;}
+  .nav-item.active{background:var(--accent-soft);color:var(--accent);border:1px solid var(--border);}
+  .nav-sub{display:flex;flex-direction:column;border-left:1px solid var(--border);margin:4px 0 8px 22px;padding-left:6px;}
+  .nav-sub a{display:flex;gap:10px;padding:6px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:13px;}
+  .nav-sub a:hover{background:var(--accent-soft);color:var(--text);text-decoration:none;}
+  .nav-sub a.cur{color:var(--accent);background:var(--accent-soft);}
+  .nav-sub .sec{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin:10px 12px 2px;}
+  .nav-sub .scr{font-size:13px;font-weight:600;color:var(--text);margin:6px 12px 2px;}
+  .nav-sub a.st{padding-left:20px;}
+  .nav-item.soon{color:var(--muted);cursor:default;} .nav-item.soon:hover{background:none;}
+  .soon-badge{margin-left:auto;font-size:10px;font-weight:700;letter-spacing:.05em;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:2px 9px;}
+  .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:30;opacity:0;pointer-events:none;transition:opacity .22s;}
+  .backdrop.show{opacity:1;pointer-events:auto;}
+  .menuBtn{position:fixed;top:16px;left:16px;z-index:50;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer;box-shadow:var(--shadow);}
+  .toggle{position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer;box-shadow:var(--shadow);z-index:50;}
+  @media(min-width:1000px){
+    .sidebar{transform:none;box-shadow:none;}
+    body{padding-left:var(--sidebar-w);}
+    .menuBtn{display:none;}
+    .backdrop{display:none;}
+  }
+
+  /* ===== Макет екрана — low-fi, лише сірі відтінки (ізольовано в .wf-canvas) ===== */
+  .wf-canvas{background:#ededed;color:#222;min-height:100vh;padding-bottom:24px;
+    font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .wf-canvas header,.wf-canvas main,.wf-canvas footer{max-width:760px;margin:0 auto;padding:0 14px}
+  .wf-canvas .wf-meta{background:#dcdcdc;border-bottom:2px solid #999;padding:10px 14px;font-size:13px;color:#333}
+  .wf-canvas .wf-meta b{color:#000}
+  .wf-canvas .ann{font-size:11px;color:#5f5f5f;background:#e6e6e6;border:1px dashed #a8a8a8;padding:3px 7px;margin:6px auto;display:block;max-width:760px}
+  .wf-canvas header{background:#fff;border:1px solid #ccc;padding:12px 14px;margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .wf-canvas h1{font-size:18px;margin:0}
+  .wf-canvas h2{font-size:15px;margin:0 0 2px}
+  .wf-canvas h3{font-size:14px;margin:0}
+  .wf-canvas [role="status"]{display:flex;align-items:center;gap:10px;border:1px solid #bbb;background:#f4f4f4;padding:6px 10px}
+  .wf-canvas nav a{display:inline-block;padding:6px 12px;border:1px solid #bbb;background:#f6f6f6;color:#222;text-decoration:none;margin:0 6px 0 0}
+  .wf-canvas nav a[aria-current="page"]{background:#cfcfcf;border-color:#7d7d7d}
+  .wf-canvas section{background:#fff;border:1px solid #ccc;padding:12px 14px;margin:12px 0}
+  .wf-canvas ul{list-style:none;margin:0;padding:0}
+  .wf-canvas li{margin:8px 0}
+  .wf-canvas article{border:1px solid #ccc;background:#fafafa;padding:10px 12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .wf-canvas .grow{flex:1;min-width:160px}
+  .wf-canvas .swatch{min-width:52px;height:34px;background:#d2d2d2;border:1px dashed #999;font-size:10px;color:#666;display:flex;align-items:center;justify-content:center}
+  .wf-canvas .muted{color:#666;font-size:13px;margin:2px 0}
+  .wf-canvas button{font:inherit;padding:6px 12px;border:1px solid #888;background:#e8e8e8;color:#222;cursor:pointer}
+  .wf-canvas button.primary{background:#cfcfcf;border-color:#6f6f6f}
+  .wf-canvas footer{background:#fff;border:1px solid #ccc;padding:10px 14px;margin-top:14px}
+  .wf-canvas footer nav{display:flex;gap:6px}
+  /* перемикач станів цього екрана — зверху сторінки */
+  .wf-canvas .wf-states{background:#d6d6d6;border-bottom:1px solid #999;padding:8px 14px;font-size:13px;color:#333}
+  .wf-canvas .wf-states b{color:#000;margin-right:4px}
+  .wf-canvas .wf-states a{display:inline;background:none;border:none;padding:0;color:#222;margin:0 4px;text-decoration:underline}
+  .wf-canvas .wf-states a.cur{font-weight:bold;background:#bdbdbd;border:1px solid #7d7d7d;padding:1px 6px;text-decoration:none}
+  /* порожній / помилка / скелети завантаження */
+  .wf-canvas .empty-box,.wf-canvas .error-box{border:1px dashed #999;background:#f0f0f0;padding:20px 16px;text-align:center;color:#333}
+  .wf-canvas .skel{background:#e2e2e2;border:1px solid #cfcfcf;height:56px;margin:8px 0}
+  .wf-canvas .skel-sm{background:#e2e2e2;border:1px solid #d5d5d5;height:12px;margin:6px 0;max-width:240px}
+  /* форм-контроли (сірі) */
+  .wf-canvas label{display:block;font-size:13px;color:#333;margin:0 0 3px;font-weight:bold}
+  .wf-canvas input,.wf-canvas select,.wf-canvas textarea{font:inherit;padding:6px 8px;border:1px solid #999;background:#fff;color:#222;width:100%;max-width:360px}
+  .wf-canvas textarea{min-height:60px}
+  .wf-canvas input:disabled,.wf-canvas select:disabled,.wf-canvas textarea:disabled,.wf-canvas button:disabled{background:#e0e0e0;color:#777;border-color:#bbb;cursor:default}
+  .wf-canvas form p{margin:12px 0}
+  .wf-canvas .field-note{font-size:12px;color:#666;display:block;margin-top:3px}
+  .wf-canvas .err{border:1px solid #777;background:#eaeaea;color:#222;padding:8px 10px;margin:8px 0}
+  .wf-canvas .swatch-row{display:flex;gap:6px}
+  .wf-canvas .swatch.sel{border-style:solid;border-color:#555;border-width:2px}
+  .wf-canvas a{color:#222}
+  .wf-canvas a.btn{display:inline-block;font:inherit;padding:6px 12px;border:1px solid #888;background:#e8e8e8;color:#222;text-decoration:none;cursor:pointer}
+  .wf-canvas a.btn.primary{background:#cfcfcf;border-color:#6f6f6f}
+</style>
+</head>
+<body>
+<button class="menuBtn" id="menuBtn">☰ Меню</button>
+<button class="toggle" id="themeBtn">◐ Тема</button>
+<div class="backdrop" id="backdrop"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="side-brand">TrackOn</div>
+
+  <div class="nav-label">Сторінки</div>
+  <a class="nav-item" href="../research.html"><span class="ic">📄</span> Дослідження</a>
+  <a class="nav-item" href="../jtbd.html"><span class="ic">🧭</span> JTBD</a>
+  <a class="nav-item" href="../personas.html"><span class="ic">👥</span> Персони</a>
+  <a class="nav-item" href="../sitemap.html"><span class="ic">🗺️</span> Карта сайту</a>
+  <a class="nav-item" href="../ia.html"><span class="ic">🗂️</span> Інформаційна архітектура</a>
+
+  <div class="nav-label">Вайрфрейми</div>
+  <a class="nav-item active" href="tracker.html"><span class="ic">🖼️</span> Вайрфрейми</a>
+  <nav class="nav-sub">
+    <span class="sec">① Затрекати час</span>
+    <span class="scr">Лаунчпад трекінгу</span>
+    <a class="st" href="tracker.html">Успіх</a>
+    <a class="st" href="tracker-empty.html">Порожній</a>
+    <a class="st" href="tracker-error.html">Помилка</a>
+    <a class="st" href="tracker-loading.html">Завантаження</a>
+    <span class="scr">Журнал записів</span>
+    <a class="st" href="journal.html">Успіх</a>
+    <a class="st" href="journal-empty.html">Порожній</a>
+    <a class="st cur" href="journal-loading.html">Завантаження</a>
+    <span class="scr">Запис — деталь / ручний</span>
+    <a class="st" href="entry.html">Успіх</a>
+    <a class="st" href="entry-error.html">Помилка</a>
+    <a class="st" href="entry-loading.html">Завантаження</a>
+    <span class="sec">② Розкласти по клієнтах</span>
+    <span class="scr">Форма проєкту</span>
+    <a class="st" href="project-form.html">Успіх</a>
+    <a class="st" href="project-form-error.html">Помилка</a>
+    <a class="st" href="project-form-loading.html">Завантаження</a>
+    <span class="scr">Клієнт — вибір / створення</span>
+    <a class="st" href="client.html">Успіх</a>
+    <a class="st" href="client-empty.html">Порожній</a>
+    <a class="st" href="client-error.html">Помилка</a>
+    <a class="st" href="client-loading.html">Завантаження</a>
+    <span class="sec">③ Перетворити час на оплату</span>
+    <span class="scr">Список інвойсів</span>
+    <a class="st" href="invoices.html">Успіх</a>
+    <a class="st" href="invoices-empty.html">Порожній</a>
+    <a class="st" href="invoices-loading.html">Завантаження</a>
+    <span class="scr">Новий інвойс (потік)</span>
+    <a class="st" href="invoice-new.html">Успіх</a>
+    <a class="st" href="invoice-new-empty.html">Порожній</a>
+    <a class="st" href="invoice-new-error.html">Помилка</a>
+    <a class="st" href="invoice-new-loading.html">Завантаження</a>
+    <span class="scr">Деталь інвойсу</span>
+    <a class="st" href="invoice.html">Успіх</a>
+    <a class="st" href="invoice-error.html">Помилка</a>
+    <a class="st" href="invoice-loading.html">Завантаження</a>
+    <span class="sec">④ Зрозуміти, куди пішов час</span>
+    <span class="scr">Звіти</span>
+    <a class="st" href="reports.html">Успіх</a>
+    <a class="st" href="reports-empty.html">Порожній</a>
+    <a class="st" href="reports-loading.html">Завантаження</a>
+    <span class="scr">Записи зрізу (drill-down)</span>
+    <a class="st" href="report-slice.html">Успіх</a>
+    <a class="st" href="report-slice-empty.html">Порожній</a>
+    <span class="sec">⑤ Налаштування</span>
+    <span class="scr">Профіль виконавця</span>
+    <a class="st" href="settings.html">Успіх</a>
+    <a class="st" href="settings-loading.html">Завантаження</a>
+  </nav>
+
+  <div class="nav-label">Скоро</div>
+  <span class="nav-item soon"><span class="ic">🎨</span> Дизайн-система <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🧩</span> Компоненти <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🚀</span> Хендофф <span class="soon-badge">SOON</span></span>
+</aside>
+
+<div class="wf-canvas">
+
+  <nav class="wf-states" aria-label="Стани цього екрана">
+    <b>Стани екрана:</b>
+    <a href="journal.html">Успіх</a>
+    <a href="journal-empty.html">Порожній</a>
+    <a class="cur" href="journal-loading.html">Завантаження</a>
+  </nav>
+
+  <div class="wf-meta">
+    <b>WIREFRAME · Журнал записів</b> (вкладка Трекера) · стан: <b>завантаження (скелети)</b><br>
+    Job: <b>R2 · E1</b> — «відновити час, який забув зафіксувати». Flow: flows.md · R2
+    (Трекер → Журнал записів — читання записів за період). Скелети на місці списку, поки читаються дані.
+  </div>
+
+  <!-- ЗОНА: шапка (шелл) -->
+  <header>
+    <h1>TrackOn</h1>
+    <div role="status"><span>Немає активного запису</span></div>
+  </header>
+  <p class="ann">Зона: шапка + глобальний індикатор таймера. У журналі запис не йде.</p>
+
+  <main>
+
+    <!-- ЗОНА: вкладки Трекера -->
+    <nav aria-label="Вкладки трекера">
+      <a href="tracker.html">Проєкти</a>
+      <a href="journal.html" aria-current="page">Журнал записів</a>
+    </nav>
+    <p class="ann">Зона: вкладки Трекера (Проєкти → Лаунчпад / Журнал — R2). Головна дія: перемкнути перегляд.</p>
+
+    <!-- ЗОНА: фільтр періоду -->
+    <section aria-label="Період журналу">
+      <h2>Період</h2>
+      <p class="ann">Зона: фільтр періоду. Головна дія: перемкнути Тиждень / Місяць / Діапазон (без переходу).</p>
+      <nav aria-label="Фільтр періоду">
+        <a href="journal-loading.html" aria-current="page">Тиждень</a>
+        <a href="journal-loading.html">Місяць</a>
+        <a href="journal-loading.html">Діапазон</a>
+      </nav>
+      <div class="skel-sm" aria-hidden="true"></div>
+    </section>
+
+    <!-- ЗОНА: список записів за період — скелети -->
+    <section aria-label="Записи за період">
+      <h2>Записи</h2>
+      <p class="ann">Зона: список записів. У цьому стані — сірі скелети на місці рядків, поки читаються дані за період.</p>
+      <div role="status">
+        <span>Завантаження записів…</span>
+      </div>
+      <div class="skel" aria-hidden="true"></div>
+      <div class="skel" aria-hidden="true"></div>
+      <div class="skel" aria-hidden="true"></div>
+      <p class="ann">Коли завантажиться → <a href="journal.html">Журнал (успіх)</a>. Вихід зі стану завантаження.</p>
+    </section>
+
+  </main>
+
+  <!-- ЗОНА: глобальна навігація -->
+  <footer>
+    <nav aria-label="Глобальна навігація">
+      <a href="tracker.html">Трекер</a>
+      <a href="reports.html">Звіти</a>
+      <a href="invoices.html">Інвойси</a>
+    </nav>
+    <p class="ann">Зона: глобальна навігація (3 входи). Головна дія: перехід Трекер / Звіти / Інвойси.</p>
+  </footer>
+
+</div>
+
+<script>
+  const btn = document.getElementById('themeBtn');
+  const root = document.documentElement;
+  const saved = localStorage.getItem('trackon-theme');
+  if(saved) root.setAttribute('data-theme', saved);
+  btn.addEventListener('click', ()=>{
+    const cur = root.getAttribute('data-theme')
+      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('trackon-theme', next);
+  });
+  const sb = document.getElementById('sidebar');
+  const bd = document.getElementById('backdrop');
+  const mb = document.getElementById('menuBtn');
+  const closeNav = ()=>{ sb.classList.remove('open'); bd.classList.remove('show'); };
+  mb.addEventListener('click', ()=>{ sb.classList.toggle('open'); bd.classList.toggle('show'); });
+  bd.addEventListener('click', closeNav);
+</script>
+</body>
+</html>
