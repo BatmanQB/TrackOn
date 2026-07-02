@@ -58,22 +58,22 @@
   .wf-canvas header,.wf-canvas main,.wf-canvas footer{max-width:760px;margin:0 auto;padding:0 14px}
   .wf-canvas .wf-meta{background:#dcdcdc;border-bottom:2px solid #999;padding:10px 14px;font-size:13px;color:#333}
   .wf-canvas .wf-meta b{color:#000}
-  .wf-canvas .ann{font-size:11px;color:#5f5f5f;background:#e6e6e6;border:1px dashed #a8a8a8;padding:3px 7px;margin:6px auto;display:block;max-width:760px}
-  .wf-canvas header{background:#fff;border:1px solid #ccc;padding:12px 14px;margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .wf-canvas .ann{font-size:11px;color:#5f5f5f;background:#e6e6e6;border:1px dashed #a8a8a8;padding:3px 7px;margin:6px auto;display:block;max-width:760px;border-radius:6px}
+  .wf-canvas header{background:#fff;border:1px solid #ccc;border-radius:12px;padding:12px 14px;margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
   .wf-canvas h1{font-size:18px;margin:0}
   .wf-canvas h2{font-size:15px;margin:0 0 2px}
   .wf-canvas h3{font-size:14px;margin:0}
-  .wf-canvas [role="status"]{display:flex;align-items:center;gap:10px;border:1px solid #bbb;background:#f4f4f4;padding:6px 10px}
-  .wf-canvas nav a{display:inline-block;padding:6px 12px;border:1px solid #bbb;background:#f6f6f6;color:#222;text-decoration:none;margin:0 6px 0 0}
+  .wf-canvas [role="status"]{display:flex;align-items:center;gap:10px;border:1px solid #bbb;background:#f4f4f4;padding:6px 10px;border-radius:10px}
+  .wf-canvas nav a{display:inline-block;padding:6px 12px;border:1px solid #bbb;background:#f6f6f6;color:#222;text-decoration:none;margin:0 6px 0 0;border-radius:8px}
   .wf-canvas nav a[aria-current="page"]{background:#cfcfcf;border-color:#7d7d7d}
-  .wf-canvas section{background:#fff;border:1px solid #ccc;padding:12px 14px;margin:12px 0}
+  .wf-canvas section{background:#fff;border:1px solid #ccc;padding:12px 14px;margin:12px 0;border-radius:12px}
   .wf-canvas ul{list-style:none;margin:0;padding:0}
   .wf-canvas li{margin:8px 0}
-  .wf-canvas article{border:1px solid #ccc;background:#fafafa;padding:10px 12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .wf-canvas article{border:1px solid #ccc;background:#fafafa;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
   .wf-canvas .grow{flex:1;min-width:160px}
-  .wf-canvas .swatch{min-width:52px;height:34px;background:#d2d2d2;border:1px dashed #999;font-size:10px;color:#666;display:flex;align-items:center;justify-content:center}
+  .wf-canvas .swatch{min-width:52px;height:34px;background:#d2d2d2;border:1px dashed #999;border-radius:8px;font-size:10px;color:#666;display:flex;align-items:center;justify-content:center}
   .wf-canvas .muted{color:#666;font-size:13px;margin:2px 0}
-  .wf-canvas button{font:inherit;padding:6px 12px;border:1px solid #888;background:#e8e8e8;color:#222;cursor:pointer}
+  .wf-canvas button{font:inherit;padding:6px 12px;border:1px solid #888;background:#e8e8e8;color:#222;cursor:pointer;border-radius:8px}
   .wf-canvas button.primary{background:#cfcfcf;border-color:#6f6f6f}
   .wf-canvas footer{background:#fff;border:1px solid #ccc;padding:10px 14px;margin-top:14px}
   .wf-canvas footer nav{display:flex;gap:6px}
@@ -81,24 +81,35 @@
   .wf-canvas .wf-states{background:#d6d6d6;border-bottom:1px solid #999;padding:8px 14px;font-size:13px;color:#333}
   .wf-canvas .wf-states b{color:#000;margin-right:4px}
   .wf-canvas .wf-states a{display:inline;background:none;border:none;padding:0;color:#222;margin:0 4px;text-decoration:underline}
-  .wf-canvas .wf-states a.cur{font-weight:bold;background:#bdbdbd;border:1px solid #7d7d7d;padding:1px 6px;text-decoration:none}
+  .wf-canvas .wf-states a.cur{font-weight:bold;background:#bdbdbd;border:1px solid #7d7d7d;padding:1px 6px;text-decoration:none;border-radius:6px}
   /* порожній / помилка / скелети завантаження */
-  .wf-canvas .empty-box,.wf-canvas .error-box{border:1px dashed #999;background:#f0f0f0;padding:20px 16px;text-align:center;color:#333}
-  .wf-canvas .skel{background:#e2e2e2;border:1px solid #cfcfcf;height:56px;margin:8px 0}
-  .wf-canvas .skel-sm{background:#e2e2e2;border:1px solid #d5d5d5;height:12px;margin:6px 0;max-width:240px}
+  .wf-canvas .empty-box,.wf-canvas .error-box{border:1px dashed #999;background:#f0f0f0;padding:20px 16px;text-align:center;color:#333;border-radius:12px}
+  .wf-canvas .skel{background:#e2e2e2;border:1px solid #cfcfcf;height:56px;margin:8px 0;border-radius:8px}
+  .wf-canvas .skel-sm{background:#e2e2e2;border:1px solid #d5d5d5;height:12px;margin:6px 0;max-width:240px;border-radius:6px}
   /* форм-контроли (сірі) */
   .wf-canvas label{display:block;font-size:13px;color:#333;margin:0 0 3px;font-weight:bold}
-  .wf-canvas input,.wf-canvas select,.wf-canvas textarea{font:inherit;padding:6px 8px;border:1px solid #999;background:#fff;color:#222;width:100%;max-width:360px}
+  .wf-canvas input,.wf-canvas select,.wf-canvas textarea{font:inherit;padding:6px 8px;border:1px solid #999;background:#fff;color:#222;width:100%;max-width:360px;border-radius:8px}
   .wf-canvas textarea{min-height:60px}
   .wf-canvas input:disabled,.wf-canvas select:disabled,.wf-canvas textarea:disabled,.wf-canvas button:disabled{background:#e0e0e0;color:#777;border-color:#bbb;cursor:default}
   .wf-canvas form p{margin:12px 0}
   .wf-canvas .field-note{font-size:12px;color:#666;display:block;margin-top:3px}
-  .wf-canvas .err{border:1px solid #777;background:#eaeaea;color:#222;padding:8px 10px;margin:8px 0}
+  .wf-canvas .err{border:1px solid #777;background:#eaeaea;color:#222;padding:8px 10px;margin:8px 0;border-radius:8px}
   .wf-canvas .swatch-row{display:flex;gap:6px}
   .wf-canvas .swatch.sel{border-style:solid;border-color:#555;border-width:2px}
   .wf-canvas a{color:#222}
-  .wf-canvas a.btn{display:inline-block;font:inherit;padding:6px 12px;border:1px solid #888;background:#e8e8e8;color:#222;text-decoration:none;cursor:pointer}
+  .wf-canvas a.btn{display:inline-block;font:inherit;padding:6px 12px;border:1px solid #888;background:#e8e8e8;color:#222;text-decoration:none;cursor:pointer;border-radius:8px}
   .wf-canvas a.btn.primary{background:#cfcfcf;border-color:#6f6f6f}
+  .wf-canvas .app-shell{display:flex;gap:14px;max-width:900px;margin:0 auto;padding:0 14px;align-items:flex-start}
+  .wf-canvas .app-nav{flex:0 0 150px;background:#fff;border:1px solid #ccc;border-radius:12px;padding:10px;margin-top:14px;display:flex;flex-direction:column;gap:8px}
+  .wf-canvas .app-nav a{display:block;padding:9px 12px;border:1px solid #bbb;background:#f6f6f6;color:#222;text-decoration:none;border-radius:8px;font-weight:600}
+  .wf-canvas .app-main{flex:1;min-width:0}
+  @media (max-width:640px){
+    .wf-canvas .app-shell{flex-direction:column;gap:0}
+    .wf-canvas .app-main{padding-bottom:66px}
+    .wf-canvas .app-nav{position:fixed;left:0;right:0;bottom:0;top:auto;margin:0;flex-direction:row;justify-content:space-around;gap:6px;border:none;border-top:1px solid #ccc;border-radius:0;background:#fff;padding:6px 8px;z-index:20}
+    .wf-canvas .app-nav a{flex:1;text-align:center;border:none;background:none;padding:8px 4px}
+    .wf-canvas header{flex-direction:column;align-items:flex-start}
+  }
 </style>
 </head>
 <body>
@@ -186,33 +197,25 @@
     <a href="invoice-new-error.html">Помилка</a>
     <a class="cur" href="invoice-new-loading.html">Завантаження</a>
   </nav>
+    <div class="app-shell">
+    <nav class="app-nav" aria-label="Глобальна навігація">
+      <a href="tracker.html">Трекер</a>
+      <a href="reports.html">Звіти</a>
+      <a href="invoices.html">Інвойси</a>
+    </nav>
+    <div class="app-main">
 
-  <div class="wf-meta">
-    <b>WIREFRAME · Новий інвойс (потік)</b> · стан: <b>завантаження (генерація PDF)</b><br>
-    Job: <b>R4 · E1 · S1</b> — «час → оплата без ручного зведення» (flows.md · R4: Q3 «Підтвердити
-    генерацію?» → так → Loading). Поля заблоковані, статус «Генерація PDF…». Коли згенерується
-    → <a href="invoice.html">Деталь інвойсу</a>.
-  </div>
-
-  <!-- ЗОНА: шапка (шелл) + глобальний індикатор таймера -->
   <header>
     <h1>TrackOn</h1>
     <div role="status"><span>Немає активного запису</span></div>
   </header>
-  <p class="ann">Зона: шапка + глобальний індикатор таймера. Під час білінгу запис не йде.</p>
 
   <main>
-
-    <!-- ЗОНА: потік нового інвойсу одним екраном-кроками -->
     <form aria-label="Новий інвойс">
       <section aria-label="Новий інвойс">
         <h2>Новий інвойс</h2>
-        <p class="ann">Зона: потік «Виставити рахунок». Під час генерації PDF поля заблоковані (disabled).</p>
 
         <div role="status"><span>⏳ Генерація PDF…</span></div>
-        <p class="ann">Зона: статус генерації. Коли PDF готовий → <a href="invoice.html">Деталь інвойсу</a> (flows.md · R4: Q4 → так).</p>
-
-        <!-- Крок 1: клієнт -->
         <p>
           <label for="i-client">1. Клієнт</label>
           <select id="i-client" disabled>
@@ -221,8 +224,6 @@
             <option>Іван Петренко</option>
           </select>
         </p>
-
-        <!-- Крок 2: період -->
         <p>
           <label for="i-period">2. Період</label>
           <select id="i-period" disabled>
@@ -232,11 +233,8 @@
           </select>
         </p>
       </section>
-
-      <!-- Крок 3: записи (автодобір білабельних) -->
       <section aria-label="Записи інвойсу">
         <h3>3. Записи (автодобір білабельних)</h3>
-        <p class="ann">Зона: автодібрані білабельні записи клієнта за період (E1 · фінальна перевірка I#3). Дія: чекбоксом вимкнути зайвий запис — підсумок перерахується.</p>
         <ul>
           <li>
             <article>
@@ -267,11 +265,8 @@
           </li>
         </ul>
       </section>
-
-      <!-- Крок 4: підсумок -->
       <section aria-label="Підсумок інвойсу">
         <h3>4. Підсумок</h3>
-        <p class="ann">Зона: підсумок «години × ставка = сума» по валютах (без конвертації). Дія: огляд перед генерацією.</p>
         <ul>
           <li><article><div class="grow">Лендинг для Acme — 12 год × $55/год</div><b>$660</b></article></li>
           <li><article><div class="grow">Редизайн лендингу — правки — 4 год × $55/год</div><b>$220</b></article></li>
@@ -284,21 +279,13 @@
           <button class="primary" disabled>Генерація PDF…</button>
           <a class="btn" href="invoices.html">Скасувати</a>
         </p>
-        <p class="ann">Статус генерації. Успіх → <a href="invoice.html">Деталь інвойсу</a> · помилка → Помилка PDF. <b>Скасувати</b> → Список інвойсів.</p>
       </section>
     </form>
 
   </main>
 
-  <!-- ЗОНА: глобальна навігація -->
-  <footer>
-    <nav aria-label="Глобальна навігація">
-      <a href="tracker.html">Трекер</a>
-      <a href="reports.html">Звіти</a>
-      <a href="invoices.html">Інвойси</a>
-    </nav>
-    <p class="ann">Зона: глобальна навігація (3 входи). Головна дія: перехід Трекер / Звіти / Інвойси.</p>
-  </footer>
+    </div>
+  </div>
 
 </div>
 
