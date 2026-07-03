@@ -113,6 +113,23 @@
   .wf-canvas main{background:#fff;border:1px solid #ccc;border-radius:12px;padding:14px;margin-top:12px}
   .wf-canvas main section{background:none;border:none;border-radius:0;padding:0;margin:0}
   .wf-canvas main section + section{border-top:1px solid #e6e6e6;margin-top:14px;padding-top:14px}
+  /* дропдаун-поповер періоду + календар */
+  .wf-canvas .period{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:12px}
+  .wf-canvas .step{border:1px solid #888;background:#e8e8e8;border-radius:8px;padding:4px 11px;cursor:pointer;font:inherit;line-height:1}
+  .wf-canvas details.dd{position:relative;display:inline-block}
+  .wf-canvas details.dd>summary{list-style:none;cursor:pointer;border:1px solid #888;background:#fff;border-radius:8px;padding:6px 12px;font-weight:bold;color:#222}
+  .wf-canvas details.dd>summary::-webkit-details-marker{display:none}
+  .wf-canvas .dd-panel{position:absolute;top:calc(100% + 6px);left:0;z-index:10;min-width:200px;max-height:220px;overflow:auto;background:#fff;border:1px solid #999;border-radius:10px;padding:6px}
+  .wf-canvas .dd-panel a,.wf-canvas .dd-panel button{display:block;width:100%;text-align:left;border:none;background:none;padding:7px 10px;border-radius:8px;color:#222;text-decoration:none;cursor:pointer;font:inherit}
+  .wf-canvas .dd-panel a:hover,.wf-canvas .dd-panel button:hover{background:#eee}
+  .wf-canvas .dd-panel .cur{background:#cfcfcf;font-weight:bold}
+  .wf-canvas .cal-pop{position:absolute;top:calc(100% + 6px);left:0;z-index:10;background:#fff;border:1px solid #999;border-radius:10px;padding:10px;min-width:250px}
+  .wf-canvas .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:6px}
+  .wf-canvas .cal span,.wf-canvas .cal button{text-align:center;padding:6px 0;font:inherit;font-size:12px;border:none;background:none;border-radius:6px;color:#222;cursor:pointer}
+  .wf-canvas .cal .dow{color:#888;cursor:default;font-weight:bold}
+  .wf-canvas .cal button:hover{background:#eee}
+  .wf-canvas .cal .in{background:#e6e6e6}
+  .wf-canvas .cal .end{background:#cfcfcf;font-weight:bold}
 </style>
 </head>
 <body>

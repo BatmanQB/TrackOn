@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wireframe — Головний / Лаунчпад трекінгу · помилка</title>
+<title>Wireframe — Звіти · Місяць</title>
 <style>
   /* ===== Тема + сайдбар — той самий стиль, що в research.html ===== */
   :root{
@@ -154,7 +154,7 @@
     <span class="scr">Лаунчпад трекінгу</span>
     <a class="st" href="tracker.html">Успіх</a>
     <a class="st" href="tracker-empty.html">Порожній</a>
-    <a class="st cur" href="tracker-error.html">Помилка</a>
+    <a class="st" href="tracker-error.html">Помилка</a>
     <a class="st" href="tracker-loading.html">Завантаження</a>
     <span class="scr">Журнал записів</span>
     <a class="st" href="journal.html">Успіх</a>
@@ -190,7 +190,7 @@
     <a class="st" href="invoice-loading.html">Завантаження</a>
     <span class="sec">④ Зрозуміти, куди пішов час</span>
     <span class="scr">Звіти</span>
-    <a class="st" href="reports.html">Успіх</a>
+    <a class="st cur" href="reports.html">Успіх</a>
     <a class="st" href="reports-empty.html">Порожній</a>
     <a class="st" href="reports-loading.html">Завантаження</a>
     <span class="scr">Записи зрізу (drill-down)</span>
@@ -212,10 +212,9 @@
 
   <nav class="wf-states" aria-label="Стани цього екрана">
     <b>Стани екрана:</b>
-    <a href="tracker.html">Успіх</a>
-    <a href="tracker-empty.html">Порожній</a>
-    <a class="cur" href="tracker-error.html">Помилка</a>
-    <a href="tracker-loading.html">Завантаження</a>
+    <a class="cur" href="reports.html">Успіх</a>
+    <a href="reports-empty.html">Порожній</a>
+    <a href="reports-loading.html">Завантаження</a>
   </nav>
     <div class="app-shell">
     <nav class="app-nav" aria-label="Глобальна навігація">
@@ -228,26 +227,83 @@
   <header>
     <h1>TrackOn</h1>
     <div role="status">
-      <span>Активний запис недоступний</span>
+      <span>Активний запис: <b>Лендинг для Acme</b> · 00:42:10</span>
+      <button>Стоп</button>
     </div>
   </header>
 
   <main>
-    <nav aria-label="Вкладки трекера">
-      <a href="#" aria-current="page">Проєкти</a>
-      <a href="journal.html">Журнал записів</a>
-    </nav>
-    <section aria-label="Зведення за сьогодні">
-      <h2>Сьогодні</h2>
-      <p class="muted">Дані недоступні — не вдалося завантажити.</p>
-    </section>
-    <section aria-label="Проєкти">
-      <h2>Проєкти</h2>
-      <div class="error-box">
-        <h3>Не вдалося завантажити дані</h3>
-        <p class="muted">Перевірте доступ до локального сховища й спробуйте ще раз.</p>
-        <a class="btn primary" href="tracker-loading.html">Спробувати ще</a>
+    <section aria-label="Контроли звіту">
+      <h2>Звіти</h2>
+      <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-start">
+        <div role="group" aria-label="Діапазон періоду" style="display:inline-flex;gap:6px;flex-wrap:wrap">
+          <a class="btn" href="reports.html">Тиждень</a>
+          <a class="btn primary" href="reports-month.html">Місяць</a>
+          <a class="btn" href="reports-range.html">Діапазон</a>
+        </div>
+        <div role="group" aria-label="Розріз" style="display:inline-flex;gap:6px;flex-wrap:wrap">
+          <button class="primary">По проєкту</button>
+          <button>По клієнту</button>
+        </div>
       </div>
+      <div class="period">
+        <span class="muted">Період:</span>
+        <button class="step" aria-label="Попередній місяць">‹</button>
+        <details class="dd">
+          <summary>Червень 2026 ▾</summary>
+          <div class="dd-panel" role="listbox" aria-label="Оберіть місяць">
+            <a href="#">Березень 2026</a>
+            <a href="#">Квітень 2026</a>
+            <a href="#">Травень 2026</a>
+            <a href="#" class="cur">Червень 2026 (поточний)</a>
+            <a href="#">Липень 2026</a>
+            <a href="#">Серпень 2026</a>
+          </div>
+        </details>
+        <button class="step" aria-label="Наступний місяць">›</button>
+        <span class="muted">поточний місяць</span>
+      </div>
+    </section>
+    <section aria-label="Зведення за період">
+      <h2>Зведення</h2>
+      <p>Відстежено: <b>40 год 00 хв</b></p>
+      <p>Зароблено: <b>$2 200</b> · <b>₴6 000</b> <span class="muted">(по валютах, без конвертації)</span></p>
+      <p class="muted">Записів за період: 24 · Проєктів: 3</p>
+    </section>
+    <section aria-label="Розподіл за розрізом">
+      <h2>Розподіл — по проєкту</h2>
+      <ul>
+        <li>
+          <article>
+            <div class="grow">
+              <h3>Лендинг для Acme</h3>
+              <p class="muted">Клієнт: Acme Studio · 22 год 30 хв · $1 240</p>
+              <div class="skel" style="height:20px;max-width:100%"></div>
+            </div>
+            <a class="btn" href="report-slice.html">Показати записи</a>
+          </article>
+        </li>
+        <li>
+          <article>
+            <div class="grow">
+              <h3>Редизайн мобільного застосунку</h3>
+              <p class="muted">Клієнт: GLS Logistics · 11 год 45 хв · $960</p>
+              <div class="skel" style="height:20px;max-width:62%"></div>
+            </div>
+            <a class="btn" href="report-slice.html">Показати записи</a>
+          </article>
+        </li>
+        <li>
+          <article>
+            <div class="grow">
+              <h3>Підтримка сайту</h3>
+              <p class="muted">Клієнт: Іван Петренко · 5 год 45 хв · ₴6 000</p>
+              <div class="skel" style="height:20px;max-width:30%"></div>
+            </div>
+            <a class="btn" href="report-slice.html">Показати записи</a>
+          </article>
+        </li>
+      </ul>
     </section>
 
   </main>
