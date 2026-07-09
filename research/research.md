@@ -44,6 +44,32 @@
    жорсткі ліміти (1 seat / 2 проєкти); Clockify — урізав free у 2026
    ([TallyHo](https://tallyho.app/blog/the-best-time-tracking-apps-for-freelancers-in-2025)).
 
+### 1.4 Мова конкурентів (реальна копія)
+Дослівна копія з головних/фіче-сторінок (web fetch, липень 2026). Потрібна, щоб бачити,
+**де всі пишуть однаково** — там наша відмінність іде через **голос**, а не через фічі.
+Живить [`../voice.md`](../voice.md).
+
+| Продукт | Дослівні рядки (verbatim) | Джерело |
+|---|---|---|
+| **Harvest** | «Turn hours into profit» · «Harvest helps professional **teams** track time, bill clients, optimize team time, and measure performance with confidence.» · CTA «Try Harvest free» · «Time tracking that doesn't feel like work» · «Invoices that get paid faster» · «Manage your team without micromanaging» | [getharvest.com](https://www.getharvest.com/) |
+| **Clockify** | «The most popular time tracker for **teams**» · «Time tracking software used by millions.» · CTA «Start tracking time — it's free!» · «See where time goes and analyze costs.» · «Trusted by 7M+ users in companies worldwide» | [clockify.me](https://clockify.me/) |
+| **Timely** | «Focus on the work that matters the most and **let Timely take care of the time tracking**.» · «automatic AI powered time tracking… drive real-time, data-backed business growth.» · CTA «Start your free trial» · «one click, **done-for-you timesheets**!» · «boost profitability with Timely» | [timely.com/features](https://www.timely.com/features) |
+| **TimeCamp** | «**Improve Project Profitability** with Time Tracking» · «Accurate **AI-powered** time records… help your business scale and comply.» · CTA «Start for free» · «No credit card required» · «Real-time **workforce** visibility» · «**Payroll-ready** time data» | [timecamp.com](https://www.timecamp.com/) |
+| **Paymo** | «Small Businesses. Big Results.» · «…for independent professionals and small **teams** to manage client work, track **billable hours**, send invoices, and stay profitable.» · CTA «Get Started» · «**Boost** team productivity» · «Ensure you get paid accurately and promptly» | [paymoapp.com](https://www.paymoapp.com/) |
+| **Toggl** | «Where **teams** and time tracking data meet» · «…builds custom reports from your team's data to **maximize productivity and revenue**.» · CTA «Start tracking for free» · «100% user adoption in your team» · «**Boost** team productivity, profitability…» | [toggl.com/track](https://toggl.com/track/) |
+
+**Спільні патерни копії (усі 6 пишуть так само):**
+1. **Звертання до «team / business / workforce», не до одинака** — 6/6 (підсилює O2 `research.md:26`).
+2. **Гроші як абстракція «profit / profitability / revenue»**, не конкретна сума — Harvest, TimeCamp, Paymo, Toggl.
+3. **Хайп-дієслова «Boost / maximize / optimize / drive growth / improve»** — Paymo, Toggl, Harvest, Timely, TimeCamp.
+4. **Обіцянка AI-автоматизму «let us take care / done-for-you / AI-powered»** — Timely, TimeCamp (упирається в §2 «що не спрацює»).
+5. **«Free» як гачок воронки** (Try…free / free trial / No credit card) — 6/6, хоча білінг/ставки потім за paywall (див. §5 Q1–Q2).
+6. **Жаргон обліку «billable / timesheet / payroll / utilization»** — Paymo, TimeCamp, Clockify, Timely.
+
+> Кожен патерн — це відкритий простір для нашого голосу: говорити до **однієї людини**, **конкретними
+> сумами**, **без хайпу**, **чесно про ручний ввід**, **без paywall-тривоги**, **людськими словами**.
+> Оформлено як правила у [`../voice.md`](../voice.md).
+
 ---
 
 ## 2. БЕНЧМАРК — вимір «таймшит, що пише себе сам»

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrackOn — Voice</title>
+<style>
+  :root{
+    --bg:#fafafa; --surface:#fff; --text:#16181d; --muted:#6b7280; --border:#e6e7ea;
+    --accent:#ff5a3c; --accent-soft:#ffece7; --shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04);
+    --ok:#16a34a; --warn:#d97706; --q:#7c3aed;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0f1115; --surface:#171a21; --text:#e8eaee; --muted:#9aa1ad; --border:#262b34;
+      --accent:#ff6b4d; --accent-soft:#2a1a16; --shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3); }
+  }
+  html[data-theme="light"]{ --bg:#fafafa;--surface:#fff;--text:#16181d;--muted:#6b7280;--border:#e6e7ea;--accent:#ff5a3c;--accent-soft:#ffece7;--shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04);}
+  html[data-theme="dark"]{ --bg:#0f1115;--surface:#171a21;--text:#e8eaee;--muted:#9aa1ad;--border:#262b34;--accent:#ff6b4d;--accent-soft:#2a1a16;--shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px 80px;}
+  header.hero{padding:56px 0 32px;border-bottom:1px solid var(--border);margin-bottom:24px;}
+  .badge{display:inline-block;background:var(--accent-soft);color:var(--accent);font-weight:600;
+    font-size:13px;padding:4px 12px;border-radius:999px;letter-spacing:.02em;}
+  h1{font-size:40px;line-height:1.1;margin:16px 0 8px;letter-spacing:-.02em;}
+  .sub{color:var(--muted);font-size:18px;max-width:62ch;margin:0;}
+  .meta{color:var(--muted);font-size:13px;margin-top:18px;}
+  h2{font-size:26px;margin:48px 0 6px;letter-spacing:-.01em;}
+  h2 .num{color:var(--accent);font-weight:700;margin-right:10px;}
+  .lead{color:var(--muted);margin:0 0 20px;}
+  h3{font-size:17px;margin:26px 0 10px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;
+    padding:22px 24px;box-shadow:var(--shadow);margin:14px 0;}
+  .grid{display:grid;gap:14px;}
+  @media(min-width:720px){.grid.cols-3{grid-template-columns:repeat(3,1fr)}.grid.cols-2{grid-template-columns:repeat(2,1fr)}}
+  ul.tight{margin:8px 0 0;padding-left:18px;} ul.tight li{margin:5px 0;}
+  .tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);background:var(--surface);margin:14px 0;}
+  table{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px;}
+  th,td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--border);vertical-align:top;}
+  thead th{background:var(--accent-soft);color:var(--text);font-size:12.5px;letter-spacing:.02em;}
+  tbody tr:last-child td{border-bottom:none;}
+  td.name{font-weight:700;white-space:nowrap;}
+  a{color:var(--accent);} a:hover{text-decoration:underline;}
+  .src{font-size:12px;color:var(--muted);}
+  .tag{font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;}
+  .tag.q{background:rgba(217,119,6,.14);color:var(--warn);}
+  .tag.e{background:rgba(124,58,237,.14);color:var(--q);}
+  .tag.code{background:var(--accent-soft);color:var(--accent);}
+  .finding h3{margin-top:0;display:flex;align-items:center;gap:8px;}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:0 0 auto;}
+  .dot.p{background:var(--accent)} .dot.d{background:var(--q)} .dot.o{background:var(--warn)}
+  ol.f{margin:0;padding-left:20px;} ol.f li{margin:8px 0;}
+  .note{background:var(--accent-soft);border-radius:12px;padding:12px 16px;font-size:14px;margin:10px 0;}
+  .toggle{position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);
+    color:var(--text);border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer;box-shadow:var(--shadow);}
+  footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;}
+  code{background:var(--accent-soft);padding:1px 6px;border-radius:6px;font-size:13px;}
+  /* voice-specific utilities (reuse theme tokens) */
+  .rule{font-size:15px;margin:0 0 12px;}
+  .rule b{color:var(--text);}
+  .ex{border-radius:10px;padding:9px 13px;margin:7px 0;font-size:14px;border:1px solid var(--border);}
+  .ex .lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px;}
+  .ex.good{background:var(--accent-soft);border-color:transparent;}
+  .ex.good .lbl{color:var(--accent);}
+  .ex.bad .lbl{color:var(--warn);}
+  .ex.bad{background:transparent;}
+  .why{font-size:13px;color:var(--muted);margin:10px 0 0;}
+  .ba{border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin:10px 0;background:var(--surface);box-shadow:var(--shadow);}
+  .ba .hd{font-weight:600;margin:0 0 8px;display:flex;align-items:center;gap:8px;}
+  .ba .was,.ba .now{font-size:14px;margin:4px 0;padding-left:70px;position:relative;}
+  .ba .was::before,.ba .now::before{position:absolute;left:0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;top:3px;}
+  .ba .was{color:var(--muted);} .ba .was::before{content:"було";color:var(--warn);}
+  .ba .now::before{content:"треба";color:var(--accent);}
+  /* sidebar nav */
+  html{scroll-behavior:smooth;}
+  :root{--sidebar-w:264px;}
+  .sidebar{position:fixed;left:0;top:0;width:var(--sidebar-w);height:100vh;overflow-y:auto;
+    background:var(--surface);border-right:1px solid var(--border);padding:22px 14px;z-index:40;
+    transform:translateX(-100%);transition:transform .22s ease;}
+  .sidebar.open{transform:translateX(0);box-shadow:var(--shadow);}
+  .side-brand{font-weight:700;font-size:14px;letter-spacing:.02em;padding:0 8px 14px;color:var(--text);}
+  .nav-label{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--muted);
+    text-transform:uppercase;margin:18px 8px 8px;}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;
+    color:var(--text);text-decoration:none;font-weight:600;font-size:15px;}
+  .nav-item .ic{font-size:16px;width:20px;text-align:center;}
+  .nav-item:hover{background:var(--accent-soft);text-decoration:none;}
+  .nav-item.active{background:var(--accent-soft);color:var(--accent);border:1px solid var(--border);}
+  .nav-sub{display:flex;flex-direction:column;border-left:1px solid var(--border);
+    margin:4px 0 8px 22px;padding-left:6px;}
+  .nav-sub a{display:flex;gap:10px;padding:7px 12px;border-radius:8px;color:var(--muted);
+    text-decoration:none;font-size:14px;}
+  .nav-sub a .n{min-width:14px;text-align:center;}
+  .nav-sub a:hover{background:var(--accent-soft);color:var(--text);text-decoration:none;}
+  .nav-sub a.cur{color:var(--accent);background:var(--accent-soft);}
+  .nav-sub a.cur .n{color:var(--accent);}
+  .nav-item.soon{color:var(--muted);cursor:default;}
+  .nav-item.soon:hover{background:none;}
+  .soon-badge{margin-left:auto;font-size:10px;font-weight:700;letter-spacing:.05em;color:var(--muted);
+    border:1px solid var(--border);border-radius:999px;padding:2px 9px;}
+  .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:30;opacity:0;pointer-events:none;
+    transition:opacity .22s;}
+  .backdrop.show{opacity:1;pointer-events:auto;}
+  .menuBtn{position:fixed;top:16px;left:16px;z-index:50;background:var(--surface);
+    border:1px solid var(--border);color:var(--text);border-radius:999px;padding:8px 14px;
+    font-size:13px;cursor:pointer;box-shadow:var(--shadow);}
+  section[id]{scroll-margin-top:18px;}
+  @media(min-width:1000px){
+    .sidebar{transform:none;box-shadow:none;}
+    body{padding-left:var(--sidebar-w);}
+    .menuBtn{display:none;}
+    .backdrop{display:none;}
+  }
+</style>
+</head>
+<body>
+<button class="menuBtn" id="menuBtn">☰ Меню</button>
+<button class="toggle" id="themeBtn">◐ Тема</button>
+<div class="backdrop" id="backdrop"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="side-brand">TrackOn</div>
+
+  <a class="nav-item" href="index.html"><span class="ic">🏠</span> Головна</a>
+
+  <div class="nav-label">Сторінки</div>
+  <a class="nav-item" href="research.html"><span class="ic">📄</span> Дослідження</a>
+  <a class="nav-item" href="jtbd.html"><span class="ic">🧭</span> JTBD</a>
+  <a class="nav-item" href="personas.html"><span class="ic">👥</span> Персони</a>
+  <a class="nav-item" href="sitemap.html"><span class="ic">🗺️</span> Карта сайту</a>
+  <a class="nav-item" href="ia.html"><span class="ic">🗂️</span> Інформаційна архітектура</a>
+  <a class="nav-item active" href="voice.html"><span class="ic">🗣️</span> Голос</a>
+  <nav class="nav-sub">
+    <a href="#sec-principles"><span class="n">1</span> Принципи</a>
+    <a href="#sec-oneline"><span class="n">·</span> Одним рядком</a>
+    <a href="#sec-dict"><span class="n">2</span> Словник</a>
+    <a href="#sec-forbidden"><span class="n">3</span> Заборонене</a>
+    <a href="#sec-micro"><span class="n">4</span> Мікрокопі</a>
+  </nav>
+
+  <div class="nav-label">Вайрфрейми</div>
+  <a class="nav-item" href="wireframes/tracker.html"><span class="ic">🖼️</span> Лаунчпад · успіх</a>
+
+  <div class="nav-label">Скоро</div>
+  <span class="nav-item soon"><span class="ic">🎨</span> Дизайн-система <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🧩</span> Компоненти <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🚀</span> Хендофф <span class="soon-badge">SOON</span></span>
+</aside>
+
+<div class="wrap">
+
+  <header class="hero">
+    <span class="badge">TrackOn · Voice</span>
+    <h1>Голос TrackOn — як продукт говорить</h1>
+    <p class="sub">П'ять принципів, словник «одне поняття — одне слово» і список забороненого. Логіка: де всі конкуренти пишуть однаково, там наша відмінність іде через голос, а не фічі.</p>
+    <p class="meta">Виведено з <a href="research/personas.md">personas.md</a> · <a href="research/research.md">research.md</a> (§1.4 «Мова конкурентів») · <a href="research/jtbd.md">jtbd.md</a> · Джерело-істина — <a href="voice.md">voice.md</a> · Розбіжності <span class="tag code">T*</span> — з <a href="microcopy.md">microcopy.md</a></p>
+  </header>
+
+  <div class="note">Мова продукту — українська, звертання на <b>«ти»</b> (один фрілансер). Приклади «за правилом» — цільова копія; антиприклади — або дослівна копія конкурентів, або наші власні порушення (звірено з <a href="microcopy.md">microcopy.md</a>).</div>
+
+  <!-- 1. ПРИНЦИПИ -->
+  <section id="sec-principles">
+    <h2><span class="num">01</span>Принципи</h2>
+    <p class="lead">П'ять правил, за якими TrackOn пише інтерфейс.</p>
+
+    <div class="card finding">
+      <h3><span class="dot p"></span>Принцип 1 — Говоримо до однієї людини, не до «команди»</h3>
+      <p class="rule"><b>Правило.</b> Продукт звертається до <b>одного фрілансера</b> в однині й про його власну роботу — ніколи не «команда», «бізнес», «співробітники», «workforce».</p>
+      <div class="ex good"><span class="lbl">За правилом</span>«Твої проєкти» · «Сьогодні ти відстежив 3 год 12 хв» · «Виставити рахунок клієнту»</div>
+      <div class="ex bad"><span class="lbl">Порушує</span>«The most popular time tracker <b>for teams</b>» (Clockify) · «<b>Manage your team</b> without micromanaging» (Harvest) · «Small Businesses. Big Results.» (Paymo)</div>
+      <p class="why"><b>Звідки.</b> <code>personas.md §1 O2</code> (<code>research.md:26</code>): «Конкуренти таргетують «команди + фрілансери», не одинака». У §1.4 «Мова конкурентів»: 6/6 звертаються до «team / business / workforce» — простір говорити до одинака вільний (H5).</p>
+    </div>
+
+    <div class="card finding">
+      <h3><span class="dot p"></span>Принцип 2 — Гроші називаємо конкретною сумою, а не «прибутковістю»</h3>
+      <p class="rule"><b>Правило.</b> Про гроші говоримо <b>реальними сумами й валютою користувача</b> ($120 · ₴1 200), а не бізнес-абстракціями «profit / profitability / revenue».</p>
+      <div class="ex good"><span class="lbl">За правилом</span>«Зароблено: $120 · ₴1 200» · «Разом: $320 / USD — не сплачено»</div>
+      <div class="ex bad"><span class="lbl">Порушує</span>«Turn hours into <b>profit</b>» (Harvest) · «<b>Improve Project Profitability</b>» (TimeCamp) · «maximize productivity and <b>revenue</b>» (Toggl)</div>
+      <p class="why"><b>Звідки.</b> Interview #2 (<code>personas.md §6</code>): ставки за paywall → «суму рахує <b>на калькуляторі</b>». Job <b>R4</b> (<code>jtbd.md:49–51</code>): «перетворити час на готову до відправлення суму». Болить конкретна недорахована сума, не «прибутковість».</p>
+    </div>
+
+    <div class="card finding">
+      <h3><span class="dot p"></span>Принцип 3 — Без хайпу: кажемо, що сталося, а не «boost / optimize»</h3>
+      <p class="rule"><b>Правило.</b> Мова рівна й буквальна — описуємо <b>дію та її результат</b>, без маркетингових дієслів-підсилювачів («boost», «maximize», «optimize», «drive growth»).</p>
+      <div class="ex good"><span class="lbl">За правилом</span>«Таймер іде: Лендинг для Acme · 00:42:10» · «Готово. Рахунок на $320 збережено»</div>
+      <div class="ex bad"><span class="lbl">Порушує</span>«<b>Boost</b> team productivity» (Paymo, Toggl) · «drive real-time, <b>data-backed business growth</b>» (Timely) · «<b>measure performance</b> with confidence» (Harvest)</div>
+      <p class="why"><b>Звідки.</b> CLAUDE.md §1 — «Швидкість і простота… мінімальний інтерфейс»; Interview #3 (<code>personas.md:239</code>): «трекінг не має заважати; не хочу 10 хв, щоб залогувати 30 хв». Job <b>E2</b> (<code>jtbd.md:75–77</code>).</p>
+    </div>
+
+    <div class="card finding">
+      <h3><span class="dot p"></span>Принцип 4 — Чесно про автоматику: не обіцяємо, що застосунок «зробить сам»</h3>
+      <p class="rule"><b>Правило.</b> Не приписуємо продукту магії авто-трекінгу — кажемо прямо, що час рахується <b>з дій користувача</b>, і завжди пояснюємо, що робить кнопка.</p>
+      <div class="ex good"><span class="lbl">За правилом</span>«Забув увімкнути таймер? Додай запис вручну — вкажи проєкт і час від–до.» · «Тап по проєкту — і час пішов»</div>
+      <div class="ex bad"><span class="lbl">Порушує</span>«<b>let Timely take care of the time tracking</b>» · «one click, <b>done-for-you</b> timesheets» (Timely) · «Accurate <b>AI-powered</b> time records» (TimeCamp)</div>
+      <p class="why"><b>Звідки.</b> <code>research.md §2 «Що НЕ спрацює»</code> (<code>research.md:76–83</code>): повний авто-capture у PWA архітектурно недоступний. Interview #1 (<code>personas.md:180</code>): auto-capture «цікаво, але незрозуміло як працює»; Interview #2 (<code>personas.md:221</code>): «20 хв думаю в Figma — це теж робота».</p>
+    </div>
+
+    <div class="card finding">
+      <h3><span class="dot p"></span>Принцип 5 — Людські слова замість бухгалтерського жаргону</h3>
+      <p class="rule"><b>Правило.</b> Пишемо словами фрілансера, а не термінами обліку: «оплачувані години», «інвойс», «своя ставка», а не «billable», «оверрайд», «payroll», «автодобір».</p>
+      <div class="ex good"><span class="lbl">За правилом</span>«Оплачувані записи за травень» · «Своя ставка для цього запису (замість ставки проєкту)»</div>
+      <div class="ex bad"><span class="lbl">Порушує</span>«track <b>billable hours</b>» (Paymo), «<b>Payroll-ready</b> time data» (TimeCamp) — і наші власні: «автодобір <b>білабельних</b>», «<b>Оверрайд</b> ставки» (<code>microcopy.md</code>, T10)</div>
+      <p class="why"><b>Звідки.</b> CLAUDE.md: «Мова продукту: українська (UI)»; Interview #1: Harvest відпав, бо «не зрозумів, як створити клієнта». Job <b>E2</b> — не почуватися дурним перед складністю.</p>
+    </div>
+
+    <h3 id="sec-oneline">Одним рядком</h3>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Правило</th><th>Конкуренти пишуть</th><th>Ми пишемо</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="name">1</td><td>До однієї людини, не до «команди»</td><td>«for teams», «your team»</td><td>«твої проєкти», «ти відстежив»</td></tr>
+          <tr><td class="name">2</td><td>Конкретна сума, не «прибутковість»</td><td>«Turn hours into profit»</td><td>«Зароблено: $120 · ₴1 200»</td></tr>
+          <tr><td class="name">3</td><td>Без хайпу — що сталося</td><td>«Boost productivity»</td><td>«Рахунок на $320 збережено»</td></tr>
+          <tr><td class="name">4</td><td>Чесно про ручний ввід, не «AI зробить сам»</td><td>«done-for-you timesheets»</td><td>«Тап по проєкту — час пішов»</td></tr>
+          <tr><td class="name">5</td><td>Людські слова, не жаргон обліку</td><td>«billable hours», «payroll»</td><td>«оплачувані години», «інвойс»</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 2. СЛОВНИК -->
+  <section id="sec-dict">
+    <h2><span class="num">02</span>Словник</h2>
+    <p class="lead">Одне поняття — одне слово. Рішення по кожній розбіжності, яку Крок 01 позначив у <a href="microcopy.md">microcopy.md</a> (коди <code>T*</code>). Термін лишаємо той, яким <b>говорять самі персони</b>, а не канцелярський.</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Поняття</th><th>Лишаємо</th><th>Не пишемо</th><th>Чому саме він (мовою персон)</th><th>Код</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Документ на оплату</td><td class="name">інвойс</td><td>рахунок</td><td>Самі персони так кажуть: I#1 «<b>інвойс</b> генерую в Toggl», I#3 «invoice draft». Їхнє щоденне слово (IT/дизайн), не канцелярит</td><td><span class="tag code">T1</span></td></tr>
+          <tr><td>Додати сутність</td><td class="name">+ Проєкт · + Клієнт</td><td>+ Новий клієнт</td><td>A хоче «<b>1 клік</b>» (I#1/I#2) — зайве «Новий» лише додає слово; заголовок форми лишається «Новий проєкт»</td><td><span class="tag code">T2</span></td></tr>
+          <tr><td>Сейв у процесі</td><td class="name">Зберігаємо…</td><td>Збереження…</td><td>Жива дія, а не віддієслівний іменник-канцелярит; звучить як людина, що робить це для тебе</td><td><span class="tag code">T3</span></td></tr>
+          <tr><td>Період-фільтр</td><td class="name">Тиждень · Місяць · Діапазон</td><td>Цей тиждень · Діапазон дат…</td><td>Найкоротше; дослівно з <code>CLAUDE.md §7</code></td><td><span class="tag code">T4</span></td></tr>
+          <tr><td>Оплачуваність запису</td><td class="name">оплачувані години</td><td>білабельний</td><td>Слово персон: jtbd «виконую <b>оплачувану</b> роботу», I#3 «25–35 <b>оплачуваних</b> годин/тиж»</td><td><span class="tag code">T10</span></td></tr>
+          <tr><td>Ставка на окремий запис</td><td class="name">своя ставка</td><td>оверрайд ставки</td><td>I#1 «ставка <b>різна по клієнтах</b>» — просте слово «ставка», яке персона вже вживає</td><td><span class="tag code">T10</span></td></tr>
+          <tr><td>Автопідбір записів</td><td class="name">оплачувані записи додаються автоматично</td><td>автодобір</td><td>Описуємо дію словами, не куємо іменник; «автодобір» — жаргон, якого в мові персон нема</td><td><span class="tag code">T10</span></td></tr>
+          <tr><td>Створити PDF</td><td class="name">Згенерувати PDF → Генеруємо PDF…</td><td>Генерація PDF… · ⏳ Генерація PDF…</td><td>Жива дія замість іменника; емодзі геть (див. «Заборонене»)</td><td><span class="tag code">T6</span></td></tr>
+          <tr><td>Назад-навігація</td><td class="name">Назад до звіту</td><td>← Назад до звіту</td><td>Стрілка — це іконка, не частина тексту; тримаємо однаково</td><td><span class="tag code">T11</span></td></tr>
+          <tr><td>Підсумок часу/грошей</td><td class="name">Відстежено: / Зароблено:</td><td>інлайн-число без мітки</td><td>CLAUDE.md §1 — «бачити загальні витрати часу й грошей»; мітка робить число зрозумілим з першого погляду</td><td><span class="tag code">T13</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Формати (той самий тип значення — один запис)</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Значення</th><th>Формат</th><th>Не пишемо</th><th>Код</th></tr></thead>
+        <tbody>
+          <tr><td>Дата / період</td><td class="name">10–16 черв. 2026</td><td>01.05.2026 · 01–31 травня</td><td><span class="tag code">T5</span></td></tr>
+          <tr><td>Тривалість</td><td class="name">X год YY хв · нуль = 0 год 00 хв</td><td>0 хв</td><td><span class="tag code">T12</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <h3 style="margin-top:0">Звертання</h3>
+        <p class="rule">Тільки <b>«ти»</b>, з малої літери, <b>однаково на всіх екранах</b>. Персона A — side-gig дизайнер, простий дружній тон (Принцип 1); ніяких «ви/Ви» чи безособових мішанок.</p>
+        <div class="ba">
+          <p class="was">«не залишають <b>ваш</b> пристрій» · «Створіть перший проєкт»</p>
+          <p class="now">«не залишають <b>твій</b> пристрій» · «<b>Створи</b> перший проєкт»</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Англіцизми</h3>
+        <p class="rule"><b>Дозволені</b> (у мові персон, без короткого питомого відповідника): <b>таймер, Старт, Стоп, PDF, фрілансер, інвойс</b>.</p>
+        <p class="rule"><b>Заборонені</b> (є просте українське слово): <b>білабельний</b> → оплачуваний · <b>оверрайд</b> → своя ставка · <b>автодобір</b> → (описати дію). Правило: якщо persona вживає українське слово — пишемо його, а не кальку.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ЗАБОРОНЕНЕ -->
+  <section id="sec-forbidden">
+    <h2><span class="num">03</span>Заборонене</h2>
+    <p class="lead">Чого не пишемо <b>ніколи</b>. До кожного — як було (з інвентарю <a href="microcopy.md">microcopy.md</a>) і як треба.</p>
+
+    <div class="card finding">
+      <h3><span class="dot d"></span>1. Розмиті AI-помилки</h3>
+      <p class="rule">«Ой, щось пішло не так», «Сталася помилка» — завжди кажемо, <b>що саме</b> зламалось і що робити далі (Принцип 3; збій — не привід ховатися за шаблон).</p>
+      <div class="ba">
+        <p class="was">«<b>Сталася помилка</b> під час формування рахунку. Дані інвойсу збережено — спробуйте ще раз.» <span class="tag code">T7</span></p>
+        <p class="now">«Інвойс не сформувався. Дані збережено — спробуй ще раз.»</p>
+      </div>
+      <div class="ba">
+        <p class="was">«Ой, щось пішло не так»</p>
+        <p class="now">«Не вдалося завантажити дані. Перевір доступ до сховища й спробуй ще раз.»</p>
+      </div>
+    </div>
+
+    <div class="card finding">
+      <h3><span class="dot d"></span>2. Вітальні кліше</h3>
+      <p class="rule">«Ласкаво просимо», «Вітаємо!» — порожній екран одразу веде до <b>дії</b>, а не вітається.</p>
+      <div class="ba">
+        <p class="was">«Ласкаво просимо до TrackOn! 🎉»</p>
+        <p class="now">«Ще нема проєктів. Створи перший, щоб почати трекати час.»</p>
+      </div>
+    </div>
+
+    <div class="card finding">
+      <h3><span class="dot d"></span>3. Мотиваційний тон / коучинг</h3>
+      <p class="rule">Інструмент тихий; він не підбадьорює й не хвалить (I#3: «трекінг <b>не має заважати</b>»; антипод конкурентським «Boost productivity»).</p>
+      <div class="ba">
+        <p class="was">«Чудова робота! Так тримати 💪»</p>
+        <p class="now">«Сьогодні: 3 год 12 хв.»</p>
+      </div>
+    </div>
+
+    <div class="card finding">
+      <h3><span class="dot d"></span>4. Оклики, емодзі в системних повідомленнях, слово «успішно»</h3>
+      <p class="rule">Стан описуємо рівно й фактом.</p>
+      <div class="ba">
+        <p class="was">«Проєкт <b>успішно</b> збережено!» · «<b>⏳</b> Генерація PDF…» <span class="tag code">T6</span></p>
+        <p class="now">«Проєкт збережено» · «Генеруємо PDF…»</p>
+      </div>
+    </div>
+
+    <div class="card finding">
+      <h3><span class="dot d"></span>5. Чернеткові / TODO-примітки в UI</h3>
+      <p class="rule">Авторські нотатки не потрапляють у текст інтерфейсу.</p>
+      <div class="ba">
+        <p class="was">«(приблизно — уточнити)» <span class="tag code">T8</span></p>
+        <p class="now">прибрати; якщо час справді приблизний — позначка «приблизно», без «уточнити».</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. МІКРОКОПІ -->
+  <section id="sec-micro">
+    <h2><span class="num">04</span>Мікрокопі</h2>
+    <p class="lead">Правила за типами елементів — останній шар над Принципами і Словником. Кожне звірене з ними (в дужках); стани — з <a href="wireframes/_screens.md">_screens.md</a>. Після цього кроку voice.md повний: далі весь текст UI пишемо за ним.</p>
+
+    <div class="card finding">
+      <h3><span class="dot p"></span>Кнопка</h3>
+      <p class="rule"><b>Дієслово дії, з якого видно результат.</b> Не «ОК», «Далі», «Готово», а що саме станеться <span class="src">(Принцип 3; Словник: «Згенерувати PDF», «+ Проєкт»)</span>.</p>
+      <div class="ex good"><span class="lbl">Приклад</span>«Згенерувати PDF» · «Виставити інвойс» · «+ Проєкт»</div>
+      <div class="ex bad"><span class="lbl">Не так</span>«ОК» · «Далі» · «Готово»</div>
+    </div>
+
+    <div class="card finding">
+      <h3><span class="dot p"></span>Заголовок екрана</h3>
+      <p class="rule"><b>Називає місце словами Словника.</b> Що це за екран, термінами зі Словника, не «Форма» / «Сторінка» <span class="src">(Принцип 5; Словник: «інвойс», «тиждень»)</span>.</p>
+      <div class="ex good"><span class="lbl">Приклад</span>«Новий інвойс» · «Звіт за тиждень» · «Профіль виконавця»</div>
+      <div class="ex bad"><span class="lbl">Не так</span>«Форма №2» · «Сторінка»</div>
+    </div>
+
+    <div class="card finding">
+      <h3><span class="dot p"></span>Поле форми</h3>
+      <p class="rule"><b>Три ролі тексту.</b> Підпис каже <i>що</i> вводити; підказка — <i>як</i>; помилка валідації — <i>що саме</i> виправити (словами «ти») <span class="src">(Принцип 5; Звертання)</span>.</p>
+      <div class="ex good"><span class="lbl">Приклад</span>підпис «Погодинна ставка» · підказка «необов'язково; порожньо = лише час, без грошей» · помилка «Назва обов'язкова — вкажи назву проєкту»</div>
+    </div>
+
+    <div class="card finding">
+      <h3><span class="dot p"></span>Порожній стан</h3>
+      <p class="rule"><b>Чому порожньо і що зробити далі.</b> Одразу веде до дії, без вітань <span class="src">(Заборонене №2; _screens.md: Лаунчпад «нема проєктів»)</span>.</p>
+      <div class="ex good"><span class="lbl">Приклад</span>«Ще нема проєктів. Створи перший, щоб почати трекати час.» → кнопка «+ Проєкт»</div>
+    </div>
+
+    <div class="card finding">
+      <h3><span class="dot p"></span>Помилка</h3>
+      <p class="rule"><b>Що сталося і що робити.</b> Без вибачень, без жартів, без «Ой» <span class="src">(Заборонене №1; Принципи 3–4; _screens.md: збій читання сховища)</span>.</p>
+      <div class="ex good"><span class="lbl">Приклад</span>«Не вдалося завантажити дані. Перевір доступ до сховища й спробуй ще раз.» → «Спробувати ще»</div>
+    </div>
+
+    <div class="card finding">
+      <h3><span class="dot p"></span>Завантаження</h3>
+      <p class="rule"><b>Мовчить або каже, що саме вантажиться.</b> Без емодзі, без «Зачекайте…»; якщо є текст — дієслово в процесі <span class="src">(Словник T3/T6; Заборонене №4)</span>.</p>
+      <div class="ex good"><span class="lbl">Приклад</span>скелет без тексту — <b>або</b> «Зберігаємо проєкт…» / «Генеруємо PDF…»</div>
+    </div>
+
+    <div class="card finding">
+      <h3><span class="dot p"></span>Успіх</h3>
+      <p class="rule"><b>Назви факт і наступний крок, без святкування.</b> Головний flow не має окремого екрана «вийшло» (_screens.md): успіх — повернення на Лаунчпад з оновленим станом або inline-таймер. Без «успішно», «!», емодзі <span class="src">(Заборонене №3–4; Принцип 3)</span>.</p>
+      <div class="ex good"><span class="lbl">Приклад</span>«Інвойс збережено — у списку, не сплачено.» · inline «Таймер іде: Лендинг для Acme · 00:00:03»</div>
+    </div>
+
+    <div class="card finding">
+      <h3><span class="dot d"></span>Небезпечна дія</h3>
+      <p class="rule"><b>Попередь до натискання.</b> Скажи, що станеться і чого <b>не можна буде повернути</b>; кнопку називай прямо, не пом'якшуй <span class="src">(Принцип 4 — чесно; Словник — дієслово результату)</span>.</p>
+      <div class="ex good"><span class="lbl">Приклад</span>«Видалити запис? Його не можна буде повернути.» → «Видалити» / «Скасувати»</div>
+    </div>
+  </section>
+
+  <footer>
+    TrackOn · дзеркало <a href="voice.md">voice.md</a> · терміни з <a href="research/personas.md">personas.md</a> / <a href="research/jtbd.md">jtbd.md</a>, розбіжності <span class="tag code">T*</span> з <a href="microcopy.md">microcopy.md</a>
+  </footer>
+</div>
+
+<script>
+  const btn = document.getElementById('themeBtn');
+  const root = document.documentElement;
+  const saved = localStorage.getItem('trackon-theme');
+  if(saved) root.setAttribute('data-theme', saved);
+  btn.addEventListener('click', ()=>{
+    const cur = root.getAttribute('data-theme')
+      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('trackon-theme', next);
+  });
+
+  // sidebar: mobile toggle
+  const sb = document.getElementById('sidebar');
+  const bd = document.getElementById('backdrop');
+  const mb = document.getElementById('menuBtn');
+  const closeNav = ()=>{ sb.classList.remove('open'); bd.classList.remove('show'); };
+  mb.addEventListener('click', ()=>{ sb.classList.toggle('open'); bd.classList.toggle('show'); });
+  bd.addEventListener('click', closeNav);
+  sb.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click', closeNav));
+
+  // sidebar: scroll-spy for active sub-link
+  const subLinks = [...sb.querySelectorAll('.nav-sub a')];
+  const map = {};
+  subLinks.forEach(a=>{ map[a.getAttribute('href').slice(1)] = a; });
+  const spy = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        subLinks.forEach(x=>x.classList.remove('cur'));
+        if(map[e.target.id]) map[e.target.id].classList.add('cur');
+      }
+    });
+  }, {rootMargin:'-20% 0px -70% 0px'});
+  document.querySelectorAll('section[id]').forEach(s=>spy.observe(s));
+</script>
+</body>
+</html>

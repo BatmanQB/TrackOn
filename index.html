@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrackOn — Головна</title>
+<style>
+  :root{
+    --bg:#fafafa; --surface:#fff; --text:#16181d; --muted:#6b7280; --border:#e6e7ea;
+    --accent:#ff5a3c; --accent-soft:#ffece7; --shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0f1115; --surface:#171a21; --text:#e8eaee; --muted:#9aa1ad; --border:#262b34;
+      --accent:#ff6b4d; --accent-soft:#2a1a16; --shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3); }
+  }
+  html[data-theme="light"]{ --bg:#fafafa;--surface:#fff;--text:#16181d;--muted:#6b7280;--border:#e6e7ea;--accent:#ff5a3c;--accent-soft:#ffece7;--shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04);}
+  html[data-theme="dark"]{ --bg:#0f1115;--surface:#171a21;--text:#e8eaee;--muted:#9aa1ad;--border:#262b34;--accent:#ff6b4d;--accent-soft:#2a1a16;--shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+  a{color:var(--accent);text-decoration:none;}
+
+  .toggle{position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer;box-shadow:var(--shadow);z-index:50;}
+
+  .wrap{max-width:960px;margin:0 auto;padding:64px 20px 80px;}
+
+  /* Hero */
+  .hero{margin-bottom:44px;}
+  .brand{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:15px;letter-spacing:.02em;
+    background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:6px 14px;}
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);}
+  .hero h1{font-size:clamp(30px,6vw,46px);line-height:1.1;margin:20px 0 12px;letter-spacing:-.02em;}
+  .hero p{font-size:clamp(16px,2.4vw,19px);color:var(--muted);margin:0;max-width:640px;}
+
+  /* Section group */
+  .group{margin-top:40px;}
+  .group-label{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin:0 4px 14px;}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
+
+  .card{display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--border);
+    border-radius:16px;padding:20px;box-shadow:var(--shadow);color:var(--text);
+    transition:transform .16s ease,border-color .16s ease;}
+  a.card:hover{transform:translateY(-3px);border-color:var(--accent);}
+  .card .ic{font-size:26px;line-height:1;}
+  .card h2{font-size:17px;margin:2px 0 0;font-weight:700;}
+  .card p{font-size:14px;color:var(--muted);margin:0;}
+  .card .go{margin-top:auto;padding-top:8px;font-size:13px;font-weight:700;color:var(--accent);}
+
+  .card.soon{opacity:.7;cursor:default;}
+  .card.soon:hover{transform:none;border-color:var(--border);}
+  .soon-badge{align-self:flex-start;font-size:10px;font-weight:700;letter-spacing:.05em;color:var(--muted);
+    border:1px solid var(--border);border-radius:999px;padding:2px 9px;margin-top:auto;}
+
+  footer{margin-top:56px;color:var(--muted);font-size:13px;border-top:1px solid var(--border);padding-top:20px;}
+</style>
+</head>
+<body>
+<button class="toggle" id="themeBtn">◐ Тема</button>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="brand"><span class="dot"></span> TrackOn</span>
+    <h1>Продуктова документація TrackOn</h1>
+    <p>Трекінг часу по проєктах для фрілансерів. Тут зібрано дослідження, архітектуру
+       та вайрфрейми продукту — обери розділ, щоб переглянути.</p>
+  </div>
+
+  <div class="group">
+    <p class="group-label">Сторінки</p>
+    <div class="grid">
+      <a class="card" href="research.html">
+        <span class="ic">📄</span>
+        <h2>Дослідження</h2>
+        <p>Інтерв'ю, інсайти та висновки ресерчу.</p>
+        <span class="go">Відкрити →</span>
+      </a>
+      <a class="card" href="jtbd.html">
+        <span class="ic">🧭</span>
+        <h2>JTBD</h2>
+        <p>Jobs-to-be-done: що і навіщо роблять користувачі.</p>
+        <span class="go">Відкрити →</span>
+      </a>
+      <a class="card" href="personas.html">
+        <span class="ic">👥</span>
+        <h2>Персони</h2>
+        <p>Портрети цільової аудиторії продукту.</p>
+        <span class="go">Відкрити →</span>
+      </a>
+      <a class="card" href="sitemap.html">
+        <span class="ic">🗺️</span>
+        <h2>Карта сайту</h2>
+        <p>Структура екранів і навігація застосунку.</p>
+        <span class="go">Відкрити →</span>
+      </a>
+      <a class="card" href="ia.html">
+        <span class="ic">🗂️</span>
+        <h2>Інформаційна архітектура</h2>
+        <p>Сітмеп, потоки та IA-дерево продукту.</p>
+        <span class="go">Відкрити →</span>
+      </a>
+      <a class="card" href="voice.html">
+        <span class="ic">🗣️</span>
+        <h2>Голос</h2>
+        <p>Tone of voice: правила, як продукт говорить.</p>
+        <span class="go">Відкрити →</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="group">
+    <p class="group-label">Вайрфрейми</p>
+    <div class="grid">
+      <a class="card" href="wireframes/tracker.html">
+        <span class="ic">🖼️</span>
+        <h2>Вайрфрейми</h2>
+        <p>Повний low-fi набір усіх екранів і станів.</p>
+        <span class="go">Відкрити →</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="group">
+    <p class="group-label">Скоро</p>
+    <div class="grid">
+      <div class="card soon">
+        <span class="ic">🎨</span>
+        <h2>Дизайн-система</h2>
+        <p>Токени, палітра, типографіка.</p>
+        <span class="soon-badge">SOON</span>
+      </div>
+      <div class="card soon">
+        <span class="ic">🧩</span>
+        <h2>Компоненти</h2>
+        <p>Бібліотека UI-компонентів.</p>
+        <span class="soon-badge">SOON</span>
+      </div>
+      <div class="card soon">
+        <span class="ic">🚀</span>
+        <h2>Хендофф</h2>
+        <p>Матеріали для передачі в розробку.</p>
+        <span class="soon-badge">SOON</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>TrackOn · продуктова документація</footer>
+</div>
+
+<script>
+  const btn = document.getElementById('themeBtn');
+  const root = document.documentElement;
+  const saved = localStorage.getItem('trackon-theme');
+  if(saved) root.setAttribute('data-theme', saved);
+  btn.addEventListener('click', ()=>{
+    const cur = root.getAttribute('data-theme')
+      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('trackon-theme', next);
+  });
+</script>
+</body>
+</html>

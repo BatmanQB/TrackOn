@@ -140,12 +140,15 @@
 <aside class="sidebar" id="sidebar">
   <div class="side-brand">TrackOn</div>
 
+  <a class="nav-item" href="../index.html"><span class="ic">🏠</span> Головна</a>
+
   <div class="nav-label">Сторінки</div>
   <a class="nav-item" href="../research.html"><span class="ic">📄</span> Дослідження</a>
   <a class="nav-item" href="../jtbd.html"><span class="ic">🧭</span> JTBD</a>
   <a class="nav-item" href="../personas.html"><span class="ic">👥</span> Персони</a>
   <a class="nav-item" href="../sitemap.html"><span class="ic">🗺️</span> Карта сайту</a>
   <a class="nav-item" href="../ia.html"><span class="ic">🗂️</span> Інформаційна архітектура</a>
+  <a class="nav-item" href="../voice.html"><span class="ic">🗣️</span> Голос</a>
 
   <div class="nav-label">Вайрфрейми</div>
   <a class="nav-item active" href="tracker.html"><span class="ic">🖼️</span> Вайрфрейми</a>
@@ -227,7 +230,7 @@
 
   <header>
     <h1>TrackOn</h1>
-    <div role="status"><span>Немає активного запису</span></div>
+    <div role="status"><span>Таймер не запущено</span></div>
   </header>
 
   <main>
@@ -235,7 +238,7 @@
       <section aria-label="Новий інвойс">
         <h2>Новий інвойс</h2>
 
-        <div role="status"><span>⏳ Генерація PDF…</span></div>
+        <div role="status"><span>Генеруємо PDF…</span></div>
         <p>
           <label for="i-client">1. Клієнт</label>
           <select id="i-client" disabled>
@@ -247,14 +250,14 @@
         <p>
           <label for="i-period">2. Період</label>
           <select id="i-period" disabled>
-            <option>Цей тиждень</option>
-            <option selected>Цей місяць (1–30 черв. 2026)</option>
-            <option>Діапазон дат…</option>
+            <option>Тиждень</option>
+            <option selected>Місяць</option>
+            <option>Діапазон</option>
           </select>
         </p>
       </section>
       <section aria-label="Записи інвойсу">
-        <h3>3. Записи (автодобір білабельних)</h3>
+        <h3>3. Записи (оплачувані додаються автоматично)</h3>
         <ul>
           <li>
             <article>
@@ -279,7 +282,7 @@
               <label><input type="checkbox" disabled> Вимкнено</label>
               <div class="grow">
                 <h3>Дзвінок-брифінг (внутрішній)</h3>
-                <p class="muted">1 год · не білабельний · виключено з рахунку</p>
+                <p class="muted">1 год · не оплачуваний · виключено з інвойсу</p>
               </div>
             </article>
           </li>
@@ -296,7 +299,7 @@
         <div class="skel-sm" aria-hidden="true"></div>
 
         <p>
-          <button class="primary" disabled>Генерація PDF…</button>
+          <button class="primary" disabled>Генеруємо PDF…</button>
           <a class="btn" href="invoices.html">Скасувати</a>
         </p>
       </section>
