@@ -119,9 +119,11 @@
   /* порожній / помилка / скелети завантаження */
   .wf-canvas .empty-box,.wf-canvas .error-box{border:1px dashed var(--wc-border);background:var(--wc-card);padding:24px 18px;text-align:center;color:var(--wc-muted);border-radius:var(--wc-r-card)}
   .wf-canvas .empty-box::before{content:"";display:block;width:28px;height:28px;margin:0 auto 10px;background:url("https://api.iconify.design/solar/inbox-linear.svg?color=%23565952") center/contain no-repeat;}
-  .wf-canvas .skel{background:linear-gradient(90deg,var(--wc-card) 25%,var(--wc-surface) 37%,var(--wc-card) 63%);background-size:400% 100%;animation:wc-shimmer 1.6s ease infinite;border:1px solid var(--wc-border);height:56px;margin:8px 0;border-radius:16px}
-  .wf-canvas .skel-sm{background:linear-gradient(90deg,var(--wc-card) 25%,var(--wc-surface) 37%,var(--wc-card) 63%);background-size:400% 100%;animation:wc-shimmer 1.6s ease infinite;border:1px solid var(--wc-border);height:12px;margin:6px 0;max-width:240px;border-radius:6px}
+  .wf-canvas .skel{background:var(--wc-card);border:1px solid var(--wc-border);height:56px;margin:8px 0;border-radius:16px}
+  .wf-canvas .skel-sm{background:var(--wc-card);border:1px solid var(--wc-border);height:12px;margin:6px 0;max-width:240px;border-radius:6px}
+  section[aria-busy="true"] .wf-canvas .skel,section[aria-busy="true"] .wf-canvas .skel-sm,.wf-canvas section[aria-busy="true"] .skel,.wf-canvas section[aria-busy="true"] .skel-sm{background:linear-gradient(90deg,var(--wc-card) 25%,var(--wc-surface) 37%,var(--wc-card) 63%);background-size:400% 100%;animation:wc-shimmer 1.6s ease infinite;}
   @keyframes wc-shimmer{0%{background-position:100% 0}100%{background-position:0 0}}
+  @media (prefers-reduced-motion: reduce){.wf-canvas .skel,.wf-canvas .skel-sm{animation:none}}
   /* форм-контроли */
   .wf-canvas label{display:block;font-size:13px;color:var(--wc-ink);margin:0 0 5px;font-weight:600}
   .wf-canvas input,.wf-canvas select,.wf-canvas textarea{font:inherit;padding:9px 12px;border:1px solid var(--wc-border);background:var(--wc-surface);color:var(--wc-ink);width:100%;max-width:360px;border-radius:var(--wc-r-input)}
@@ -169,6 +171,43 @@
   .wf-canvas .cal button:hover{background:var(--wc-card)}
   .wf-canvas .cal .in{background:var(--wc-card)}
   .wf-canvas .cal .end{background:var(--wc-primary);color:var(--wc-primary-ink);font-weight:600}
+  /* ===== Патч 2: статус-бейджі, виправлення іконки Стоп, error-box, swatch-picker ===== */
+  .wf-canvas{
+    --wc-st-unpaid-bg:#e3ddd8; --wc-st-unpaid-fg:#433830;
+    --wc-st-sent-bg:#d1e1e9; --wc-st-sent-fg:#2a3e47;
+    --wc-st-paid-bg:#d3e5c3; --wc-st-paid-fg:#233b00;
+  }
+  /* іконка "Стоп" — лише в статус-барі таймера й у картці проєкту, не на будь-якій кнопці */
+  .wf-canvas button:not(.primary):not(:disabled)::before{display:none}
+  .wf-canvas [role="status"] button:not(.primary)::before,
+  .wf-canvas article button:not(.primary)::before{
+    content:"";display:inline-block;width:14px;height:14px;
+    background:url("https://api.iconify.design/solar/pause-linear.svg?color=%2313180e") center/contain no-repeat;}
+  /* статус-бейдж інвойсу — той самий прийом, що й у concept/concept.html: pill з приглушеним тоном */
+  .wf-canvas section[aria-label="Не сплачено"]>h2,
+  .wf-canvas section[aria-label="Статус і дії"]>h2{
+    display:inline-flex;align-items:center;gap:8px;font-size:15px;
+    background:var(--wc-st-unpaid-bg);color:var(--wc-st-unpaid-fg);padding:7px 16px;border-radius:999px;}
+  .wf-canvas section[aria-label="Відправлено"]>h2{
+    display:inline-flex;align-items:center;gap:8px;font-size:15px;
+    background:var(--wc-st-sent-bg);color:var(--wc-st-sent-fg);padding:7px 16px;border-radius:999px;}
+  .wf-canvas section[aria-label="Сплачено"]>h2{
+    display:inline-flex;align-items:center;gap:8px;font-size:15px;
+    background:var(--wc-st-paid-bg);color:var(--wc-st-paid-fg);padding:7px 16px;border-radius:999px;}
+  /* іконка помилки на error-box (empty-box вже має inbox-linear) */
+  .wf-canvas .error-box::before{content:"";display:block;width:28px;height:28px;margin:0 auto 10px;
+    background:url("https://api.iconify.design/solar/danger-triangle-linear.svg?color=%238a2a1c") center/contain no-repeat;}
+  /* .err — банер (блок) проти .field-note.err — рядковий текст під полем, без рамки/іконки */
+  .wf-canvas .err{align-items:flex-start}
+  .wf-canvas .err ul{list-style:disc;margin:4px 0 0 18px;padding:0;color:var(--wc-danger)}
+  .wf-canvas .err li{margin:2px 0}
+  .wf-canvas .field-note.err{background:none;border:none;padding:0;margin-top:5px;display:block;
+    color:var(--wc-danger);font-size:12px;font-weight:500;}
+  /* палітра-пікер кольору проєкту — ті самі 3 кольори, що й мітки проєктів на Лаунчпаді */
+  .wf-canvas .swatch-row .swatch:nth-child(1){background:var(--wc-primary)}
+  .wf-canvas .swatch-row .swatch:nth-child(2){background:#45647a}
+  .wf-canvas .swatch-row .swatch:nth-child(3){background:#d78d00}
+  .wf-canvas .swatch.sel{box-shadow:0 0 0 2px var(--wc-surface),0 0 0 4px var(--wc-ink);outline:none}
 </style>
 </head>
 <body>
