@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrackOn — Три напрями мови</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --page-bg:#f2f2f0; --page-ink:#16181d; --page-muted:#6b7280; --page-border:#e2e2de;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --page-bg:#101114; --page-ink:#e8eaee; --page-muted:#9aa1ad; --page-border:#2a2c33; }
+  }
+  html[data-theme="light"]{ --page-bg:#f2f2f0; --page-ink:#16181d; --page-muted:#6b7280; --page-border:#e2e2de; }
+  html[data-theme="dark"]{ --page-bg:#101114; --page-ink:#e8eaee; --page-muted:#9aa1ad; --page-border:#2a2c33; }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--page-bg);color:var(--page-ink);
+    font:15px/1.55 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  .toggle{position:fixed;top:16px;right:16px;background:var(--page-ink);color:var(--page-bg);
+    border:none;border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer;z-index:80;}
+
+  .intro{max-width:900px;margin:0 auto;padding:48px 24px 8px;}
+  .intro .kicker{display:inline-block;font-size:12.5px;font-weight:600;color:var(--page-muted);
+    background:color-mix(in oklab, var(--page-ink) 6%, transparent);border-radius:999px;padding:4px 12px;margin-bottom:14px;}
+  .intro h1{font-size:clamp(26px,4vw,36px);line-height:1.15;margin:0 0 10px;letter-spacing:-0.02em;text-wrap:balance;}
+  .intro p{color:var(--page-muted);max-width:70ch;margin:0 0 8px;text-wrap:pretty;}
+  .intro .refs{font-size:13px;color:var(--page-muted);margin-top:14px;}
+  .intro .refs a{color:inherit;}
+
+  .board{max-width:1400px;margin:0 auto;padding:24px 24px 100px;
+    display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:start;}
+  @media (max-width:1180px){.board{grid-template-columns:1fr;max-width:640px;}}
+
+  .dir{border-radius:20px;overflow:hidden;border:1px solid var(--dir-border);
+    background:var(--dir-bg);color:var(--dir-ink);}
+
+  .dir-head{padding:26px 24px 20px;border-bottom:1px solid var(--dir-border);}
+  .dir-eyebrow{font:600 12px/1 var(--font-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--dir-muted);margin:0 0 10px;}
+  .dir-name{font:600 30px/1.1 var(--font-display);margin:0 0 8px;letter-spacing:-0.01em;}
+  .dir-mood{font-size:13.5px;color:var(--dir-muted);margin:0 0 14px;text-wrap:pretty;}
+  .dir-strategy{display:inline-flex;align-items:center;gap:6px;font:600 11.5px/1 var(--font-ui);
+    padding:5px 10px;border-radius:7px;background:var(--dir-strategy-bg);color:var(--dir-strategy-fg);}
+  .dir-reflex{margin:14px 0 0;padding:11px 13px;border-radius:10px;font-size:12.5px;line-height:1.5;
+    background:var(--dir-surface);color:var(--dir-muted);}
+  .dir-reflex b{color:var(--dir-ink);}
+
+  .dir-section{padding:22px 24px;border-bottom:1px solid var(--dir-border);}
+  .dir-section:last-child{border-bottom:none;}
+  .dir-section h3{font:600 11px/1 var(--font-ui);letter-spacing:.08em;text-transform:uppercase;
+    color:var(--dir-muted);margin:0 0 14px;}
+
+  /* palette */
+  .swatches{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .swatch{border-radius:10px;overflow:hidden;border:1px solid var(--dir-border);}
+  .swatch .fill{height:44px;}
+  .swatch .label{padding:6px 8px;font:500 10.5px/1.3 var(--font-ui);background:var(--dir-surface);}
+  .swatch .label .name{display:block;color:var(--dir-ink);}
+  .swatch .label .hex{display:block;color:var(--dir-muted);font-variant-numeric:tabular-nums;}
+
+  /* type */
+  .type-sample .h{font:600 26px/1.15 var(--font-display);margin:0 0 8px;letter-spacing:-0.01em;text-wrap:balance;}
+  .type-sample .p{font:400 13.5px/1.6 var(--font-ui);color:var(--dir-muted);margin:0;max-width:44ch;}
+  .type-meta{margin-top:12px;font:500 11.5px/1.4 var(--font-ui);color:var(--dir-muted);}
+  .type-meta code{background:var(--dir-surface);padding:1px 6px;border-radius:5px;font-size:11px;}
+
+  /* invoice card */
+  .invoice{background:var(--dir-surface);border:1px solid var(--dir-border);border-radius:var(--dir-radius);
+    padding:18px;transition:transform .2s cubic-bezier(.16,1,.3,1);}
+  .invoice:hover{transform:translateY(-2px);}
+  .invoice-top{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .invoice-avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;flex:none;
+    border:1px solid var(--dir-border);}
+  .invoice-who{flex:1;min-width:0;}
+  .invoice-client{font:600 13.5px/1.3 var(--font-ui);margin:0;}
+  .invoice-meta{font:400 11.5px/1.3 var(--font-ui);color:var(--dir-muted);margin:1px 0 0;}
+  .badge{display:inline-flex;align-items:center;gap:5px;font:600 11px/1 var(--font-ui);
+    padding:6px 10px;border-radius:999px;white-space:nowrap;}
+  .invoice-amount{font:600 30px/1.1 var(--font-display);margin:6px 0 2px;letter-spacing:-0.01em;}
+  .invoice-amount-label{font:500 11px/1.3 var(--font-ui);color:var(--dir-muted);margin:0 0 16px;}
+  .invoice-icons{display:flex;gap:14px;margin:14px 0 16px;padding:12px 0;border-top:1px solid var(--dir-border);border-bottom:1px solid var(--dir-border);}
+  .invoice-icons img{width:20px;height:20px;display:block;}
+  .invoice-actions{display:flex;gap:10px;align-items:center;}
+
+  .btn{appearance:none;border:none;cursor:pointer;font:600 13px/1 var(--font-ui);
+    padding:11px 18px;border-radius:var(--dir-btn-radius);background:var(--dir-primary);color:var(--dir-primary-ink);
+    transition:transform .15s cubic-bezier(.16,1,.3,1),opacity .15s;}
+  .btn:hover{transform:translateY(-1px);opacity:.92;}
+  .btn:active{transform:translateY(0);}
+  .btn.ghost{background:transparent;color:var(--dir-ink);border:1px solid var(--dir-border);}
+
+  .status-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
+  .status-row .badge{font-size:10.5px;padding:5px 9px;}
+
+  @media (prefers-reduced-motion: reduce){
+    .invoice, .btn { transition:none; }
+  }
+</style>
+</head>
+<body>
+<button class="toggle" id="themeBtn">◐ Тема</button>
+
+<div class="intro">
+  <span class="kicker">TrackOn · Напрями мови · /impeccable</span>
+  <h1>Три контрастні напрями — не відтінки одного</h1>
+  <p>Кожен напрям — окреме рішення про колір, шрифт і форму, не варіація сусіднього.
+    Рефлексні палітри свідомо викинуто: жоден напрям не бере крем+теракоту («затишно для
+    фрілансера») чи зелений «за замовчуванням» («гроші»). Кольори складено в OKLCH за
+    методом <code>/impeccable</code>; hex — лише для читання, не для CSS.</p>
+  <p class="refs">Дані — <a href="taste.md">concept/taste.md</a> (смак + атрибути) і
+    <a href="references.md">concept/references.md</a> (радіус, місце бейджа, кількість кольору).
+    Продукт — <a href="../PRODUCT.md">PRODUCT.md</a>. Це проміжний вибір: обери один напрям
+    (чи мікс) наступним промптом — тоді зробимо продуктовий DESIGN.md.</p>
+</div>
+
+<div class="board">
+
+  <!-- ═══════════ НАПРЯМ 1 — МОХ ═══════════ -->
+  <section class="dir" style="
+    --dir-bg:#ffffff; --dir-surface:oklch(0.97 0.006 130); --dir-border:oklch(0.90 0.008 130);
+    --dir-ink:oklch(0.20 0.02 130); --dir-muted:oklch(0.40 0.014 130);
+    --dir-primary:oklch(0.50 0.13 130); --dir-primary-ink:#ffffff;
+    --dir-strategy-bg:oklch(0.93 0.02 130); --dir-strategy-fg:oklch(0.32 0.08 130);
+    --dir-radius:18px; --dir-btn-radius:11px;
+    --font-display:'Fraunces', serif; --font-ui:'Inter', sans-serif;
+    background:var(--dir-bg); color:var(--dir-ink);">
+
+    <div class="dir-head">
+      <p class="dir-eyebrow">Напрям 1</p>
+      <h2 class="dir-name">Мох</h2>
+      <p class="dir-mood">Старий вологий стіл дизайнера в похмуре ранкове світло — паперово-білий
+        аркуш, мох як єдиний живий колір на ньому.</p>
+      <span class="dir-strategy">Restrained · акцент ≤10%</span>
+      <div class="dir-reflex"><b>Не рефлекс:</b> зелений тут — не «гроші», а мох і лишайник;
+        тло лишається чисто білим (не кремовим) — теплоту й характер несе лише акцент, як і
+        радить composition-правило «warmth lives in the accent, not the bg».</div>
+    </div>
+
+    <div class="dir-section">
+      <h3>Палітра</h3>
+      <div class="swatches">
+        <div class="swatch"><div class="fill" style="background:#ffffff;border-bottom:1px solid #eee"></div><div class="label"><span class="name">bg</span><span class="hex">#ffffff</span></div></div>
+        <div class="swatch"><div class="fill" style="background:#f4f6f2"></div><div class="label"><span class="name">surface</span><span class="hex">#f4f6f2</span></div></div>
+        <div class="swatch"><div class="fill" style="background:#13180e"></div><div class="label"><span class="name">ink</span><span class="hex">#13180e</span></div></div>
+        <div class="swatch"><div class="fill" style="background:#4a710a"></div><div class="label"><span class="name">primary</span><span class="hex">#4a710a</span></div></div>
+        <div class="swatch"><div class="fill" style="background:#d78d00"></div><div class="label"><span class="name">accent¹</span><span class="hex">#d78d00</span></div></div>
+        <div class="swatch"><div class="fill" style="background:#565952"></div><div class="label"><span class="name">muted</span><span class="hex">#565952</span></div></div>
+      </div>
+      <p style="font-size:11px;color:var(--dir-muted);margin:8px 2px 0">¹ ochre — лише тло чипа/іконка з темним текстом; не для білого тексту (контраст 2.7:1).</p>
+    </div>
+
+    <div class="dir-section">
+      <h3>Шрифти</h3>
+      <div class="type-sample">
+        <p class="h">Рахунок на $1 240</p>
+        <p class="p">Оплачувані записи за травень зведено з таймера — без ручного перерахунку.</p>
+        <p class="type-meta"><code>Fraunces</code> 600 (заголовки) + <code>Inter</code> 400/600 (текст) — серифна пара, за прикладом Popcorn/Runey (references.md).</p>
+      </div>
+    </div>
+
+    <div class="dir-section">
+      <h3>Жива картка інвойсу</h3>
+      <div class="invoice">
+        <div class="invoice-top">
+          <img class="invoice-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=faces&q=80" alt="Клієнт">
+          <div class="invoice-who">
+            <p class="invoice-client">Studio Nord</p>
+            <p class="invoice-meta">Інвойс № 0142 · травень 2026</p>
+          </div>
+          <span class="badge" style="background:#d3e5c3;color:#233b00">Сплачено</span>
+        </div>
+        <p class="invoice-amount">$1 240</p>
+        <p class="invoice-amount-label">Відстежено: 24 год 40 хв · ставка $50/год</p>
+        <div class="invoice-icons">
+          <img src="https://api.iconify.design/solar/clock-circle-linear.svg?color=%2313180e" alt="час">
+          <img src="https://api.iconify.design/solar/wallet-money-linear.svg?color=%2313180e" alt="гроші">
+          <img src="https://api.iconify.design/solar/user-circle-linear.svg?color=%2313180e" alt="клієнт">
+          <img src="https://api.iconify.design/solar/folder-linear.svg?color=%2313180e" alt="проєкт">
+          <img src="https://api.iconify.design/solar/check-circle-linear.svg?color=%2313180e" alt="підтверджено">
+        </div>
+        <div class="invoice-actions">
+          <button class="btn">Виставити інвойс</button>
+          <button class="btn ghost">PDF</button>
+        </div>
+        <div class="status-row">
+          <span class="badge" style="background:#e3ddd8;color:#433830">Не сплачено</span>
+          <span class="badge" style="background:#d1e1e9;color:#2a3e47">Відправлено</span>
+          <span class="badge" style="background:#d3e5c3;color:#233b00">Сплачено</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dir-section">
+      <h3>Іконки — Solar Linear</h3>
+      <p class="type-meta" style="margin-top:-6px;margin-bottom:10px">Тонка лінія, без заливки — тихо, під настрій «Мох».</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ НАПРЯМ 2 — ТЕРМІНАЛ ═══════════ -->
+  <section class="dir" style="
+    --dir-bg:#020202; --dir-surface:oklch(0.13 0.004 60); --dir-border:oklch(0.24 0.006 60);
+    --dir-ink:oklch(0.94 0 0); --dir-muted:oklch(0.62 0.01 60);
+    --dir-primary:#cc5900; --dir-primary-ink:#ffffff;
+    --dir-strategy-bg:oklch(0.24 0.05 55); --dir-strategy-fg:oklch(0.85 0.1 55);
+    --dir-radius:14px; --dir-btn-radius:8px;
+    --font-display:'JetBrains Mono', monospace; --font-ui:'IBM Plex Sans', sans-serif;
+    background:var(--dir-bg); color:var(--dir-ink);">
+
+    <div class="dir-head">
+      <p class="dir-eyebrow">Напрям 2</p>
+      <h2 class="dir-name">Термінал</h2>
+      <p class="dir-mood">Нічна робоча кімната розробника — одна лампа, монітор у темряві, один
+        теплий сигнал на екрані.</p>
+      <span class="dir-strategy">Committed · один колір, ~30–40% ваги</span>
+      <div class="dir-reflex"><b>⚠️ Тут смак і дані розходяться</b> (<a href="taste.md" style="color:inherit">taste.md, пара 5</a>):
+        темний «цифровий» настрій — це HydraDB зі смаку, але жодна persona його не просить;
+        Олег (PRIMARY) прямо цінує простоту, не термінальний вайб. Показано чесно як
+        варіант, не як рекомендацію.</div>
+    </div>
+
+    <div class="dir-section">
+      <h3>Палітра</h3>
+      <div class="swatches">
+        <div class="swatch"><div class="fill" style="background:#020202;border:1px solid #222"></div><div class="label"><span class="name">bg</span><span class="hex">#020202</span></div></div>
+        <div class="swatch"><div class="fill" style="background:#080706"></div><div class="label"><span class="name">surface</span><span class="hex">#080706</span></div></div>
+        <div class="swatch"><div class="fill" style="background:#ebebeb"></div><div class="label"><span class="name">ink</span><span class="hex">#ebebeb</span></div></div>
+        <div class="swatch"><div class="fill" style="background:#cc5900"></div><div class="label"><span class="name">primary</span><span class="hex">#cc5900</span></div></div>
+        <div class="swatch"><div class="fill" style="background:#8b8580"></div><div class="label"><span class="name">muted</span><span class="hex">#8b8580</span></div></div>
+        <div class="swatch"><div class="fill" style="background:#311805"></div><div class="label"><span class="name">paid-bg</span><span class="hex">#311805</span></div></div>
+      </div>
+    </div>
+
+    <div class="dir-section">
+      <h3>Шрифти</h3>
+      <div class="type-sample">
+        <p class="h">Рахунок на $1 240</p>
+        <p class="p">Оплачувані записи за травень зведено з таймера — без ручного перерахунку.</p>
+        <p class="type-meta"><code>JetBrains Mono</code> 700 (заголовки/цифри) + <code>IBM Plex Sans</code> 400/600 (текст) — моно + гротеск, за мотивом HydraDB.</p>
+      </div>
+    </div>
+
+    <div class="dir-section">
+      <h3>Жива картка інвойсу</h3>
+      <div class="invoice">
+        <div class="invoice-top">
+          <img class="invoice-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=faces&q=80" alt="Клієнт">
+          <div class="invoice-who">
+            <p class="invoice-client">Studio Nord</p>
+            <p class="invoice-meta">Інвойс № 0142 · травень 2026</p>
+          </div>
+          <span class="badge" style="background:#311805;color:#f9a870">Сплачено</span>
+        </div>
+        <p class="invoice-amount">$1 240</p>
+        <p class="invoice-amount-label">Відстежено: 24 год 40 хв · ставка $50/год</p>
+        <div class="invoice-icons">
+          <img src="https://api.iconify.design/solar/clock-circle-bold-duotone.svg?color=%23cc5900" alt="час">
+          <img src="https://api.iconify.design/solar/wallet-money-bold-duotone.svg?color=%23cc5900" alt="гроші">
+          <img src="https://api.iconify.design/solar/user-circle-bold-duotone.svg?color=%23cc5900" alt="клієнт">
+          <img src="https://api.iconify.design/solar/folder-bold-duotone.svg?color=%23cc5900" alt="проєкт">
+          <img src="https://api.iconify.design/solar/check-circle-bold-duotone.svg?color=%23cc5900" alt="підтверджено">
+        </div>
+        <div class="invoice-actions">
+          <button class="btn">Виставити інвойс</button>
+          <button class="btn ghost">PDF</button>
+        </div>
+        <div class="status-row">
+          <span class="badge" style="background:#1f1f1f;color:#aeaeae">Не сплачено</span>
+          <span class="badge" style="background:#152127;color:#a5bbc7">Відправлено</span>
+          <span class="badge" style="background:#311805;color:#f9a870">Сплачено</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dir-section">
+      <h3>Іконки — Solar Bold Duotone</h3>
+      <p class="type-meta" style="margin-top:-6px;margin-bottom:10px">Заливка + приглушений другий шар — тримає контраст на чорному, не губиться.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ НАПРЯМ 3 — ЛЮДЯНИЙ ═══════════ -->
+  <section class="dir" style="
+    --dir-bg:#ffffff; --dir-surface:oklch(0.97 0.01 20); --dir-border:oklch(0.90 0.014 20);
+    --dir-ink:oklch(0.22 0.01 20); --dir-muted:oklch(0.42 0.012 20);
+    --dir-primary:#d33949; --dir-primary-ink:#ffffff;
+    --dir-strategy-bg:oklch(0.93 0.03 20); --dir-strategy-fg:oklch(0.4 0.14 20);
+    --dir-radius:20px; --dir-btn-radius:999px;
+    --font-display:'Plus Jakarta Sans', sans-serif; --font-ui:'Plus Jakarta Sans', sans-serif;
+    background:var(--dir-bg); color:var(--dir-ink);">
+
+    <div class="dir-head">
+      <p class="dir-eyebrow">Напрям 3</p>
+      <h2 class="dir-name">Людяний</h2>
+      <p class="dir-mood">Недільний ранок за кухонним столом фрілансера — м'яке денне світло,
+        паперовий блокнот, один яскравий акцент кольору свіжої малини.</p>
+      <span class="dir-strategy">Restrained · один акцент несе тепло</span>
+      <div class="dir-reflex"><b>Не рефлекс:</b> тепло — у кольорі акценту (малина), не в тлі;
+        тло лишається чисто білим, щоб не скотитися в крем+теракоту — саме той автоматизм,
+        який просили викинути.</div>
+    </div>
+
+    <div class="dir-section">
+      <h3>Палітра</h3>
+      <div class="swatches">
+        <div class="swatch"><div class="fill" style="background:#ffffff;border-bottom:1px solid #eee"></div><div class="label"><span class="name">bg</span><span class="hex">#ffffff</span></div></div>
+        <div class="swatch"><div class="fill" style="background:#fcf3f2"></div><div class="label"><span class="name">surface</span><span class="hex">#fcf3f2</span></div></div>
+        <div class="swatch"><div class="fill" style="background:#1f1919"></div><div class="label"><span class="name">ink</span><span class="hex">#1f1919</span></div></div>
+        <div class="swatch"><div class="fill" style="background:#d33949"></div><div class="label"><span class="name">primary</span><span class="hex">#d33949</span></div></div>
+        <div class="swatch"><div class="fill" style="background:#003841"></div><div class="label"><span class="name">accent</span><span class="hex">#003841</span></div></div>
+        <div class="swatch"><div class="fill" style="background:#605958"></div><div class="label"><span class="name">muted</span><span class="hex">#605958</span></div></div>
+      </div>
+    </div>
+
+    <div class="dir-section">
+      <h3>Шрифти</h3>
+      <div class="type-sample">
+        <p class="h">Рахунок на $1 240</p>
+        <p class="p">Оплачувані записи за травень зведено з таймера — без ручного перерахунку.</p>
+        <p class="type-meta"><code>Plus Jakarta Sans</code> 800 / 500 / 400 — одна родина, контраст через вагу, не через пару гарнітур.</p>
+      </div>
+    </div>
+
+    <div class="dir-section">
+      <h3>Жива картка інвойсу</h3>
+      <div class="invoice">
+        <div class="invoice-top">
+          <img class="invoice-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=faces&q=80" alt="Клієнт">
+          <div class="invoice-who">
+            <p class="invoice-client">Studio Nord</p>
+            <p class="invoice-meta">Інвойс № 0142 · травень 2026</p>
+          </div>
+          <span class="badge" style="background:#ffcfce;color:#620817">Сплачено</span>
+        </div>
+        <p class="invoice-amount">$1 240</p>
+        <p class="invoice-amount-label">Відстежено: 24 год 40 хв · ставка $50/год</p>
+        <div class="invoice-icons">
+          <img src="https://api.iconify.design/solar/clock-circle-bold.svg?color=%23d33949" alt="час">
+          <img src="https://api.iconify.design/solar/wallet-money-bold.svg?color=%23d33949" alt="гроші">
+          <img src="https://api.iconify.design/solar/user-circle-bold.svg?color=%23d33949" alt="клієнт">
+          <img src="https://api.iconify.design/solar/folder-bold.svg?color=%23d33949" alt="проєкт">
+          <img src="https://api.iconify.design/solar/check-circle-bold.svg?color=%23d33949" alt="підтверджено">
+        </div>
+        <div class="invoice-actions">
+          <button class="btn">Виставити інвойс</button>
+          <button class="btn ghost">PDF</button>
+        </div>
+        <div class="status-row">
+          <span class="badge" style="background:#e5dbdb;color:#443736">Не сплачено</span>
+          <span class="badge" style="background:#c8e4e6;color:#003c3f">Відправлено</span>
+          <span class="badge" style="background:#ffcfce;color:#620817">Сплачено</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dir-section">
+      <h3>Іконки — Solar Bold</h3>
+      <p class="type-meta" style="margin-top:-6px;margin-bottom:10px">Суцільна заливка, дружня і проста — без другого шару.</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const btn = document.getElementById('themeBtn');
+  const root = document.documentElement;
+  const saved = localStorage.getItem('trackon-theme');
+  if(saved) root.setAttribute('data-theme', saved);
+  btn.addEventListener('click', ()=>{
+    const cur = root.getAttribute('data-theme')
+      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('trackon-theme', next);
+  });
+</script>
+</body>
+</html>
