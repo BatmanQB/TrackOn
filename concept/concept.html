@@ -6,7 +6,7 @@
 <title>TrackOn — Мох · пілотний стенд мови</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,600;7..72,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --tk-bg:#ffffff; --tk-surface:#f4f6f2; --tk-surface-2:#eef1ea; --tk-border:#e3e6de;
@@ -19,7 +19,7 @@
     --tk-r-card:20px; --tk-r-btn:11px; --tk-r-input:10px; --tk-r-pill:999px;
     --tk-sh-card:0 2px 8px rgba(19,24,14,.06); --tk-sh-hover:0 8px 20px rgba(19,24,14,.10);
     --tk-sp-1:4px; --tk-sp-2:8px; --tk-sp-3:12px; --tk-sp-4:16px; --tk-sp-5:20px; --tk-sp-6:24px; --tk-sp-8:32px; --tk-sp-10:40px;
-    --tk-font-display:'Literata', serif; --tk-font-ui:'Inter', sans-serif;
+    --tk-font-display:'Outfit', sans-serif; --tk-font-ui:'Inter', sans-serif;
     --tk-page-bg:#ececea;
     /* paper grain — SVG feTurbulence noise, monochrome, multiply-blended; not a photo texture */
     --grain-svg:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.45' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -375,17 +375,19 @@
   <!-- ============ 3. ТИПОГРАФІКА ============ -->
   <section id="type">
     <h2>Типографіка</h2>
-    <p class="lead"><code>Literata</code> 600 (заголовки, суми) + <code>Inter</code> 400/500/600
-      (UI, тіло) — серифна пара за прикладом Popcorn/Runey (references.md). Фіксована rem-шкала
-      (не fluid) — продуктовий UI переглядають при сталому DPI.</p>
+    <p class="lead"><code>Outfit</code> 600 (заголовки, суми) + <code>Inter</code> 400/500/600
+      (UI, тіло) — геометричний sans-serif замість серифа: контраст ваги й характеру
+      (округлі геометричні форми Outfit проти нейтрального Inter), а не пара гарнітур —
+      за мотивом «December» з calendar-app-typography-purple.png (references/README.md).
+      Фіксована rem-шкала (не fluid) — продуктовий UI переглядають при сталому DPI.</p>
     <table class="type-table">
-      <tr><td class="role">display</td><td class="spec">Literata 600 · 39px / 1.1</td>
+      <tr><td class="role">display</td><td class="spec">Outfit 600 · 39px / 1.1</td>
         <td class="sample" style="font-size:39px;font-weight:600">$1 240</td></tr>
-      <tr><td class="role">h1</td><td class="spec">Literata 600 · 31px / 1.15</td>
+      <tr><td class="role">h1</td><td class="spec">Outfit 600 · 31px / 1.15</td>
         <td class="sample" style="font-size:31px;font-weight:600">Привіт, Олег</td></tr>
-      <tr><td class="role">h2</td><td class="spec">Literata 600 · 25px / 1.2</td>
+      <tr><td class="role">h2</td><td class="spec">Outfit 600 · 25px / 1.2</td>
         <td class="sample" style="font-size:25px;font-weight:600">Звіт за тиждень</td></tr>
-      <tr><td class="role">h3</td><td class="spec">Literata 600 · 20px / 1.25</td>
+      <tr><td class="role">h3</td><td class="spec">Outfit 600 · 20px / 1.25</td>
         <td class="sample" style="font-size:20px;font-weight:600">Studio Nord</td></tr>
       <tr><td class="role">body-lg</td><td class="spec">Inter 500 · 17px / 1.5</td>
         <td class="sample" style="font-family:'Inter';font-size:17px;font-weight:500">Оплачувані записи за травень</td></tr>
