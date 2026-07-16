@@ -21,16 +21,34 @@
     --tk-sp-1:4px; --tk-sp-2:8px; --tk-sp-3:12px; --tk-sp-4:16px; --tk-sp-5:20px; --tk-sp-6:24px; --tk-sp-8:32px; --tk-sp-10:40px;
     --tk-font-display:'Fraunces', serif; --tk-font-ui:'Inter', sans-serif;
     --tk-page-bg:#ececea;
+    /* paper grain — SVG feTurbulence noise, monochrome, multiply-blended; not a photo texture */
+    --grain-svg:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.45' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--tk-page-bg);color:var(--tk-ink);
+  body{margin:0;background:var(--tk-page-bg);color:var(--tk-ink);position:relative;
     font:15px/1.6 var(--tk-font-ui);-webkit-font-smoothing:antialiased;}
   a{color:var(--tk-primary)}
   h1,h2,h3{font-family:var(--tk-font-display);text-wrap:balance;letter-spacing:-0.01em;}
   code{background:var(--tk-surface-2);padding:1px 6px;border-radius:5px;font-size:12.5px;}
 
-  .wrap{max-width:1080px;margin:0 auto;padding:0 24px 100px;}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    opacity:var(--grain-page-opacity,.07);mix-blend-mode:multiply;
+    background-image:var(--grain-svg);background-size:160px 160px;
+    transition:opacity .2s;}
+  body.no-grain::before{opacity:0;}
+  .grain-card{position:relative;overflow:hidden;}
+  .grain-card::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+    opacity:var(--grain-card-opacity,.13);mix-blend-mode:multiply;
+    background-image:var(--grain-svg);background-size:120px 120px;
+    transition:opacity .2s;}
+  body.no-grain .grain-card::after{opacity:0;}
+
+  .grain-toggle{position:fixed;bottom:16px;right:16px;z-index:60;background:var(--tk-ink);
+    color:var(--tk-bg);border:none;border-radius:999px;padding:9px 15px;font:600 12.5px/1 var(--tk-font-ui);
+    cursor:pointer;box-shadow:var(--tk-sh-hover);}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px 100px;position:relative;z-index:1;}
   header.hero{padding:56px 0 28px;}
   .kicker{display:inline-block;font:600 12.5px/1 var(--tk-font-ui);letter-spacing:.04em;
     color:var(--tk-primary);background:color-mix(in oklab, var(--tk-primary) 12%, white);
@@ -213,7 +231,7 @@
         </div>
 
         <div class="device-card">
-          <div class="mini-card" style="border-radius:var(--tk-r-card);padding:18px;">
+          <div class="mini-card grain-card" style="border-radius:var(--tk-r-card);padding:18px;">
             <div class="mini-top">
               <img class="mini-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=faces&q=80" alt="Клієнт">
               <div>
@@ -400,7 +418,7 @@
         домен — CLAUDE.md не має оголошень/верифікації людей, лише інвойси й статуси оплати
         (§8). Фото — реальний контент (клієнт), не декоративне.</p>
       <div class="mini-cards">
-        <div class="mini-card">
+        <div class="mini-card grain-card">
           <div class="mini-top">
             <img class="mini-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=faces&q=80" alt="Клієнт">
             <div><p class="mini-name">Studio Nord</p><p class="mini-inv">№ 0140 · квіт. 2026</p></div>
@@ -408,7 +426,7 @@
           <span class="badge" style="background:var(--tk-st-unpaid-bg);color:var(--tk-st-unpaid-fg)">Не сплачено</span>
           <p class="mini-amount">$860</p>
         </div>
-        <div class="mini-card">
+        <div class="mini-card grain-card">
           <div class="mini-top">
             <img class="mini-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&h=96&fit=crop&crop=faces&q=80" alt="Клієнт">
             <div><p class="mini-name">Acme Co</p><p class="mini-inv">№ 0141 · квіт. 2026</p></div>
@@ -417,7 +435,7 @@
             <img src="https://api.iconify.design/solar/plain-linear.svg?color=%232a3e47" alt="">Відправлено</span>
           <p class="mini-amount">$540</p>
         </div>
-        <div class="mini-card">
+        <div class="mini-card grain-card">
           <div class="mini-top">
             <img class="mini-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=faces&q=80" alt="Клієнт">
             <div><p class="mini-name">Studio Nord</p><p class="mini-inv">№ 0142 · трав. 2026</p></div>
@@ -458,5 +476,18 @@
     альтернативи — <a href="directions.html">concept/directions.html</a>
   </footer>
 </div>
+
+<button class="grain-toggle" id="grainBtn">Текстура: увімкнено</button>
+<script>
+  const grainBtn = document.getElementById('grainBtn');
+  const bodyEl = document.body;
+  const savedGrain = localStorage.getItem('trackon-grain');
+  if (savedGrain === 'off') { bodyEl.classList.add('no-grain'); grainBtn.textContent = 'Текстура: вимкнено'; }
+  grainBtn.addEventListener('click', () => {
+    const off = bodyEl.classList.toggle('no-grain');
+    grainBtn.textContent = off ? 'Текстура: вимкнено' : 'Текстура: увімкнено';
+    localStorage.setItem('trackon-grain', off ? 'off' : 'on');
+  });
+</script>
 </body>
 </html>
