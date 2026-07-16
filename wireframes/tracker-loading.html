@@ -208,6 +208,60 @@
   .wf-canvas .swatch-row .swatch:nth-child(2){background:#45647a}
   .wf-canvas .swatch-row .swatch:nth-child(3){background:#d78d00}
   .wf-canvas .swatch.sel{box-shadow:0 0 0 2px var(--wc-surface),0 0 0 4px var(--wc-ink);outline:none}
+  /* ===== Патч 3: світла/темна як одна система (не інверсія), один момент скла, ритм картки ===== */
+  @media (prefers-color-scheme: dark){
+    .wf-canvas{
+      --wc-bg:#090c07; --wc-surface:#141810; --wc-card:#1a1f16; --wc-border:#2b3027;
+      --wc-ink:#e6e9e2; --wc-muted:#959a91;
+      --wc-primary:#79aa3b; --wc-primary-ink:#090c07;
+      --wc-danger:#ea6a64; --wc-danger-bg:#391917;
+      --wc-st-unpaid-bg:#30271f; --wc-st-unpaid-fg:#c8bbb1;
+      --wc-st-sent-bg:#142730; --wc-st-sent-fg:#abcad9;
+      --wc-st-paid-bg:#1a2906; --wc-st-paid-fg:#b5d892;
+      --wc-sh-card:0 2px 8px rgba(0,0,0,.35); --wc-sh-hover:0 8px 20px rgba(0,0,0,.5);
+    }
+  }
+  html[data-theme="dark"] .wf-canvas{
+    --wc-bg:#090c07; --wc-surface:#141810; --wc-card:#1a1f16; --wc-border:#2b3027;
+    --wc-ink:#e6e9e2; --wc-muted:#959a91;
+    --wc-primary:#79aa3b; --wc-primary-ink:#090c07;
+    --wc-danger:#ea6a64; --wc-danger-bg:#391917;
+    --wc-st-unpaid-bg:#30271f; --wc-st-unpaid-fg:#c8bbb1;
+    --wc-st-sent-bg:#142730; --wc-st-sent-fg:#abcad9;
+    --wc-st-paid-bg:#1a2906; --wc-st-paid-fg:#b5d892;
+    --wc-sh-card:0 2px 8px rgba(0,0,0,.35); --wc-sh-hover:0 8px 20px rgba(0,0,0,.5);
+  }
+  html[data-theme="light"] .wf-canvas{
+    --wc-bg:#ececea; --wc-surface:#ffffff; --wc-card:#f4f6f2; --wc-border:#e3e6de;
+    --wc-ink:#13180e; --wc-muted:#565952;
+    --wc-primary:#4a710a; --wc-primary-ink:#ffffff;
+    --wc-danger:#8a2a1c; --wc-danger-bg:#f7e4e0;
+    --wc-st-unpaid-bg:#e3ddd8; --wc-st-unpaid-fg:#433830;
+    --wc-st-sent-bg:#d1e1e9; --wc-st-sent-fg:#2a3e47;
+    --wc-st-paid-bg:#d3e5c3; --wc-st-paid-fg:#233b00;
+    --wc-sh-card:0 2px 8px rgba(19,24,14,.06); --wc-sh-hover:0 8px 20px rgba(19,24,14,.10);
+  }
+  /* іконки — колір "запечено" в URL Iconify, тож у темній темі просто інвертуємо (ink/muted/white
+     стають light/light/dark коректно); один виняток — акцентна іконка активної вкладки нижче */
+  @media (prefers-color-scheme: dark){ .wf-canvas :is(.wf-states,.err,.empty-box,[role="status"],button,a.btn,nav a,p,section)::before{filter:invert(1)} }
+  html[data-theme="dark"] .wf-canvas :is(.wf-states,.err,.empty-box,[role="status"],button,a.btn,nav a,p,section)::before{filter:invert(1)}
+  html[data-theme="light"] .wf-canvas :is(.wf-states,.err,.empty-box,[role="status"],button,a.btn,nav a,p,section)::before{filter:none}
+  .wf-canvas nav[aria-label="Вкладки трекера"] a[aria-current="page"]::before{filter:none !important}
+  @media (prefers-color-scheme: dark){
+    .wf-canvas nav[aria-label="Вкладки трекера"] a[aria-current="page"]::before{background-image:url("https://api.iconify.design/solar/folder-linear.svg?color=%2379aa3b")}
+  }
+  html[data-theme="dark"] .wf-canvas nav[aria-label="Вкладки трекера"] a[aria-current="page"]::before{background-image:url("https://api.iconify.design/solar/folder-linear.svg?color=%2379aa3b")}
+  html[data-theme="light"] .wf-canvas nav[aria-label="Вкладки трекера"] a[aria-current="page"]::before{background-image:url("https://api.iconify.design/solar/folder-linear.svg?color=%234a710a")}
+
+  /* один момент скла — floating попап дропдауна/календаря, не паттерн на всю сторінку (мудборд: sense-meditation) */
+  .wf-canvas .dd-panel,.wf-canvas .cal-pop{
+    background:color-mix(in oklab, var(--wc-surface) 75%, transparent);
+    backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);
+  }
+
+  /* ритм картки — трохи щедріші відступи (мудборд: calendar-app-typography-purple.png) */
+  .wf-canvas section{padding:18px 20px}
+  .wf-canvas article{padding:14px 16px}
 </style>
 </head>
 <body>

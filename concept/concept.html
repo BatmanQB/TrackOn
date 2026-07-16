@@ -24,6 +24,49 @@
     /* paper grain — SVG feTurbulence noise, monochrome, multiply-blended; not a photo texture */
     --grain-svg:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.45' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
+  /* світла/темна — та сама система токенів, не інверсія (мудборд: focus-task-app-light-dark.png) */
+  @media (prefers-color-scheme: dark){
+    :root{
+      --tk-bg:#090c07; --tk-surface:#141810; --tk-surface-2:#1a1f16; --tk-border:#2b3027;
+      --tk-ink:#e6e9e2; --tk-muted:#959a91;
+      --tk-primary:#79aa3b; --tk-primary-ink:#090c07;
+      --tk-accent:#e49e22; --tk-accent-ink:#2b1a02;
+      --tk-st-unpaid-bg:#30271f; --tk-st-unpaid-fg:#c8bbb1;
+      --tk-st-sent-bg:#142730; --tk-st-sent-fg:#abcad9;
+      --tk-st-paid-bg:#1a2906; --tk-st-paid-fg:#b5d892;
+      --tk-page-bg:#121510;
+      --tk-sh-card:0 2px 8px rgba(0,0,0,.35); --tk-sh-hover:0 8px 20px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --tk-bg:#090c07; --tk-surface:#141810; --tk-surface-2:#1a1f16; --tk-border:#2b3027;
+    --tk-ink:#e6e9e2; --tk-muted:#959a91;
+    --tk-primary:#79aa3b; --tk-primary-ink:#090c07;
+    --tk-accent:#e49e22; --tk-accent-ink:#2b1a02;
+    --tk-st-unpaid-bg:#30271f; --tk-st-unpaid-fg:#c8bbb1;
+    --tk-st-sent-bg:#142730; --tk-st-sent-fg:#abcad9;
+    --tk-st-paid-bg:#1a2906; --tk-st-paid-fg:#b5d892;
+    --tk-page-bg:#121510;
+    --tk-sh-card:0 2px 8px rgba(0,0,0,.35); --tk-sh-hover:0 8px 20px rgba(0,0,0,.5);
+  }
+  :root[data-theme="light"]{
+    --tk-bg:#ffffff; --tk-surface:#f4f6f2; --tk-surface-2:#eef1ea; --tk-border:#e3e6de;
+    --tk-ink:#13180e; --tk-muted:#565952;
+    --tk-primary:#4a710a; --tk-primary-ink:#ffffff;
+    --tk-accent:#d78d00; --tk-accent-ink:#3a2400;
+    --tk-st-unpaid-bg:#e3ddd8; --tk-st-unpaid-fg:#433830;
+    --tk-st-sent-bg:#d1e1e9; --tk-st-sent-fg:#2a3e47;
+    --tk-st-paid-bg:#d3e5c3; --tk-st-paid-fg:#233b00;
+    --tk-page-bg:#ececea;
+    --tk-sh-card:0 2px 8px rgba(19,24,14,.06); --tk-sh-hover:0 8px 20px rgba(19,24,14,.10);
+  }
+  /* шум лишається помітним і на темному тлі — screen замість multiply, інакше зникає в чорному */
+  [data-theme="dark"] body::before,[data-theme="dark"] .grain-card::after{mix-blend-mode:screen;opacity:.03}
+  @media (prefers-color-scheme: dark){
+    body::before,.grain-card::after{mix-blend-mode:screen;opacity:.03}
+    [data-theme="light"] body::before{mix-blend-mode:multiply;opacity:var(--grain-page-opacity,.07)}
+    [data-theme="light"] .grain-card::after{mix-blend-mode:multiply;opacity:var(--grain-card-opacity,.13)}
+  }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{margin:0;background:var(--tk-page-bg);color:var(--tk-ink);position:relative;
@@ -47,6 +90,9 @@
   .grain-toggle{position:fixed;bottom:16px;right:16px;z-index:60;background:var(--tk-ink);
     color:var(--tk-bg);border:none;border-radius:999px;padding:9px 15px;font:600 12.5px/1 var(--tk-font-ui);
     cursor:pointer;box-shadow:var(--tk-sh-hover);}
+  .theme-toggle{position:fixed;top:16px;right:16px;z-index:60;background:var(--tk-surface);
+    color:var(--tk-ink);border:1px solid var(--tk-border);border-radius:999px;padding:8px 14px;
+    font:600 13px/1 var(--tk-font-ui);cursor:pointer;box-shadow:var(--tk-sh-card);}
 
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px 100px;position:relative;z-index:1;}
   header.hero{padding:56px 0 28px;}
@@ -73,28 +119,43 @@
   /* ============ 1. МОВА ЖИВЦЕМ (device mock) ============ */
   .device{width:360px;margin:0 auto;background:var(--tk-bg);border:1px solid var(--tk-border);
     border-radius:32px;box-shadow:var(--tk-sh-hover);overflow:hidden;}
-  .device-screen{padding:24px 18px 0;min-height:520px;display:flex;flex-direction:column;}
-  .device-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px;}
-  .device-greet{font:600 20px/1.2 var(--tk-font-display);margin:0;}
+  .device-screen{padding:28px 20px 0;min-height:540px;display:flex;flex-direction:column;position:relative;}
+  .device-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:22px;}
+  .device-greet{font:600 24px/1.15 var(--tk-font-display);margin:0;}
   .device-date{font:500 12px/1 var(--tk-font-ui);color:var(--tk-muted);}
 
-  .stat-row{display:flex;gap:10px;margin-bottom:18px;}
-  .stat{flex:1;background:var(--tk-surface);border-radius:14px;padding:12px 14px;}
-  .stat .n{font:600 20px/1.1 var(--tk-font-display);margin:0 0 2px;}
+  .stat-row{display:flex;gap:12px;margin-bottom:22px;}
+  .stat{flex:1;background:var(--tk-surface);border-radius:16px;padding:16px 16px 14px;}
+  .stat .n{font:600 23px/1.1 var(--tk-font-display);margin:0 0 3px;}
   .stat .l{font:500 11px/1.3 var(--tk-font-ui);color:var(--tk-muted);margin:0;}
 
-  .tile-row{display:flex;gap:10px;margin-bottom:16px;}
-  .tile{flex:1;border-radius:16px;padding:14px;color:#fff;background:var(--tk-primary);
-    display:flex;flex-direction:column;gap:26px;}
-  .tile.alt{background:var(--tk-ink);}
+  .tile-row{display:flex;gap:12px;margin-bottom:20px;}
+  /* колір тексту/іконки прив'язаний до токена, не хардкод — інакше ламається в темній темі,
+     де primary світлішає і потребує темного тексту (перевірено: білий на #79aa3b = 2.75:1) */
+  .tile{flex:1;border-radius:18px;padding:16px;color:var(--tk-primary-ink);background:var(--tk-primary);
+    display:flex;flex-direction:column;gap:28px;}
+  .tile.alt{background:var(--tk-ink);color:var(--tk-bg);}
   .tile .tn{font:600 13px/1.3 var(--tk-font-ui);}
   .tile .tt{display:flex;align-items:center;gap:6px;font:500 11px/1 var(--tk-font-ui);opacity:.85;}
   .tile img{filter:brightness(0) invert(1);width:16px;height:16px;}
+  /* обидва тайли світлі-на-темному в dark-режимі (primary світлішає, ink стає світлим) —
+     іконці потрібен темний, не білий колір; перевірено: 2.75:1 було б провалом AA */
+  [data-theme="dark"] .tile img{filter:brightness(0)}
+  @media (prefers-color-scheme: dark){
+    .tile img{filter:brightness(0)}
+    [data-theme="light"] .tile img{filter:brightness(0) invert(1)}
+  }
 
-  .device-card{margin-top:auto;}
+  .device-card{margin-top:auto;padding-bottom:14px;}
 
+  /* один момент скла — floating tab-bar, за мотивом sense-meditation (backdrop-blur), не паттерн на всю сторінку */
   .tabbar{display:flex;justify-content:space-around;align-items:center;
-    padding:10px 6px;border-top:1px solid var(--tk-border);margin-top:18px;}
+    padding:12px 8px;margin:14px 12px 14px;border-radius:20px;
+    position:sticky;bottom:12px;
+    background:color-mix(in oklab, var(--tk-surface) 68%, transparent);
+    backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);
+    border:1px solid color-mix(in oklab, var(--tk-border) 70%, transparent);
+    box-shadow:var(--tk-sh-hover);}
   .tab{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 14px;border-radius:12px;
     font:500 10.5px/1 var(--tk-font-ui);color:var(--tk-muted);}
   .tab.active{background:var(--tk-surface);color:var(--tk-primary);}
@@ -477,8 +538,21 @@
   </footer>
 </div>
 
+<button class="theme-toggle" id="themeBtn">◐ Тема</button>
 <button class="grain-toggle" id="grainBtn">Текстура: увімкнено</button>
 <script>
+  const themeBtn = document.getElementById('themeBtn');
+  const root = document.documentElement;
+  const savedTheme = localStorage.getItem('trackon-theme');
+  if (savedTheme) root.setAttribute('data-theme', savedTheme);
+  themeBtn.addEventListener('click', () => {
+    const cur = root.getAttribute('data-theme')
+      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('trackon-theme', next);
+  });
+
   const grainBtn = document.getElementById('grainBtn');
   const bodyEl = document.body;
   const savedGrain = localStorage.getItem('trackon-grain');
