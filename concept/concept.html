@@ -16,6 +16,7 @@
     --tk-st-unpaid-bg:#e3ddd8; --tk-st-unpaid-fg:#433830;
     --tk-st-sent-bg:#d1e1e9; --tk-st-sent-fg:#2a3e47;
     --tk-st-paid-bg:#d3e5c3; --tk-st-paid-fg:#233b00;
+    --tk-danger:#8a2a1c; --tk-danger-bg:#f7e4e0;
     --tk-r-card:20px; --tk-r-btn:11px; --tk-r-input:10px; --tk-r-pill:999px;
     --tk-sh-card:0 2px 8px rgba(19,24,14,.06); --tk-sh-hover:0 8px 20px rgba(19,24,14,.10);
     --tk-sp-1:4px; --tk-sp-2:8px; --tk-sp-3:12px; --tk-sp-4:16px; --tk-sp-5:20px; --tk-sp-6:24px; --tk-sp-8:32px; --tk-sp-10:40px;
@@ -34,6 +35,7 @@
       --tk-st-unpaid-bg:#30271f; --tk-st-unpaid-fg:#c8bbb1;
       --tk-st-sent-bg:#142730; --tk-st-sent-fg:#abcad9;
       --tk-st-paid-bg:#1a2906; --tk-st-paid-fg:#b5d892;
+      --tk-danger:#ea6a64; --tk-danger-bg:#391917;
       --tk-page-bg:#121510;
       --tk-sh-card:0 2px 8px rgba(0,0,0,.35); --tk-sh-hover:0 8px 20px rgba(0,0,0,.5);
     }
@@ -46,6 +48,7 @@
     --tk-st-unpaid-bg:#30271f; --tk-st-unpaid-fg:#c8bbb1;
     --tk-st-sent-bg:#142730; --tk-st-sent-fg:#abcad9;
     --tk-st-paid-bg:#1a2906; --tk-st-paid-fg:#b5d892;
+    --tk-danger:#ea6a64; --tk-danger-bg:#391917;
     --tk-page-bg:#121510;
     --tk-sh-card:0 2px 8px rgba(0,0,0,.35); --tk-sh-hover:0 8px 20px rgba(0,0,0,.5);
   }
@@ -57,6 +60,7 @@
     --tk-st-unpaid-bg:#e3ddd8; --tk-st-unpaid-fg:#433830;
     --tk-st-sent-bg:#d1e1e9; --tk-st-sent-fg:#2a3e47;
     --tk-st-paid-bg:#d3e5c3; --tk-st-paid-fg:#233b00;
+    --tk-danger:#8a2a1c; --tk-danger-bg:#f7e4e0;
     --tk-page-bg:#ececea;
     --tk-sh-card:0 2px 8px rgba(19,24,14,.06); --tk-sh-hover:0 8px 20px rgba(19,24,14,.10);
   }
@@ -97,7 +101,7 @@
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px 100px;position:relative;z-index:1;}
   header.hero{padding:56px 0 28px;}
   .kicker{display:inline-block;font:600 12.5px/1 var(--tk-font-ui);letter-spacing:.04em;
-    color:var(--tk-primary);background:color-mix(in oklab, var(--tk-primary) 12%, white);
+    color:var(--tk-primary);background:color-mix(in oklab, var(--tk-primary) 12%, var(--tk-bg));
     border-radius:999px;padding:5px 13px;margin-bottom:16px;}
   h1.title{font-size:clamp(30px,4.5vw,42px);margin:0 0 10px;}
   .hero p{color:var(--tk-muted);max-width:66ch;margin:0 0 6px;text-wrap:pretty;}
@@ -113,26 +117,32 @@
   section h2{font-size:24px;margin:0 0 6px;}
   section .lead{color:var(--tk-muted);margin:0 0 24px;max-width:70ch;text-wrap:pretty;}
   .tag{display:inline-block;font:600 10.5px/1 var(--tk-font-ui);letter-spacing:.02em;
-    color:var(--tk-primary);background:color-mix(in oklab, var(--tk-primary) 10%, white);
+    color:var(--tk-primary);background:color-mix(in oklab, var(--tk-primary) 10%, var(--tk-bg));
     padding:3px 8px;border-radius:6px;margin-left:8px;vertical-align:middle;}
 
   /* ============ 1. МОВА ЖИВЦЕМ (device mock) ============ */
-  .device{width:360px;margin:0 auto;background:var(--tk-bg);border:1px solid var(--tk-border);
+  .device{width:360px;max-width:100%;margin:0 auto;background:var(--tk-bg);border:1px solid var(--tk-border);
     border-radius:32px;box-shadow:var(--tk-sh-hover);overflow:hidden;}
+  /* вузькі екрани (~360-390px): .wrap padding 24px×2 + 360px ширше за viewport — без max-width:100%
+     тут стався б горизонтальний скрол (/impeccable audit: Responsive) */
+  @media (max-width:420px){
+    .wrap{padding-left:12px;padding-right:12px;}
+    .device{border-radius:20px;}
+  }
   .device-screen{padding:28px 20px 0;min-height:540px;display:flex;flex-direction:column;position:relative;}
   .device-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:22px;}
   .device-greet{font:600 24px/1.15 var(--tk-font-display);margin:0;}
   .device-date{font:500 12px/1 var(--tk-font-ui);color:var(--tk-muted);}
 
   .stat-row{display:flex;gap:12px;margin-bottom:22px;}
-  .stat{flex:1;background:var(--tk-surface);border-radius:16px;padding:16px 16px 14px;}
+  .stat{flex:1;background:var(--tk-surface);border-radius:var(--tk-r-card);padding:16px 16px 14px;}
   .stat .n{font:600 23px/1.1 var(--tk-font-display);margin:0 0 3px;}
   .stat .l{font:500 11px/1.3 var(--tk-font-ui);color:var(--tk-muted);margin:0;}
 
   .tile-row{display:flex;gap:12px;margin-bottom:20px;}
   /* колір тексту/іконки прив'язаний до токена, не хардкод — інакше ламається в темній темі,
      де primary світлішає і потребує темного тексту (перевірено: білий на #79aa3b = 2.75:1) */
-  .tile{flex:1;border-radius:18px;padding:16px;color:var(--tk-primary-ink);background:var(--tk-primary);
+  .tile{flex:1;border-radius:var(--tk-r-card);padding:16px;color:var(--tk-primary-ink);background:var(--tk-primary);
     display:flex;flex-direction:column;gap:28px;}
   .tile.alt{background:var(--tk-ink);color:var(--tk-bg);}
   .tile .tn{font:600 13px/1.3 var(--tk-font-ui);}
@@ -156,9 +166,11 @@
     backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);
     border:1px solid color-mix(in oklab, var(--tk-border) 70%, transparent);
     box-shadow:var(--tk-sh-hover);}
-  .tab{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 14px;border-radius:12px;
+  .tab{appearance:none;border:none;background:none;cursor:pointer;flex:1;
+    display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 14px;border-radius:12px;
     font:500 10.5px/1 var(--tk-font-ui);color:var(--tk-muted);}
   .tab.active{background:var(--tk-surface);color:var(--tk-primary);}
+  .tab:focus-visible{outline:2px solid var(--tk-primary);outline-offset:2px;}
   .tab img{width:20px;height:20px;}
 
   /* ============ palette ============ */
@@ -206,12 +218,14 @@
   .btn img{width:16px;height:16px;filter:brightness(0) invert(1);}
   .btn:hover{transform:translateY(-1px);box-shadow:var(--tk-sh-hover);}
   .btn:active{transform:translateY(0);}
+  /* фокус-стан для клавіатури — інакше кнопки покладались би на дефолтний контур браузера (/impeccable audit: A11y) */
+  .btn:focus-visible{outline:2px solid var(--tk-ink);outline-offset:2px;}
   .btn[disabled]{background:var(--tk-st-unpaid-bg);color:var(--tk-muted);cursor:not-allowed;}
   .btn[disabled]:hover{transform:none;box-shadow:none;}
   .btn.loading{opacity:.7;cursor:progress;}
 
   .mini-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;}
-  .mini-card{background:var(--tk-surface);border:1px solid var(--tk-border);border-radius:16px;padding:16px;}
+  .mini-card{background:var(--tk-surface);border:1px solid var(--tk-border);border-radius:var(--tk-r-card);padding:18px;}
   .mini-top{display:flex;align-items:center;gap:9px;margin-bottom:10px;}
   .mini-avatar{width:32px;height:32px;border-radius:50%;object-fit:cover;border:1px solid var(--tk-border);}
   .mini-name{font:600 12.5px/1.2 var(--tk-font-ui);margin:0;}
@@ -226,8 +240,8 @@
     border:1px solid var(--tk-border);background:var(--tk-bg);color:var(--tk-ink);}
   .field input:focus,.field input.demo-focus{outline:2px solid var(--tk-primary);outline-offset:1px;border-color:var(--tk-primary);}
   .field .hint{font:400 11.5px/1.4 var(--tk-font-ui);color:var(--tk-muted);margin-top:6px;}
-  .field .err{font:500 11.5px/1.4 var(--tk-font-ui);color:#8a2a1c;margin-top:6px;}
-  .field.error input{border-color:#8a2a1c;}
+  .field .field-note.err{font:500 11.5px/1.4 var(--tk-font-ui);color:var(--tk-danger);margin-top:6px;}
+  .field.error input{border-color:var(--tk-danger);}
   .field-row{display:flex;flex-wrap:wrap;gap:24px;}
 
   footer{margin-top:70px;padding-top:24px;border-top:1px solid var(--tk-border);color:var(--tk-muted);font-size:13px;}
@@ -292,7 +306,7 @@
         </div>
 
         <div class="device-card">
-          <div class="mini-card grain-card" style="border-radius:var(--tk-r-card);padding:18px;">
+          <div class="mini-card grain-card">
             <div class="mini-top">
               <img class="mini-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=faces&q=80" alt="Клієнт">
               <div>
@@ -307,12 +321,12 @@
           </div>
         </div>
 
-        <div class="tabbar">
-          <div class="tab active"><img src="https://api.iconify.design/solar/home-2-linear.svg?color=%234a710a" alt="">Лаунчпад</div>
-          <div class="tab"><img src="https://api.iconify.design/solar/chart-2-linear.svg?color=%23565952" alt="">Звіти</div>
-          <div class="tab"><img src="https://api.iconify.design/solar/bill-list-linear.svg?color=%23565952" alt="">Інвойси</div>
-          <div class="tab"><img src="https://api.iconify.design/solar/settings-linear.svg?color=%23565952" alt="">Ще</div>
-        </div>
+        <nav class="tabbar" aria-label="Головна навігація">
+          <button type="button" class="tab active" aria-current="page"><img src="https://api.iconify.design/solar/home-2-linear.svg?color=%234a710a" alt="">Лаунчпад</button>
+          <button type="button" class="tab"><img src="https://api.iconify.design/solar/chart-2-linear.svg?color=%23565952" alt="">Звіти</button>
+          <button type="button" class="tab"><img src="https://api.iconify.design/solar/bill-list-linear.svg?color=%23565952" alt="">Інвойси</button>
+          <button type="button" class="tab"><img src="https://api.iconify.design/solar/settings-linear.svg?color=%23565952" alt="">Ще</button>
+        </nav>
       </div>
     </div>
   </section>
@@ -332,7 +346,9 @@
       <div class="swatch">
         <div class="fill" style="background:#d78d00"></div>
         <div class="meta"><p class="role">accent</p><p class="hex">#d78d00 · oklch(.70 .16 75)</p>
-          <p class="why"><b>← смак</b> суто декоративний; тло чипа/іконка з темним текстом, не для білого тексту (2.7:1).</p></div>
+          <p class="why"><b>← смак</b> суто декоративний; тло чипа/іконка з темним текстом, не для білого тексту (2.7:1).
+          <b>Зарезервовано</b> — поки не застосовано в жодному живому компоненті нижче; додати лише
+          там, де знадобиться другорядний акцент, не замінюючи primary.</p></div>
       </div>
       <div class="swatch">
         <div class="fill" style="background:#ffffff;border-bottom:1px solid #eee"></div>
@@ -528,7 +544,7 @@
         <div class="field error">
           <label>error</label>
           <input type="text" value="">
-          <p class="err">Назва обов'язкова — вкажи назву проєкту</p>
+          <p class="field-note err">Назва обов'язкова — вкажи назву проєкту</p>
         </div>
       </div>
     </div>
