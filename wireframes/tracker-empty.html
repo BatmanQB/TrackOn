@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <title>Wireframe — Головний / Лаунчпад трекінгу · порожній</title>
 <style>
   /* ===== Тема + сайдбар — той самий стиль, що в research.html ===== */
@@ -52,84 +55,215 @@
     .backdrop{display:none;}
   }
 
-  /* ===== Макет екрана — low-fi, лише сірі відтінки (ізольовано в .wf-canvas) ===== */
-  .wf-canvas{background:#ededed;color:#222;min-height:100vh;padding-bottom:24px;
-    font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  /* ===== Макет екрана — мова «Мох» (concept/concept.html), перенесено 1:1 ===== */
+  .wf-canvas{
+    --wc-bg:#ececea; --wc-surface:#ffffff; --wc-card:#f4f6f2; --wc-border:#e3e6de;
+    --wc-ink:#13180e; --wc-muted:#565952;
+    --wc-primary:#4a710a; --wc-primary-ink:#ffffff;
+    --wc-danger:#8a2a1c; --wc-danger-bg:#f7e4e0;
+    --wc-r-card:20px; --wc-r-btn:11px; --wc-r-input:10px;
+    --wc-sh-card:0 2px 8px rgba(19,24,14,.06); --wc-sh-hover:0 8px 20px rgba(19,24,14,.10);
+    --wc-font-display:'Outfit',sans-serif; --wc-font-ui:'Inter',sans-serif;
+    background:var(--wc-bg);color:var(--wc-ink);min-height:100vh;padding-bottom:24px;
+    font:15px/1.6 var(--wc-font-ui);
+  }
+  .wf-canvas h1,.wf-canvas h2,.wf-canvas h3{font-family:var(--wc-font-display);font-weight:600;letter-spacing:-0.01em;}
   .wf-canvas header,.wf-canvas main,.wf-canvas footer{max-width:760px;margin:0 auto;padding:0 14px}
-  .wf-canvas .wf-meta{background:#dcdcdc;border-bottom:2px solid #999;padding:10px 14px;font-size:13px;color:#333}
-  .wf-canvas .wf-meta b{color:#000}
-  .wf-canvas .ann{font-size:11px;color:#5f5f5f;background:#e6e6e6;border:1px dashed #a8a8a8;padding:3px 7px;margin:6px auto;display:block;max-width:760px;border-radius:6px}
-  .wf-canvas header{background:#fff;border:1px solid #ccc;border-radius:12px;padding:12px 14px;margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-  .wf-canvas h1{font-size:18px;margin:0}
-  .wf-canvas h2{font-size:15px;margin:0 0 2px}
-  .wf-canvas h3{font-size:14px;margin:0}
-  .wf-canvas [role="status"]{display:flex;align-items:center;gap:10px;border:1px solid #bbb;background:#f4f4f4;padding:6px 10px;border-radius:10px}
-  .wf-canvas nav a{display:inline-block;padding:6px 12px;border:1px solid #bbb;background:#f6f6f6;color:#222;text-decoration:none;margin:0 6px 0 0;border-radius:8px}
-  .wf-canvas nav a[aria-current="page"]{background:#cfcfcf;border-color:#7d7d7d}
-  .wf-canvas section{background:#fff;border:1px solid #ccc;padding:12px 14px;margin:12px 0;border-radius:12px}
+  .wf-canvas .wf-meta{background:var(--wc-card);border-bottom:1px solid var(--wc-border);padding:10px 14px;font-size:13px;color:var(--wc-muted)}
+  .wf-canvas .wf-meta b{color:var(--wc-ink)}
+  .wf-canvas .ann{font-size:11px;color:var(--wc-muted);background:var(--wc-card);border:1px dashed var(--wc-border);padding:3px 7px;margin:6px auto;display:block;max-width:760px;border-radius:8px}
+  .wf-canvas header{background:var(--wc-surface);border:1px solid var(--wc-border);border-radius:var(--wc-r-card);padding:16px 18px;margin-top:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:var(--wc-sh-card)}
+  .wf-canvas h1{font-size:20px;margin:0}
+  .wf-canvas h2{font-size:18px;margin:0 0 2px}
+  .wf-canvas h3{font-size:15px;margin:0}
+  .wf-canvas [role="status"]{display:inline-flex;align-items:center;gap:9px;border-radius:var(--wc-r-btn);padding:9px 14px;background:var(--wc-card);color:var(--wc-muted);font-weight:600;font-size:13.5px}
+  .wf-canvas [role="status"]::before{content:"";display:inline-block;width:16px;height:16px;flex:none;
+    background:url("https://api.iconify.design/solar/clock-circle-linear.svg?color=%23565952") center/contain no-repeat;}
+  .wf-canvas [role="status"]:has(button){background:var(--wc-primary);color:var(--wc-primary-ink);}
+  .wf-canvas [role="status"]:has(button)::before{background-image:url("https://api.iconify.design/solar/clock-circle-linear.svg?color=%23ffffff");}
+  .wf-canvas [role="status"] button{margin-left:2px}
+  .wf-canvas nav a{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border:1px solid var(--wc-border);background:var(--wc-surface);color:var(--wc-ink);text-decoration:none;margin:0 6px 0 0;border-radius:var(--wc-r-btn);font-weight:600;font-size:13.5px}
+  .wf-canvas nav a[aria-current="page"]{background:var(--wc-card);border-color:var(--wc-primary);color:var(--wc-primary)}
+  .wf-canvas nav[aria-label="Вкладки трекера"] a[aria-current="page"]::before{content:"";display:inline-block;width:15px;height:15px;background:url("https://api.iconify.design/solar/folder-linear.svg?color=%234a710a") center/contain no-repeat;}
+  .wf-canvas nav[aria-label="Вкладки трекера"] a[href="journal.html"]::before{content:"";display:inline-block;width:15px;height:15px;background:url("https://api.iconify.design/solar/document-text-linear.svg?color=%2313180e") center/contain no-repeat;}
+  .wf-canvas section{background:var(--wc-surface);border:1px solid var(--wc-border);padding:16px 18px;margin:14px 0;border-radius:var(--wc-r-card);box-shadow:var(--wc-sh-card)}
   .wf-canvas ul{list-style:none;margin:0;padding:0}
-  .wf-canvas li{margin:8px 0}
-  .wf-canvas article{border:1px solid #ccc;background:#fafafa;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .wf-canvas li{margin:10px 0}
+  .wf-canvas article{border:1px solid var(--wc-border);background:var(--wc-card);border-radius:var(--wc-r-card);padding:12px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
   .wf-canvas .grow{flex:1;min-width:160px}
-  .wf-canvas .swatch{min-width:52px;height:34px;background:#d2d2d2;border:1px dashed #999;border-radius:8px;font-size:10px;color:#666;display:flex;align-items:center;justify-content:center}
-  .wf-canvas .muted{color:#666;font-size:13px;margin:2px 0}
-  .wf-canvas button{font:inherit;padding:6px 12px;border:1px solid #888;background:#e8e8e8;color:#222;cursor:pointer;border-radius:8px}
-  .wf-canvas button.primary{background:#cfcfcf;border-color:#6f6f6f}
-  .wf-canvas footer{background:#fff;border:1px solid #ccc;padding:10px 14px;margin-top:14px}
+  .wf-canvas .swatch{min-width:40px;width:40px;height:40px;border-radius:50%;font-size:0;flex:none;background:var(--wc-primary);border:none}
+  .wf-canvas section[aria-label="Проєкти"] li:nth-child(2) .swatch{background:#45647a}
+  .wf-canvas section[aria-label="Проєкти"] li:nth-child(3) .swatch{background:#d78d00}
+  .wf-canvas .muted{color:var(--wc-muted);font-size:13px;margin:2px 0}
+  .wf-canvas section[aria-label="Зведення за сьогодні"] p:nth-of-type(1)::before{content:"";display:inline-block;width:14px;height:14px;margin-right:5px;vertical-align:-2px;background:url("https://api.iconify.design/solar/clock-circle-linear.svg?color=%23565952") center/contain no-repeat;}
+  .wf-canvas section[aria-label="Зведення за сьогодні"] p:nth-of-type(2)::before{content:"";display:inline-block;width:14px;height:14px;margin-right:5px;vertical-align:-2px;background:url("https://api.iconify.design/solar/wallet-money-linear.svg?color=%23565952") center/contain no-repeat;}
+  .wf-canvas button,.wf-canvas a.btn{font:inherit;font-weight:600;font-size:13.5px;padding:9px 16px;border:1px solid var(--wc-border);background:var(--wc-surface);color:var(--wc-ink);cursor:pointer;border-radius:var(--wc-r-btn);text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:transform .15s cubic-bezier(.16,1,.3,1),box-shadow .15s;}
+  .wf-canvas button:hover,.wf-canvas a.btn:hover{transform:translateY(-1px);box-shadow:var(--wc-sh-hover)}
+  /* фокус-стан для клавіатури — інакше кнопки покладались би на дефолтний контур браузера (/impeccable audit: A11y) */
+  .wf-canvas button:focus-visible,.wf-canvas a.btn:focus-visible{outline:2px solid var(--wc-ink);outline-offset:2px;}
+  .wf-canvas button.primary,.wf-canvas a.btn.primary{background:var(--wc-primary);border-color:var(--wc-primary);color:var(--wc-primary-ink)}
+  .wf-canvas button:not(.primary):not(:disabled)::before{content:"";display:inline-block;width:14px;height:14px;background:url("https://api.iconify.design/solar/pause-linear.svg?color=%2313180e") center/contain no-repeat;}
+  .wf-canvas article button.primary::before{content:"";display:inline-block;width:14px;height:14px;background:url("https://api.iconify.design/solar/play-linear.svg?color=%23ffffff") center/contain no-repeat;}
+  .wf-canvas article a.btn:not(.primary)::before{content:"";display:inline-block;width:14px;height:14px;background:url("https://api.iconify.design/solar/check-circle-linear.svg?color=%2313180e") center/contain no-repeat;}
+  .wf-canvas form a.btn.primary::before,.wf-canvas form button.primary::before{content:"";display:inline-block;width:14px;height:14px;background:url("https://api.iconify.design/solar/diskette-linear.svg?color=%23ffffff") center/contain no-repeat;}
+  .wf-canvas form a.btn:not(.primary)::before{content:"";display:inline-block;width:14px;height:14px;background:url("https://api.iconify.design/solar/close-circle-linear.svg?color=%2313180e") center/contain no-repeat;}
+  .wf-canvas a.btn[href="project-form.html"]::before,.wf-canvas a.btn[href="client.html"]::before{content:"";display:inline-block;width:14px;height:14px;background:url("https://api.iconify.design/solar/add-circle-linear.svg?color=%2313180e") center/contain no-repeat;}
+  .wf-canvas a.btn.primary[href="client.html"]::before{background-image:url("https://api.iconify.design/solar/add-circle-linear.svg?color=%23ffffff")}
+  .wf-canvas button:disabled,.wf-canvas a.btn:disabled{background:var(--wc-card);color:var(--wc-muted);border-color:var(--wc-border);cursor:default;transform:none;box-shadow:none}
+  .wf-canvas button:disabled::before,.wf-canvas a.btn:disabled::before{display:none}
+  .wf-canvas footer{background:var(--wc-surface);border:1px solid var(--wc-border);border-radius:var(--wc-r-card);padding:14px 18px;margin-top:14px;box-shadow:var(--wc-sh-card)}
   .wf-canvas footer nav{display:flex;gap:6px}
   /* перемикач станів цього екрана — зверху сторінки */
-  .wf-canvas .wf-states{background:#d6d6d6;border-bottom:1px solid #999;padding:8px 14px;font-size:13px;color:#333}
-  .wf-canvas .wf-states b{color:#000;margin-right:4px}
-  .wf-canvas .wf-states a{display:inline;background:none;border:none;padding:0;color:#222;margin:0 4px;text-decoration:underline}
-  .wf-canvas .wf-states a.cur{font-weight:bold;background:#bdbdbd;border:1px solid #7d7d7d;padding:1px 6px;text-decoration:none;border-radius:6px}
+  .wf-canvas .wf-states{background:var(--wc-card);border-bottom:1px solid var(--wc-border);padding:8px 14px;font-size:13px;color:var(--wc-muted)}
+  .wf-canvas .wf-states b{color:var(--wc-ink);margin-right:4px}
+  .wf-canvas .wf-states a{display:inline;background:none;border:none;padding:0;color:var(--wc-muted);margin:0 4px;text-decoration:underline}
+  .wf-canvas .wf-states a.cur{font-weight:bold;background:var(--wc-surface);color:var(--wc-primary);border:1px solid var(--wc-border);padding:1px 6px;text-decoration:none;border-radius:6px}
   /* порожній / помилка / скелети завантаження */
-  .wf-canvas .empty-box,.wf-canvas .error-box{border:1px dashed #999;background:#f0f0f0;padding:20px 16px;text-align:center;color:#333;border-radius:12px}
-  .wf-canvas .skel{background:#e2e2e2;border:1px solid #cfcfcf;height:56px;margin:8px 0;border-radius:8px}
-  .wf-canvas .skel-sm{background:#e2e2e2;border:1px solid #d5d5d5;height:12px;margin:6px 0;max-width:240px;border-radius:6px}
-  /* форм-контроли (сірі) */
-  .wf-canvas label{display:block;font-size:13px;color:#333;margin:0 0 3px;font-weight:bold}
-  .wf-canvas input,.wf-canvas select,.wf-canvas textarea{font:inherit;padding:6px 8px;border:1px solid #999;background:#fff;color:#222;width:100%;max-width:360px;border-radius:8px}
+  .wf-canvas .empty-box,.wf-canvas .error-box{border:1px dashed var(--wc-border);background:var(--wc-card);padding:24px 18px;text-align:center;color:var(--wc-muted);border-radius:var(--wc-r-card)}
+  .wf-canvas .empty-box::before{content:"";display:block;width:28px;height:28px;margin:0 auto 10px;background:url("https://api.iconify.design/solar/inbox-linear.svg?color=%23565952") center/contain no-repeat;}
+  .wf-canvas .skel{background:var(--wc-card);border:1px solid var(--wc-border);height:56px;margin:8px 0;border-radius:16px}
+  .wf-canvas .skel-sm{background:var(--wc-card);border:1px solid var(--wc-border);height:12px;margin:6px 0;max-width:240px;border-radius:6px}
+  section[aria-busy="true"] .wf-canvas .skel,section[aria-busy="true"] .wf-canvas .skel-sm,.wf-canvas section[aria-busy="true"] .skel,.wf-canvas section[aria-busy="true"] .skel-sm{background:linear-gradient(90deg,var(--wc-card) 25%,var(--wc-surface) 37%,var(--wc-card) 63%);background-size:400% 100%;animation:wc-shimmer 1.6s ease infinite;}
+  @keyframes wc-shimmer{0%{background-position:100% 0}100%{background-position:0 0}}
+  @media (prefers-reduced-motion: reduce){.wf-canvas .skel,.wf-canvas .skel-sm{animation:none}}
+  /* форм-контроли */
+  .wf-canvas label{display:block;font-size:13px;color:var(--wc-ink);margin:0 0 5px;font-weight:600}
+  .wf-canvas input,.wf-canvas select,.wf-canvas textarea{font:inherit;padding:9px 12px;border:1px solid var(--wc-border);background:var(--wc-surface);color:var(--wc-ink);width:100%;max-width:360px;border-radius:var(--wc-r-input)}
+  .wf-canvas input:focus,.wf-canvas select:focus,.wf-canvas textarea:focus{outline:2px solid var(--wc-primary);outline-offset:1px;border-color:var(--wc-primary)}
   .wf-canvas textarea{min-height:60px}
-  .wf-canvas input:disabled,.wf-canvas select:disabled,.wf-canvas textarea:disabled,.wf-canvas button:disabled{background:#e0e0e0;color:#777;border-color:#bbb;cursor:default}
+  .wf-canvas input:disabled,.wf-canvas select:disabled,.wf-canvas textarea:disabled,.wf-canvas button:disabled{background:var(--wc-card);color:var(--wc-muted);border-color:var(--wc-border);cursor:default}
   .wf-canvas form p{margin:12px 0}
-  .wf-canvas .field-note{font-size:12px;color:#666;display:block;margin-top:3px}
-  .wf-canvas .err{border:1px solid #777;background:#eaeaea;color:#222;padding:8px 10px;margin:8px 0;border-radius:8px}
+  .wf-canvas .field-note{font-size:12px;color:var(--wc-muted);display:block;margin-top:5px}
+  .wf-canvas .err{border:1px solid var(--wc-danger);background:var(--wc-danger-bg);color:var(--wc-danger);padding:10px 12px;margin:8px 0;border-radius:var(--wc-r-input);display:flex;align-items:center;gap:8px;font-weight:500}
+  .wf-canvas .err::before{content:"";display:inline-block;width:15px;height:15px;flex:none;background:url("https://api.iconify.design/solar/danger-triangle-linear.svg?color=%238a2a1c") center/contain no-repeat;}
   .wf-canvas .swatch-row{display:flex;gap:6px}
-  .wf-canvas .swatch.sel{border-style:solid;border-color:#555;border-width:2px}
-  .wf-canvas a{color:#222}
-  .wf-canvas a.btn{display:inline-block;font:inherit;padding:6px 12px;border:1px solid #888;background:#e8e8e8;color:#222;text-decoration:none;cursor:pointer;border-radius:8px}
-  .wf-canvas a.btn.primary{background:#cfcfcf;border-color:#6f6f6f}
+  .wf-canvas .swatch.sel{outline:2px solid var(--wc-primary);outline-offset:2px}
+  .wf-canvas a{color:var(--wc-primary)}
   .wf-canvas .app-shell{display:flex;gap:14px;max-width:900px;margin:0 auto;padding:0 14px;align-items:flex-start}
-  .wf-canvas .app-nav{flex:0 0 150px;background:#fff;border:1px solid #ccc;border-radius:12px;padding:10px;margin-top:14px;display:flex;flex-direction:column;gap:8px}
-  .wf-canvas .app-nav a{display:block;padding:9px 12px;border:1px solid #bbb;background:#f6f6f6;color:#222;text-decoration:none;border-radius:8px;font-weight:600}
+  .wf-canvas .app-nav{flex:0 0 150px;background:var(--wc-surface);border:1px solid var(--wc-border);border-radius:var(--wc-r-card);padding:10px;margin-top:14px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--wc-sh-card)}
+  .wf-canvas .app-nav a{display:flex;align-items:center;gap:9px;padding:9px 12px;border:none;background:none;color:var(--wc-ink);text-decoration:none;border-radius:var(--wc-r-btn);font-weight:600}
+  .wf-canvas .app-nav a[href="tracker.html"]::before{content:"";display:inline-block;width:17px;height:17px;flex:none;background:url("https://api.iconify.design/solar/home-2-linear.svg?color=%2313180e") center/contain no-repeat;}
+  .wf-canvas .app-nav a[href="reports.html"]::before{content:"";display:inline-block;width:17px;height:17px;flex:none;background:url("https://api.iconify.design/solar/chart-2-linear.svg?color=%2313180e") center/contain no-repeat;}
+  .wf-canvas .app-nav a[href="invoices.html"]::before{content:"";display:inline-block;width:17px;height:17px;flex:none;background:url("https://api.iconify.design/solar/bill-list-linear.svg?color=%2313180e") center/contain no-repeat;}
   .wf-canvas .app-main{flex:1;min-width:0}
   @media (max-width:640px){
     .wf-canvas .app-shell{flex-direction:column;gap:0}
     .wf-canvas .app-main{padding-bottom:66px}
-    .wf-canvas .app-nav{position:fixed;left:0;right:0;bottom:0;top:auto;margin:0;flex-direction:row;justify-content:space-around;gap:6px;border:none;border-top:1px solid #ccc;border-radius:0;background:#fff;padding:6px 8px;z-index:20}
-    .wf-canvas .app-nav a{flex:1;text-align:center;border:none;background:none;padding:8px 4px}
+    .wf-canvas .app-nav{position:fixed;left:0;right:0;bottom:0;top:auto;margin:0;flex-direction:row;justify-content:space-around;gap:6px;border:none;border-top:1px solid color-mix(in oklab, var(--wc-border) 70%, transparent);border-radius:0;background:color-mix(in oklab, var(--wc-surface) 75%, transparent);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);padding:6px 8px;z-index:20;box-shadow:none}
+    .wf-canvas .app-nav a{flex:1;flex-direction:column;gap:2px;text-align:center;border:none;background:none;padding:8px 4px;font-size:11px}
     .wf-canvas header{flex-direction:column;align-items:flex-start}
   }
-  .wf-canvas main{background:#fff;border:1px solid #ccc;border-radius:12px;padding:14px;margin-top:12px}
-  .wf-canvas main section{background:none;border:none;border-radius:0;padding:0;margin:0}
-  .wf-canvas main section + section{border-top:1px solid #e6e6e6;margin-top:14px;padding-top:14px}
+  .wf-canvas main{background:var(--wc-surface);border:1px solid var(--wc-border);border-radius:var(--wc-r-card);padding:18px;margin-top:12px;box-shadow:var(--wc-sh-card)}
+  .wf-canvas main section{background:none;border:none;border-radius:0;padding:0;margin:0;box-shadow:none}
+  .wf-canvas main section + section{border-top:1px solid var(--wc-border);margin-top:14px;padding-top:14px}
   /* дропдаун-поповер періоду + календар */
   .wf-canvas .period{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:12px}
-  .wf-canvas .step{border:1px solid #888;background:#e8e8e8;border-radius:8px;padding:4px 11px;cursor:pointer;font:inherit;line-height:1}
+  .wf-canvas .step{border:1px solid var(--wc-border);background:var(--wc-surface);border-radius:var(--wc-r-btn);padding:4px 11px;cursor:pointer;font:inherit;line-height:1}
   .wf-canvas details.dd{position:relative;display:inline-block}
-  .wf-canvas details.dd>summary{list-style:none;cursor:pointer;border:1px solid #888;background:#fff;border-radius:8px;padding:6px 12px;font-weight:bold;color:#222}
+  .wf-canvas details.dd>summary{list-style:none;cursor:pointer;border:1px solid var(--wc-border);background:var(--wc-surface);border-radius:var(--wc-r-btn);padding:6px 12px;font-weight:600;color:var(--wc-ink)}
   .wf-canvas details.dd>summary::-webkit-details-marker{display:none}
-  .wf-canvas .dd-panel{position:absolute;top:calc(100% + 6px);left:0;z-index:10;min-width:200px;max-height:220px;overflow:auto;background:#fff;border:1px solid #999;border-radius:10px;padding:6px}
-  .wf-canvas .dd-panel a,.wf-canvas .dd-panel button{display:block;width:100%;text-align:left;border:none;background:none;padding:7px 10px;border-radius:8px;color:#222;text-decoration:none;cursor:pointer;font:inherit}
-  .wf-canvas .dd-panel a:hover,.wf-canvas .dd-panel button:hover{background:#eee}
-  .wf-canvas .dd-panel .cur{background:#cfcfcf;font-weight:bold}
-  .wf-canvas .cal-pop{position:absolute;top:calc(100% + 6px);left:0;z-index:10;background:#fff;border:1px solid #999;border-radius:10px;padding:10px;min-width:250px}
+  .wf-canvas .dd-panel{position:absolute;top:calc(100% + 6px);left:0;z-index:10;min-width:200px;max-height:220px;overflow:auto;background:var(--wc-surface);border:1px solid var(--wc-border);border-radius:var(--wc-r-card);padding:6px;box-shadow:var(--wc-sh-hover)}
+  .wf-canvas .dd-panel a,.wf-canvas .dd-panel button{display:block;width:100%;text-align:left;border:none;background:none;padding:7px 10px;border-radius:8px;color:var(--wc-ink);text-decoration:none;cursor:pointer;font:inherit}
+  .wf-canvas .dd-panel a:hover,.wf-canvas .dd-panel button:hover{background:var(--wc-card)}
+  .wf-canvas .dd-panel .cur{background:var(--wc-card);color:var(--wc-primary);font-weight:600}
+  .wf-canvas .cal-pop{position:absolute;top:calc(100% + 6px);left:0;z-index:10;background:var(--wc-surface);border:1px solid var(--wc-border);border-radius:var(--wc-r-card);padding:10px;min-width:250px;box-shadow:var(--wc-sh-hover)}
   .wf-canvas .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:6px}
-  .wf-canvas .cal span,.wf-canvas .cal button{text-align:center;padding:6px 0;font:inherit;font-size:12px;border:none;background:none;border-radius:6px;color:#222;cursor:pointer}
-  .wf-canvas .cal .dow{color:#888;cursor:default;font-weight:bold}
-  .wf-canvas .cal button:hover{background:#eee}
-  .wf-canvas .cal .in{background:#e6e6e6}
-  .wf-canvas .cal .end{background:#cfcfcf;font-weight:bold}
+  .wf-canvas .cal span,.wf-canvas .cal button{text-align:center;padding:6px 0;font:inherit;font-size:12px;border:none;background:none;border-radius:6px;color:var(--wc-ink);cursor:pointer}
+  .wf-canvas .cal .dow{color:var(--wc-muted);cursor:default;font-weight:600}
+  .wf-canvas .cal button:hover{background:var(--wc-card)}
+  .wf-canvas .cal .in{background:var(--wc-card)}
+  .wf-canvas .cal .end{background:var(--wc-primary);color:var(--wc-primary-ink);font-weight:600}
+  /* ===== Патч 2: статус-бейджі, виправлення іконки Стоп, error-box, swatch-picker ===== */
+  .wf-canvas{
+    --wc-st-unpaid-bg:#e3ddd8; --wc-st-unpaid-fg:#433830;
+    --wc-st-sent-bg:#d1e1e9; --wc-st-sent-fg:#2a3e47;
+    --wc-st-paid-bg:#d3e5c3; --wc-st-paid-fg:#233b00;
+  }
+  /* іконка "Стоп" — лише в статус-барі таймера й у картці проєкту, не на будь-якій кнопці */
+  .wf-canvas button:not(.primary):not(:disabled)::before{display:none}
+  .wf-canvas [role="status"] button:not(.primary)::before,
+  .wf-canvas article button:not(.primary)::before{
+    content:"";display:inline-block;width:14px;height:14px;
+    background:url("https://api.iconify.design/solar/pause-linear.svg?color=%2313180e") center/contain no-repeat;}
+  /* статус-бейдж інвойсу — той самий прийом, що й у concept/concept.html: pill з приглушеним тоном */
+  .wf-canvas section[aria-label="Не сплачено"]>h2,
+  .wf-canvas section[aria-label="Статус і дії"]>h2{
+    display:inline-flex;align-items:center;gap:8px;font-size:15px;
+    background:var(--wc-st-unpaid-bg);color:var(--wc-st-unpaid-fg);padding:7px 16px;border-radius:999px;}
+  .wf-canvas section[aria-label="Відправлено"]>h2{
+    display:inline-flex;align-items:center;gap:8px;font-size:15px;
+    background:var(--wc-st-sent-bg);color:var(--wc-st-sent-fg);padding:7px 16px;border-radius:999px;}
+  .wf-canvas section[aria-label="Сплачено"]>h2{
+    display:inline-flex;align-items:center;gap:8px;font-size:15px;
+    background:var(--wc-st-paid-bg);color:var(--wc-st-paid-fg);padding:7px 16px;border-radius:999px;}
+  /* іконка помилки на error-box (empty-box вже має inbox-linear) */
+  .wf-canvas .error-box::before{content:"";display:block;width:28px;height:28px;margin:0 auto 10px;
+    background:url("https://api.iconify.design/solar/danger-triangle-linear.svg?color=%238a2a1c") center/contain no-repeat;}
+  /* .err — банер (блок) проти .field-note.err — рядковий текст під полем, без рамки/іконки */
+  .wf-canvas .err{align-items:flex-start}
+  .wf-canvas .err ul{list-style:disc;margin:4px 0 0 18px;padding:0;color:var(--wc-danger)}
+  .wf-canvas .err li{margin:2px 0}
+  .wf-canvas .field-note.err{background:none;border:none;padding:0;margin-top:5px;display:block;
+    color:var(--wc-danger);font-size:12px;font-weight:500;}
+  /* палітра-пікер кольору проєкту — ті самі 3 кольори, що й мітки проєктів на Лаунчпаді */
+  .wf-canvas .swatch-row .swatch:nth-child(1){background:var(--wc-primary)}
+  .wf-canvas .swatch-row .swatch:nth-child(2){background:#45647a}
+  .wf-canvas .swatch-row .swatch:nth-child(3){background:#d78d00}
+  .wf-canvas .swatch.sel{box-shadow:0 0 0 2px var(--wc-surface),0 0 0 4px var(--wc-ink);outline:none}
+  /* ===== Патч 3: світла/темна як одна система (не інверсія), один момент скла, ритм картки ===== */
+  @media (prefers-color-scheme: dark){
+    .wf-canvas{
+      --wc-bg:#090c07; --wc-surface:#141810; --wc-card:#1a1f16; --wc-border:#2b3027;
+      --wc-ink:#e6e9e2; --wc-muted:#959a91;
+      --wc-primary:#79aa3b; --wc-primary-ink:#090c07;
+      --wc-danger:#ea6a64; --wc-danger-bg:#391917;
+      --wc-st-unpaid-bg:#30271f; --wc-st-unpaid-fg:#c8bbb1;
+      --wc-st-sent-bg:#142730; --wc-st-sent-fg:#abcad9;
+      --wc-st-paid-bg:#1a2906; --wc-st-paid-fg:#b5d892;
+      --wc-sh-card:0 2px 8px rgba(0,0,0,.35); --wc-sh-hover:0 8px 20px rgba(0,0,0,.5);
+    }
+  }
+  html[data-theme="dark"] .wf-canvas{
+    --wc-bg:#090c07; --wc-surface:#141810; --wc-card:#1a1f16; --wc-border:#2b3027;
+    --wc-ink:#e6e9e2; --wc-muted:#959a91;
+    --wc-primary:#79aa3b; --wc-primary-ink:#090c07;
+    --wc-danger:#ea6a64; --wc-danger-bg:#391917;
+    --wc-st-unpaid-bg:#30271f; --wc-st-unpaid-fg:#c8bbb1;
+    --wc-st-sent-bg:#142730; --wc-st-sent-fg:#abcad9;
+    --wc-st-paid-bg:#1a2906; --wc-st-paid-fg:#b5d892;
+    --wc-sh-card:0 2px 8px rgba(0,0,0,.35); --wc-sh-hover:0 8px 20px rgba(0,0,0,.5);
+  }
+  html[data-theme="light"] .wf-canvas{
+    --wc-bg:#ececea; --wc-surface:#ffffff; --wc-card:#f4f6f2; --wc-border:#e3e6de;
+    --wc-ink:#13180e; --wc-muted:#565952;
+    --wc-primary:#4a710a; --wc-primary-ink:#ffffff;
+    --wc-danger:#8a2a1c; --wc-danger-bg:#f7e4e0;
+    --wc-st-unpaid-bg:#e3ddd8; --wc-st-unpaid-fg:#433830;
+    --wc-st-sent-bg:#d1e1e9; --wc-st-sent-fg:#2a3e47;
+    --wc-st-paid-bg:#d3e5c3; --wc-st-paid-fg:#233b00;
+    --wc-sh-card:0 2px 8px rgba(19,24,14,.06); --wc-sh-hover:0 8px 20px rgba(19,24,14,.10);
+  }
+  /* іконки — колір "запечено" в URL Iconify, тож у темній темі просто інвертуємо (ink/muted/white
+     стають light/light/dark коректно); один виняток — акцентна іконка активної вкладки нижче */
+  @media (prefers-color-scheme: dark){ .wf-canvas :is(.wf-states,.err,.empty-box,[role="status"],button,a.btn,nav a,p,section)::before{filter:invert(1)} }
+  html[data-theme="dark"] .wf-canvas :is(.wf-states,.err,.empty-box,[role="status"],button,a.btn,nav a,p,section)::before{filter:invert(1)}
+  html[data-theme="light"] .wf-canvas :is(.wf-states,.err,.empty-box,[role="status"],button,a.btn,nav a,p,section)::before{filter:none}
+  .wf-canvas nav[aria-label="Вкладки трекера"] a[aria-current="page"]::before{filter:none !important}
+  @media (prefers-color-scheme: dark){
+    .wf-canvas nav[aria-label="Вкладки трекера"] a[aria-current="page"]::before{background-image:url("https://api.iconify.design/solar/folder-linear.svg?color=%2379aa3b")}
+  }
+  html[data-theme="dark"] .wf-canvas nav[aria-label="Вкладки трекера"] a[aria-current="page"]::before{background-image:url("https://api.iconify.design/solar/folder-linear.svg?color=%2379aa3b")}
+  html[data-theme="light"] .wf-canvas nav[aria-label="Вкладки трекера"] a[aria-current="page"]::before{background-image:url("https://api.iconify.design/solar/folder-linear.svg?color=%234a710a")}
+
+  /* один момент скла — floating попап дропдауна/календаря, не паттерн на всю сторінку (мудборд: sense-meditation) */
+  .wf-canvas .dd-panel,.wf-canvas .cal-pop{
+    background:color-mix(in oklab, var(--wc-surface) 75%, transparent);
+    backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);
+  }
+
+  /* ритм картки — трохи щедріші відступи (мудборд: calendar-app-typography-purple.png) */
+  .wf-canvas section{padding:18px 20px}
+  .wf-canvas article{padding:14px 16px}
 </style>
 </head>
 <body>

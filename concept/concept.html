@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrackOn — Мох · пілотний стенд мови</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --tk-bg:#ffffff; --tk-surface:#f4f6f2; --tk-surface-2:#eef1ea; --tk-border:#e3e6de;
+    --tk-ink:#13180e; --tk-muted:#565952;
+    --tk-primary:#4a710a; --tk-primary-ink:#ffffff;
+    --tk-accent:#d78d00; --tk-accent-ink:#3a2400;
+    --tk-st-unpaid-bg:#e3ddd8; --tk-st-unpaid-fg:#433830;
+    --tk-st-sent-bg:#d1e1e9; --tk-st-sent-fg:#2a3e47;
+    --tk-st-paid-bg:#d3e5c3; --tk-st-paid-fg:#233b00;
+    --tk-danger:#8a2a1c; --tk-danger-bg:#f7e4e0;
+    --tk-r-card:20px; --tk-r-btn:11px; --tk-r-input:10px; --tk-r-pill:999px;
+    --tk-sh-card:0 2px 8px rgba(19,24,14,.06); --tk-sh-hover:0 8px 20px rgba(19,24,14,.10);
+    --tk-sp-1:4px; --tk-sp-2:8px; --tk-sp-3:12px; --tk-sp-4:16px; --tk-sp-5:20px; --tk-sp-6:24px; --tk-sp-8:32px; --tk-sp-10:40px;
+    --tk-font-display:'Outfit', sans-serif; --tk-font-ui:'Inter', sans-serif;
+    --tk-page-bg:#ececea;
+    /* paper grain — SVG feTurbulence noise, monochrome, multiply-blended; not a photo texture */
+    --grain-svg:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.45' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* світла/темна — та сама система токенів, не інверсія (мудборд: focus-task-app-light-dark.png) */
+  @media (prefers-color-scheme: dark){
+    :root{
+      --tk-bg:#090c07; --tk-surface:#141810; --tk-surface-2:#1a1f16; --tk-border:#2b3027;
+      --tk-ink:#e6e9e2; --tk-muted:#959a91;
+      --tk-primary:#79aa3b; --tk-primary-ink:#090c07;
+      --tk-accent:#e49e22; --tk-accent-ink:#2b1a02;
+      --tk-st-unpaid-bg:#30271f; --tk-st-unpaid-fg:#c8bbb1;
+      --tk-st-sent-bg:#142730; --tk-st-sent-fg:#abcad9;
+      --tk-st-paid-bg:#1a2906; --tk-st-paid-fg:#b5d892;
+      --tk-danger:#ea6a64; --tk-danger-bg:#391917;
+      --tk-page-bg:#121510;
+      --tk-sh-card:0 2px 8px rgba(0,0,0,.35); --tk-sh-hover:0 8px 20px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --tk-bg:#090c07; --tk-surface:#141810; --tk-surface-2:#1a1f16; --tk-border:#2b3027;
+    --tk-ink:#e6e9e2; --tk-muted:#959a91;
+    --tk-primary:#79aa3b; --tk-primary-ink:#090c07;
+    --tk-accent:#e49e22; --tk-accent-ink:#2b1a02;
+    --tk-st-unpaid-bg:#30271f; --tk-st-unpaid-fg:#c8bbb1;
+    --tk-st-sent-bg:#142730; --tk-st-sent-fg:#abcad9;
+    --tk-st-paid-bg:#1a2906; --tk-st-paid-fg:#b5d892;
+    --tk-danger:#ea6a64; --tk-danger-bg:#391917;
+    --tk-page-bg:#121510;
+    --tk-sh-card:0 2px 8px rgba(0,0,0,.35); --tk-sh-hover:0 8px 20px rgba(0,0,0,.5);
+  }
+  :root[data-theme="light"]{
+    --tk-bg:#ffffff; --tk-surface:#f4f6f2; --tk-surface-2:#eef1ea; --tk-border:#e3e6de;
+    --tk-ink:#13180e; --tk-muted:#565952;
+    --tk-primary:#4a710a; --tk-primary-ink:#ffffff;
+    --tk-accent:#d78d00; --tk-accent-ink:#3a2400;
+    --tk-st-unpaid-bg:#e3ddd8; --tk-st-unpaid-fg:#433830;
+    --tk-st-sent-bg:#d1e1e9; --tk-st-sent-fg:#2a3e47;
+    --tk-st-paid-bg:#d3e5c3; --tk-st-paid-fg:#233b00;
+    --tk-danger:#8a2a1c; --tk-danger-bg:#f7e4e0;
+    --tk-page-bg:#ececea;
+    --tk-sh-card:0 2px 8px rgba(19,24,14,.06); --tk-sh-hover:0 8px 20px rgba(19,24,14,.10);
+  }
+  /* шум лишається помітним і на темному тлі — screen замість multiply, інакше зникає в чорному */
+  [data-theme="dark"] body::before,[data-theme="dark"] .grain-card::after{mix-blend-mode:screen;opacity:.03}
+  @media (prefers-color-scheme: dark){
+    body::before,.grain-card::after{mix-blend-mode:screen;opacity:.03}
+    [data-theme="light"] body::before{mix-blend-mode:multiply;opacity:var(--grain-page-opacity,.07)}
+    [data-theme="light"] .grain-card::after{mix-blend-mode:multiply;opacity:var(--grain-card-opacity,.13)}
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--tk-page-bg);color:var(--tk-ink);position:relative;
+    font:15px/1.6 var(--tk-font-ui);-webkit-font-smoothing:antialiased;}
+  a{color:var(--tk-primary)}
+  h1,h2,h3{font-family:var(--tk-font-display);text-wrap:balance;letter-spacing:-0.01em;}
+  code{background:var(--tk-surface-2);padding:1px 6px;border-radius:5px;font-size:12.5px;}
+
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    opacity:var(--grain-page-opacity,.07);mix-blend-mode:multiply;
+    background-image:var(--grain-svg);background-size:160px 160px;
+    transition:opacity .2s;}
+  body.no-grain::before{opacity:0;}
+  .grain-card{position:relative;overflow:hidden;}
+  .grain-card::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+    opacity:var(--grain-card-opacity,.13);mix-blend-mode:multiply;
+    background-image:var(--grain-svg);background-size:120px 120px;
+    transition:opacity .2s;}
+  body.no-grain .grain-card::after{opacity:0;}
+
+  .grain-toggle{position:fixed;bottom:16px;right:16px;z-index:60;background:var(--tk-ink);
+    color:var(--tk-bg);border:none;border-radius:999px;padding:9px 15px;font:600 12.5px/1 var(--tk-font-ui);
+    cursor:pointer;box-shadow:var(--tk-sh-hover);}
+  .theme-toggle{position:fixed;top:16px;right:16px;z-index:60;background:var(--tk-surface);
+    color:var(--tk-ink);border:1px solid var(--tk-border);border-radius:999px;padding:8px 14px;
+    font:600 13px/1 var(--tk-font-ui);cursor:pointer;box-shadow:var(--tk-sh-card);}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px 100px;position:relative;z-index:1;}
+  header.hero{padding:56px 0 28px;}
+  .kicker{display:inline-block;font:600 12.5px/1 var(--tk-font-ui);letter-spacing:.04em;
+    color:var(--tk-primary);background:color-mix(in oklab, var(--tk-primary) 12%, var(--tk-bg));
+    border-radius:999px;padding:5px 13px;margin-bottom:16px;}
+  h1.title{font-size:clamp(30px,4.5vw,42px);margin:0 0 10px;}
+  .hero p{color:var(--tk-muted);max-width:66ch;margin:0 0 6px;text-wrap:pretty;}
+  .hero .refs{font-size:13px;color:var(--tk-muted);margin-top:14px;}
+  .hero .refs a{color:var(--tk-muted);text-decoration:underline;}
+
+  .attr-legend{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0;}
+  .attr-chip{font:500 11.5px/1 var(--tk-font-ui);padding:6px 10px;border-radius:8px;
+    background:var(--tk-surface);border:1px solid var(--tk-border);color:var(--tk-muted);}
+  .attr-chip b{color:var(--tk-ink);}
+
+  section{margin-top:56px;}
+  section h2{font-size:24px;margin:0 0 6px;}
+  section .lead{color:var(--tk-muted);margin:0 0 24px;max-width:70ch;text-wrap:pretty;}
+  .tag{display:inline-block;font:600 10.5px/1 var(--tk-font-ui);letter-spacing:.02em;
+    color:var(--tk-primary);background:color-mix(in oklab, var(--tk-primary) 10%, var(--tk-bg));
+    padding:3px 8px;border-radius:6px;margin-left:8px;vertical-align:middle;}
+
+  /* ============ 1. МОВА ЖИВЦЕМ (device mock) ============ */
+  .device{width:360px;max-width:100%;margin:0 auto;background:var(--tk-bg);border:1px solid var(--tk-border);
+    border-radius:32px;box-shadow:var(--tk-sh-hover);overflow:hidden;}
+  /* вузькі екрани (~360-390px): .wrap padding 24px×2 + 360px ширше за viewport — без max-width:100%
+     тут стався б горизонтальний скрол (/impeccable audit: Responsive) */
+  @media (max-width:420px){
+    .wrap{padding-left:12px;padding-right:12px;}
+    .device{border-radius:20px;}
+  }
+  .device-screen{padding:28px 20px 0;min-height:540px;display:flex;flex-direction:column;position:relative;}
+  .device-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:22px;}
+  .device-greet{font:600 24px/1.15 var(--tk-font-display);margin:0;}
+  .device-date{font:500 12px/1 var(--tk-font-ui);color:var(--tk-muted);}
+
+  .stat-row{display:flex;gap:12px;margin-bottom:22px;}
+  .stat{flex:1;background:var(--tk-surface);border-radius:var(--tk-r-card);padding:16px 16px 14px;}
+  .stat .n{font:600 23px/1.1 var(--tk-font-display);margin:0 0 3px;}
+  .stat .l{font:500 11px/1.3 var(--tk-font-ui);color:var(--tk-muted);margin:0;}
+
+  .tile-row{display:flex;gap:12px;margin-bottom:20px;}
+  /* колір тексту/іконки прив'язаний до токена, не хардкод — інакше ламається в темній темі,
+     де primary світлішає і потребує темного тексту (перевірено: білий на #79aa3b = 2.75:1) */
+  .tile{flex:1;border-radius:var(--tk-r-card);padding:16px;color:var(--tk-primary-ink);background:var(--tk-primary);
+    display:flex;flex-direction:column;gap:28px;}
+  .tile.alt{background:var(--tk-ink);color:var(--tk-bg);}
+  .tile .tn{font:600 13px/1.3 var(--tk-font-ui);}
+  .tile .tt{display:flex;align-items:center;gap:6px;font:500 11px/1 var(--tk-font-ui);opacity:.85;}
+  .tile img{filter:brightness(0) invert(1);width:16px;height:16px;}
+  /* обидва тайли світлі-на-темному в dark-режимі (primary світлішає, ink стає світлим) —
+     іконці потрібен темний, не білий колір; перевірено: 2.75:1 було б провалом AA */
+  [data-theme="dark"] .tile img{filter:brightness(0)}
+  @media (prefers-color-scheme: dark){
+    .tile img{filter:brightness(0)}
+    [data-theme="light"] .tile img{filter:brightness(0) invert(1)}
+  }
+
+  .device-card{margin-top:auto;padding-bottom:14px;}
+
+  /* один момент скла — floating tab-bar, за мотивом sense-meditation (backdrop-blur), не паттерн на всю сторінку */
+  .tabbar{display:flex;justify-content:space-around;align-items:center;
+    padding:12px 8px;margin:14px 12px 14px;border-radius:20px;
+    position:sticky;bottom:12px;
+    background:color-mix(in oklab, var(--tk-surface) 68%, transparent);
+    backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);
+    border:1px solid color-mix(in oklab, var(--tk-border) 70%, transparent);
+    box-shadow:var(--tk-sh-hover);}
+  .tab{appearance:none;border:none;background:none;cursor:pointer;flex:1;
+    display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 14px;border-radius:12px;
+    font:500 10.5px/1 var(--tk-font-ui);color:var(--tk-muted);}
+  .tab.active{background:var(--tk-surface);color:var(--tk-primary);}
+  .tab:focus-visible{outline:2px solid var(--tk-primary);outline-offset:2px;}
+  .tab img{width:20px;height:20px;}
+
+  /* ============ palette ============ */
+  .swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;}
+  .swatch{border-radius:14px;overflow:hidden;border:1px solid var(--tk-border);background:var(--tk-bg);}
+  .swatch .fill{height:56px;}
+  .swatch .meta{padding:10px 12px 12px;}
+  .swatch .role{font:600 13px/1.3 var(--tk-font-ui);margin:0 0 1px;}
+  .swatch .hex{font:500 11.5px/1.3 var(--tk-font-ui);color:var(--tk-muted);margin:0 0 6px;}
+  .swatch .why{font:400 11.5px/1.4 var(--tk-font-ui);color:var(--tk-muted);margin:0;}
+  .swatch .why b{color:var(--tk-ink);}
+
+  /* ============ type scale ============ */
+  .type-table{width:100%;border-collapse:collapse;margin-top:8px;}
+  .type-table td{padding:14px 12px;border-bottom:1px solid var(--tk-border);vertical-align:middle;}
+  .type-table td.role{width:130px;font:600 11.5px/1 var(--tk-font-ui);color:var(--tk-muted);text-transform:uppercase;letter-spacing:.04em;}
+  .type-table td.spec{width:190px;font:500 12px/1.4 var(--tk-font-ui);color:var(--tk-muted);}
+  .type-table td.sample{font-family:var(--tk-font-display);}
+
+  /* ============ token tables ============ */
+  .tok-table{width:100%;border-collapse:collapse;}
+  .tok-table th,.tok-table td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--tk-border);font-size:13px;}
+  .tok-table th{color:var(--tk-muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;}
+  .tok-preview{display:inline-block;vertical-align:middle;margin-right:10px;background:var(--tk-surface);border:1px solid var(--tk-border);}
+
+  /* ============ icon coverage ============ */
+  .icon-table{width:100%;border-collapse:collapse;}
+  .icon-table th,.icon-table td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--tk-border);font-size:13px;vertical-align:middle;}
+  .icon-table th{color:var(--tk-muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;}
+  .icon-table img{width:18px;height:18px;vertical-align:middle;margin-right:8px;}
+
+  /* ============ components ============ */
+  .comp-block{background:var(--tk-bg);border:1px solid var(--tk-border);border-radius:var(--tk-r-card);
+    padding:24px;box-shadow:var(--tk-sh-card);margin-top:16px;}
+  .comp-block h3{font-size:15px;margin:0 0 4px;font-family:var(--tk-font-ui);font-weight:600;}
+  .comp-block .comp-attr{font-size:12.5px;color:var(--tk-muted);margin:0 0 18px;}
+
+  .state-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
+  .state-item{display:flex;flex-direction:column;align-items:flex-start;gap:8px;}
+  .state-label{font:500 11px/1 var(--tk-font-ui);color:var(--tk-muted);}
+
+  .btn{appearance:none;border:none;cursor:pointer;font:600 13.5px/1 var(--tk-font-ui);
+    padding:12px 20px;border-radius:var(--tk-r-btn);background:var(--tk-primary);color:var(--tk-primary-ink);
+    display:inline-flex;align-items:center;gap:8px;transition:transform .15s cubic-bezier(.16,1,.3,1),box-shadow .15s;}
+  .btn img{width:16px;height:16px;filter:brightness(0) invert(1);}
+  .btn:hover{transform:translateY(-1px);box-shadow:var(--tk-sh-hover);}
+  .btn:active{transform:translateY(0);}
+  /* фокус-стан для клавіатури — інакше кнопки покладались би на дефолтний контур браузера (/impeccable audit: A11y) */
+  .btn:focus-visible{outline:2px solid var(--tk-ink);outline-offset:2px;}
+  .btn[disabled]{background:var(--tk-st-unpaid-bg);color:var(--tk-muted);cursor:not-allowed;}
+  .btn[disabled]:hover{transform:none;box-shadow:none;}
+  .btn.loading{opacity:.7;cursor:progress;}
+
+  .mini-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;}
+  .mini-card{background:var(--tk-surface);border:1px solid var(--tk-border);border-radius:var(--tk-r-card);padding:18px;}
+  .mini-top{display:flex;align-items:center;gap:9px;margin-bottom:10px;}
+  .mini-avatar{width:32px;height:32px;border-radius:50%;object-fit:cover;border:1px solid var(--tk-border);}
+  .mini-name{font:600 12.5px/1.2 var(--tk-font-ui);margin:0;}
+  .mini-inv{font:400 11px/1.2 var(--tk-font-ui);color:var(--tk-muted);margin:1px 0 0;}
+  .badge{display:inline-flex;align-items:center;gap:5px;font:600 11px/1 var(--tk-font-ui);padding:6px 10px;border-radius:var(--tk-r-pill);}
+  .badge img{width:12px;height:12px;}
+  .mini-amount{font:600 20px/1.1 var(--tk-font-display);margin:10px 0 0;}
+
+  .field{max-width:340px;}
+  .field label{display:block;font:600 12.5px/1.3 var(--tk-font-ui);margin-bottom:6px;}
+  .field input{width:100%;font:400 14px/1 var(--tk-font-ui);padding:11px 13px;border-radius:var(--tk-r-input);
+    border:1px solid var(--tk-border);background:var(--tk-bg);color:var(--tk-ink);}
+  .field input:focus,.field input.demo-focus{outline:2px solid var(--tk-primary);outline-offset:1px;border-color:var(--tk-primary);}
+  .field .hint{font:400 11.5px/1.4 var(--tk-font-ui);color:var(--tk-muted);margin-top:6px;}
+  .field .field-note.err{font:500 11.5px/1.4 var(--tk-font-ui);color:var(--tk-danger);margin-top:6px;}
+  .field.error input{border-color:var(--tk-danger);}
+  .field-row{display:flex;flex-wrap:wrap;gap:24px;}
+
+  footer{margin-top:70px;padding-top:24px;border-top:1px solid var(--tk-border);color:var(--tk-muted);font-size:13px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="kicker">TrackOn · Напрям «Мох» · пілотний стенд</span>
+    <h1 class="title">Мох — мова живцем</h1>
+    <p>Обраний напрям із трьох, розгорнутий у повну специфікацію: палітра, типографіка,
+      форма, план покриття іконками й три живі компоненти. Контраст перевірено — WCAG AA
+      або вище на кожній парі текст/тло.</p>
+    <p class="refs">Вибір і два записані альтернативні напрями —
+      <a href="taste.md">concept/taste.md, розділ «Напрями»</a> · усі три поруч —
+      <a href="directions.html">concept/directions.html</a> · джерела прийомів —
+      <a href="references.md">concept/references.md</a>.</p>
+
+    <div class="attr-legend">
+      <span class="attr-chip"><b>Атр.1</b> спокійно, не CRM</span>
+      <span class="attr-chip"><b>Атр.2</b> цифра точна й помітна</span>
+      <span class="attr-chip"><b>Атр.3</b> один акцент, не мультиколір</span>
+      <span class="attr-chip"><b>Атр.4</b> реальні дані, не ілюстрація</span>
+      <span class="attr-chip"><b>Смак</b> Popcorn / monobank</span>
+    </div>
+  </header>
+
+  <!-- ============ 1. МОВА ЖИВЦЕМ ============ -->
+  <section id="living">
+    <h2>Мова живцем</h2>
+    <p class="lead">Той самий екран, що й у directions.html, тепер у контексті мобільного
+      таб-бару — так, як користувач реально його побачить.</p>
+
+    <div class="device">
+      <div class="device-screen">
+        <div class="device-top">
+          <p class="device-greet">Привіт, Олег</p>
+          <span class="device-date">16 лип.</span>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat">
+            <p class="n">6 год 20 хв</p>
+            <p class="l">Відстежено сьогодні</p>
+          </div>
+          <div class="stat">
+            <p class="n">$310</p>
+            <p class="l">Зароблено сьогодні</p>
+          </div>
+        </div>
+
+        <div class="tile-row">
+          <div class="tile">
+            <span class="tt"><img src="https://api.iconify.design/solar/play-linear.svg?color=%23ffffff" alt="">Таймер іде</span>
+            <span class="tn">Лендинг для Acme</span>
+          </div>
+          <div class="tile alt">
+            <span class="tt"><img src="https://api.iconify.design/solar/folder-linear.svg?color=%23ffffff" alt="">Проєкт</span>
+            <span class="tn">Studio Nord</span>
+          </div>
+        </div>
+
+        <div class="device-card">
+          <div class="mini-card grain-card">
+            <div class="mini-top">
+              <img class="mini-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=faces&q=80" alt="Клієнт">
+              <div>
+                <p class="mini-name">Studio Nord</p>
+                <p class="mini-inv">Інвойс № 0142 · травень 2026</p>
+              </div>
+            </div>
+            <span class="badge" style="background:var(--tk-st-paid-bg);color:var(--tk-st-paid-fg)">
+              <img src="https://api.iconify.design/solar/check-circle-linear.svg?color=%23233b00" alt="">Сплачено
+            </span>
+            <p class="mini-amount">$1 240</p>
+          </div>
+        </div>
+
+        <nav class="tabbar" aria-label="Головна навігація">
+          <button type="button" class="tab active" aria-current="page"><img src="https://api.iconify.design/solar/home-2-linear.svg?color=%234a710a" alt="">Лаунчпад</button>
+          <button type="button" class="tab"><img src="https://api.iconify.design/solar/chart-2-linear.svg?color=%23565952" alt="">Звіти</button>
+          <button type="button" class="tab"><img src="https://api.iconify.design/solar/bill-list-linear.svg?color=%23565952" alt="">Інвойси</button>
+          <button type="button" class="tab"><img src="https://api.iconify.design/solar/settings-linear.svg?color=%23565952" alt="">Ще</button>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. ПАЛІТРА ============ -->
+  <section id="palette">
+    <h2>Палітра</h2>
+    <p class="lead">Primary + один декоративний accent + нейтральна шкала + семантичні статуси.
+      Кожен колір підписаний атрибутом, з якого він складений.</p>
+
+    <div class="swatch-grid">
+      <div class="swatch">
+        <div class="fill" style="background:#4a710a"></div>
+        <div class="meta"><p class="role">primary</p><p class="hex">#4a710a · oklch(.50 .13 130)</p>
+          <p class="why"><b>← Атр.3</b> єдиний акцент дії: кнопки, активний таб, «сплачено».</p></div>
+      </div>
+      <div class="swatch">
+        <div class="fill" style="background:#d78d00"></div>
+        <div class="meta"><p class="role">accent</p><p class="hex">#d78d00 · oklch(.70 .16 75)</p>
+          <p class="why"><b>← смак</b> суто декоративний; тло чипа/іконка з темним текстом, не для білого тексту (2.7:1).
+          <b>Зарезервовано</b> — поки не застосовано в жодному живому компоненті нижче; додати лише
+          там, де знадобиться другорядний акцент, не замінюючи primary.</p></div>
+      </div>
+      <div class="swatch">
+        <div class="fill" style="background:#ffffff;border-bottom:1px solid #eee"></div>
+        <div class="meta"><p class="role">bg</p><p class="hex">#ffffff</p>
+          <p class="why"><b>← Атр.1</b> чисто білий, не кремовий — теплоту несе лише primary.</p></div>
+      </div>
+      <div class="swatch">
+        <div class="fill" style="background:#f4f6f2"></div>
+        <div class="meta"><p class="role">surface</p><p class="hex">#f4f6f2 · oklch(.97 .006 130)</p>
+          <p class="why"><b>← Атр.1</b> картки/панелі, ледь тонований у бік primary.</p></div>
+      </div>
+      <div class="swatch">
+        <div class="fill" style="background:#13180e"></div>
+        <div class="meta"><p class="role">ink</p><p class="hex">#13180e · 18:1 на bg</p>
+          <p class="why"><b>← Атр.2</b> максимальний контраст для точних цифр.</p></div>
+      </div>
+      <div class="swatch">
+        <div class="fill" style="background:#565952"></div>
+        <div class="meta"><p class="role">muted</p><p class="hex">#565952 · 7.1:1 на bg</p>
+          <p class="why"><b>← Атр.1</b> другорядний текст, спокійний, не сірий-до-нечитабельності.</p></div>
+      </div>
+      <div class="swatch">
+        <div class="fill" style="background:#e3ddd8"></div>
+        <div class="meta"><p class="role">статус — не сплачено</p><p class="hex">bg #e3ddd8 / fg #433830</p>
+          <p class="why"><b>← CLAUDE.md §8</b> нейтральний тон, поза акцентом (references.md §4).</p></div>
+      </div>
+      <div class="swatch">
+        <div class="fill" style="background:#d1e1e9"></div>
+        <div class="meta"><p class="role">статус — відправлено</p><p class="hex">bg #d1e1e9 / fg #2a3e47</p>
+          <p class="why"><b>← CLAUDE.md §8</b> холодний нейтральний, окремий від primary.</p></div>
+      </div>
+      <div class="swatch">
+        <div class="fill" style="background:#d3e5c3"></div>
+        <div class="meta"><p class="role">статус — сплачено</p><p class="hex">bg #d3e5c3 / fg #233b00</p>
+          <p class="why"><b>← Атр.3</b> єдиний статус, свідомо близький до primary (позитив = бренд).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. ТИПОГРАФІКА ============ -->
+  <section id="type">
+    <h2>Типографіка</h2>
+    <p class="lead"><code>Outfit</code> 600 (заголовки, суми) + <code>Inter</code> 400/500/600
+      (UI, тіло) — геометричний sans-serif замість серифа: контраст ваги й характеру
+      (округлі геометричні форми Outfit проти нейтрального Inter), а не пара гарнітур —
+      за мотивом «December» з calendar-app-typography-purple.png (references/README.md).
+      Фіксована rem-шкала (не fluid) — продуктовий UI переглядають при сталому DPI.</p>
+    <table class="type-table">
+      <tr><td class="role">display</td><td class="spec">Outfit 600 · 39px / 1.1</td>
+        <td class="sample" style="font-size:39px;font-weight:600">$1 240</td></tr>
+      <tr><td class="role">h1</td><td class="spec">Outfit 600 · 31px / 1.15</td>
+        <td class="sample" style="font-size:31px;font-weight:600">Привіт, Олег</td></tr>
+      <tr><td class="role">h2</td><td class="spec">Outfit 600 · 25px / 1.2</td>
+        <td class="sample" style="font-size:25px;font-weight:600">Звіт за тиждень</td></tr>
+      <tr><td class="role">h3</td><td class="spec">Outfit 600 · 20px / 1.25</td>
+        <td class="sample" style="font-size:20px;font-weight:600">Studio Nord</td></tr>
+      <tr><td class="role">body-lg</td><td class="spec">Inter 500 · 17px / 1.5</td>
+        <td class="sample" style="font-family:'Inter';font-size:17px;font-weight:500">Оплачувані записи за травень</td></tr>
+      <tr><td class="role">body</td><td class="spec">Inter 400 · 15px / 1.6</td>
+        <td class="sample" style="font-family:'Inter';font-size:15px">Відстежено: 24 год 40 хв · ставка $50/год</td></tr>
+      <tr><td class="role">body-sm</td><td class="spec">Inter 400 · 13px / 1.5</td>
+        <td class="sample" style="font-family:'Inter';font-size:13px">Інвойс № 0142 · травень 2026</td></tr>
+      <tr><td class="role">caption</td><td class="spec">Inter 500 · 12px / 1.4</td>
+        <td class="sample" style="font-family:'Inter';font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.04em">Не сплачено</td></tr>
+    </table>
+  </section>
+
+  <!-- ============ 4. ФОРМА ============ -->
+  <section id="shape">
+    <h2>Форма</h2>
+    <p class="lead">Радіус, тінь, відступ — узгоджено зі шкалою Acctual
+      (<a href="references.md">references.md §3</a>): картка 20px + м'яка тінь, бейдж — повний pill.</p>
+    <table class="tok-table">
+      <tr><th>Токен</th><th>Значення</th><th>Де</th></tr>
+      <tr><td><span class="tok-preview" style="width:24px;height:24px;border-radius:20px"></span>radius-card</td><td>20px</td><td>інвойс-картка, панелі</td></tr>
+      <tr><td><span class="tok-preview" style="width:24px;height:24px;border-radius:11px"></span>radius-button</td><td>11px</td><td>кнопки дії</td></tr>
+      <tr><td><span class="tok-preview" style="width:24px;height:24px;border-radius:10px"></span>radius-input</td><td>10px</td><td>поля форми</td></tr>
+      <tr><td><span class="tok-preview" style="width:24px;height:24px;border-radius:999px"></span>radius-pill</td><td>999px</td><td>статус-бейдж (повністю круглий)</td></tr>
+      <tr><td>shadow-card</td><td><code>0 2px 8px rgba(19,24,14,.06)</code></td><td>картка у спокої</td></tr>
+      <tr><td>shadow-hover</td><td><code>0 8px 20px rgba(19,24,14,.10)</code></td><td>картка/кнопка при hover</td></tr>
+      <tr><td>space-unit</td><td>4px база</td><td>шкала 4·8·12·16·20·24·32·40</td></tr>
+      <tr><td>card-padding</td><td>18–24px</td><td>внутрішній відступ картки</td></tr>
+    </table>
+  </section>
+
+  <!-- ============ 5. ФОТО ============ -->
+  <section id="photo">
+    <h2>Фото</h2>
+    <p class="lead">Unsplash-фото використано <b>лише як аватар клієнта</b> в інвойсі — реальний
+      контент, не прикраса. <span class="tag">← Атр.4</span> Свідомо НЕ додано декоративного
+      hero-фото робочого столу: <code>references.md §2</code> вже відхилив декоративну
+      фотографію Acctual, а Атрибут 4 прямо вимагає реальні дані на екрані, не ілюстрацію —
+      декоративне фото порушило б обидва.</p>
+  </section>
+
+  <!-- ============ 6. ІКОНКИ — ПЛАН ПОКРИТТЯ ============ -->
+  <section id="icons">
+    <h2>Іконки — Solar Linear, план покриття</h2>
+    <p class="lead">Тонка лінія без заливки — тихо, нейтральним <code>ink</code>, не акцентом
+      (<span class="tag">← Атр.3</span>: акцент лишається тільки на діях, не на всіх іконках
+      підряд).</p>
+    <table class="icon-table">
+      <tr><th>Контекст</th><th>Іконка</th><th>Роль</th></tr>
+      <tr><td>Таб-бар — Лаунчпад</td><td><img src="https://api.iconify.design/solar/home-2-linear.svg?color=%2313180e" alt="">home-2-linear</td><td>активний старт-екран</td></tr>
+      <tr><td>Таб-бар — Звіти</td><td><img src="https://api.iconify.design/solar/chart-2-linear.svg?color=%2313180e" alt="">chart-2-linear</td><td>звіти за період</td></tr>
+      <tr><td>Таб-бар — Інвойси</td><td><img src="https://api.iconify.design/solar/bill-list-linear.svg?color=%2313180e" alt="">bill-list-linear</td><td>список інвойсів</td></tr>
+      <tr><td>Таб-бар — Ще</td><td><img src="https://api.iconify.design/solar/settings-linear.svg?color=%2313180e" alt="">settings-linear</td><td>клієнти/налаштування</td></tr>
+      <tr><td>Метадані картки — час</td><td><img src="https://api.iconify.design/solar/clock-circle-linear.svg?color=%2313180e" alt="">clock-circle-linear</td><td>тривалість запису</td></tr>
+      <tr><td>Метадані картки — гроші</td><td><img src="https://api.iconify.design/solar/wallet-money-linear.svg?color=%2313180e" alt="">wallet-money-linear</td><td>сума/ставка</td></tr>
+      <tr><td>Метадані картки — клієнт</td><td><img src="https://api.iconify.design/solar/user-circle-linear.svg?color=%2313180e" alt="">user-circle-linear</td><td>клієнт (коли нема фото)</td></tr>
+      <tr><td>Метадані картки — проєкт</td><td><img src="https://api.iconify.design/solar/folder-linear.svg?color=%2313180e" alt="">folder-linear</td><td>проєкт</td></tr>
+      <tr><td>Бейдж — сплачено</td><td><img src="https://api.iconify.design/solar/check-circle-linear.svg?color=%23233b00" alt="">check-circle-linear</td><td>іконка всередині зеленого чипа</td></tr>
+      <tr><td>Бейдж — відправлено</td><td><img src="https://api.iconify.design/solar/plain-linear.svg?color=%232a3e47" alt="">plain-linear</td><td>іконка всередині синього чипа</td></tr>
+      <tr><td>Бейдж — не сплачено</td><td>— без іконки</td><td>нейтральний стан, лише текст</td></tr>
+      <tr><td>Кнопка — старт таймера</td><td><img src="https://api.iconify.design/solar/play-linear.svg?color=%23ffffff" alt="" style="background:#4a710a;border-radius:4px;padding:2px">play-linear</td><td>перед підписом кнопки</td></tr>
+      <tr><td>Кнопка — стоп</td><td><img src="https://api.iconify.design/solar/pause-linear.svg?color=%2313180e" alt="">pause-linear</td><td>зупинити активний таймер</td></tr>
+      <tr><td>Стан — помилка</td><td><img src="https://api.iconify.design/solar/danger-triangle-linear.svg?color=%238a2a1c" alt="">danger-triangle-linear</td><td>помилка форми/збою</td></tr>
+      <tr><td>Стан — порожньо</td><td><img src="https://api.iconify.design/solar/inbox-linear.svg?color=%23565952" alt="">inbox-linear</td><td>«ще нема проєктів/інвойсів»</td></tr>
+    </table>
+  </section>
+
+  <!-- ============ 7. ЖИВІ КОМПОНЕНТИ ============ -->
+  <section id="components">
+    <h2>Живі компоненти</h2>
+    <p class="lead">Кожен — з усіма станами. Контраст перевірено WCAG AA (мінімум 4.5:1
+      для тексту, дані нижче — фактичні виміряні коефіцієнти).</p>
+
+    <div class="comp-block">
+      <h3>Кнопка дії <span class="tag">← Атр.3</span></h3>
+      <p class="comp-attr">Primary заливка + білий текст — 5.74:1, з запасом над AA 4.5:1.</p>
+      <div class="state-row">
+        <div class="state-item"><span class="state-label">default</span>
+          <button class="btn"><img src="https://api.iconify.design/solar/play-linear.svg" alt="">Почати трекати</button></div>
+        <div class="state-item"><span class="state-label">hover (наведи)</span>
+          <button class="btn">Почати трекати</button></div>
+        <div class="state-item"><span class="state-label">loading</span>
+          <button class="btn loading">Зберігаємо…</button></div>
+        <div class="state-item"><span class="state-label">disabled</span>
+          <button class="btn" disabled>Почати трекати</button></div>
+      </div>
+    </div>
+
+    <div class="comp-block">
+      <h3>Картка інвойсу з фото і бейджем <span class="tag">← Атр.2 / Атр.4</span></h3>
+      <p class="comp-attr">Адаптовано з «картки оголошення з бейджем верифікації» під наш
+        домен — CLAUDE.md не має оголошень/верифікації людей, лише інвойси й статуси оплати
+        (§8). Фото — реальний контент (клієнт), не декоративне.</p>
+      <div class="mini-cards">
+        <div class="mini-card grain-card">
+          <div class="mini-top">
+            <img class="mini-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=faces&q=80" alt="Клієнт">
+            <div><p class="mini-name">Studio Nord</p><p class="mini-inv">№ 0140 · квіт. 2026</p></div>
+          </div>
+          <span class="badge" style="background:var(--tk-st-unpaid-bg);color:var(--tk-st-unpaid-fg)">Не сплачено</span>
+          <p class="mini-amount">$860</p>
+        </div>
+        <div class="mini-card grain-card">
+          <div class="mini-top">
+            <img class="mini-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&h=96&fit=crop&crop=faces&q=80" alt="Клієнт">
+            <div><p class="mini-name">Acme Co</p><p class="mini-inv">№ 0141 · квіт. 2026</p></div>
+          </div>
+          <span class="badge" style="background:var(--tk-st-sent-bg);color:var(--tk-st-sent-fg)">
+            <img src="https://api.iconify.design/solar/plain-linear.svg?color=%232a3e47" alt="">Відправлено</span>
+          <p class="mini-amount">$540</p>
+        </div>
+        <div class="mini-card grain-card">
+          <div class="mini-top">
+            <img class="mini-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=faces&q=80" alt="Клієнт">
+            <div><p class="mini-name">Studio Nord</p><p class="mini-inv">№ 0142 · трав. 2026</p></div>
+          </div>
+          <span class="badge" style="background:var(--tk-st-paid-bg);color:var(--tk-st-paid-fg)">
+            <img src="https://api.iconify.design/solar/check-circle-linear.svg?color=%23233b00" alt="">Сплачено</span>
+          <p class="mini-amount">$1 240</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="comp-block">
+      <h3>Поле форми <span class="tag">← voice.md</span></h3>
+      <p class="comp-attr">Три ролі тексту (підпис / підказка / помилка), словами «ти» —
+        мікрокопі за voice.md.</p>
+      <div class="field-row">
+        <div class="field">
+          <label>default</label>
+          <input type="text" placeholder="Напр., 800">
+          <p class="hint">Погодинна ставка — необов'язково; порожньо = лише час, без грошей</p>
+        </div>
+        <div class="field">
+          <label>filled / focus</label>
+          <input type="text" value="800" class="demo-focus">
+          <p class="hint">Погодинна ставка</p>
+        </div>
+        <div class="field error">
+          <label>error</label>
+          <input type="text" value="">
+          <p class="field-note err">Назва обов'язкова — вкажи назву проєкту</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    TrackOn · напрям «Мох» · рішення записано в <a href="taste.md">concept/taste.md</a> ·
+    альтернативи — <a href="directions.html">concept/directions.html</a>
+  </footer>
+</div>
+
+<button class="theme-toggle" id="themeBtn">◐ Тема</button>
+<button class="grain-toggle" id="grainBtn">Текстура: увімкнено</button>
+<script>
+  const themeBtn = document.getElementById('themeBtn');
+  const root = document.documentElement;
+  const savedTheme = localStorage.getItem('trackon-theme');
+  if (savedTheme) root.setAttribute('data-theme', savedTheme);
+  themeBtn.addEventListener('click', () => {
+    const cur = root.getAttribute('data-theme')
+      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('trackon-theme', next);
+  });
+
+  const grainBtn = document.getElementById('grainBtn');
+  const bodyEl = document.body;
+  const savedGrain = localStorage.getItem('trackon-grain');
+  if (savedGrain === 'off') { bodyEl.classList.add('no-grain'); grainBtn.textContent = 'Текстура: вимкнено'; }
+  grainBtn.addEventListener('click', () => {
+    const off = bodyEl.classList.toggle('no-grain');
+    grainBtn.textContent = off ? 'Текстура: вимкнено' : 'Текстура: увімкнено';
+    localStorage.setItem('trackon-grain', off ? 'off' : 'on');
+  });
+</script>
+</body>
+</html>

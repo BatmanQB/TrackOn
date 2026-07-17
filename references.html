@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrackOn — Референси</title>
+<style>
+  :root{
+    --bg:#fafafa; --surface:#fff; --text:#16181d; --muted:#6b7280; --border:#e6e7ea;
+    --accent:#ff5a3c; --accent-soft:#ffece7; --shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04);
+    --ok:#16a34a; --warn:#d97706; --q:#7c3aed;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0f1115; --surface:#171a21; --text:#e8eaee; --muted:#9aa1ad; --border:#262b34;
+      --accent:#ff6b4d; --accent-soft:#2a1a16; --shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3); }
+  }
+  html[data-theme="light"]{ --bg:#fafafa;--surface:#fff;--text:#16181d;--muted:#6b7280;--border:#e6e7ea;--accent:#ff5a3c;--accent-soft:#ffece7;--shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04);}
+  html[data-theme="dark"]{ --bg:#0f1115;--surface:#171a21;--text:#e8eaee;--muted:#9aa1ad;--border:#262b34;--accent:#ff6b4d;--accent-soft:#2a1a16;--shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px 80px;}
+  header.hero{padding:56px 0 32px;border-bottom:1px solid var(--border);margin-bottom:24px;}
+  .badge{display:inline-block;background:var(--accent-soft);color:var(--accent);font-weight:600;
+    font-size:13px;padding:4px 12px;border-radius:999px;letter-spacing:.02em;}
+  h1{font-size:40px;line-height:1.1;margin:16px 0 8px;letter-spacing:-.02em;}
+  .sub{color:var(--muted);font-size:18px;max-width:62ch;margin:0;}
+  .meta{color:var(--muted);font-size:13px;margin-top:18px;}
+  h2{font-size:26px;margin:48px 0 6px;letter-spacing:-.01em;}
+  h2 .num{color:var(--accent);font-weight:700;margin-right:10px;}
+  .lead{color:var(--muted);margin:0 0 20px;}
+  h3{font-size:17px;margin:26px 0 10px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;
+    padding:22px 24px;box-shadow:var(--shadow);margin:14px 0;}
+  .grid{display:grid;gap:14px;}
+  @media(min-width:720px){.grid.cols-3{grid-template-columns:repeat(3,1fr)}.grid.cols-2{grid-template-columns:repeat(2,1fr)}}
+  ul.tight{margin:8px 0 0;padding-left:18px;} ul.tight li{margin:5px 0;}
+  .tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);background:var(--surface);margin:14px 0;}
+  table{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px;}
+  th,td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--border);vertical-align:top;}
+  thead th{background:var(--accent-soft);color:var(--text);font-size:12.5px;letter-spacing:.02em;}
+  tbody tr:last-child td{border-bottom:none;}
+  td.name{font-weight:700;white-space:nowrap;}
+  a{color:var(--accent);} a:hover{text-decoration:underline;}
+  .src{font-size:12px;color:var(--muted);}
+  .src a{color:var(--muted);}
+  .tag{font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;}
+  .tag.q{background:rgba(217,119,6,.14);color:var(--warn);}
+  .tag.e{background:rgba(124,58,237,.14);color:var(--q);}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .dot.p{background:var(--accent)} .dot.d{background:var(--q)} .dot.o{background:var(--warn)}
+  .finding h3{margin-top:0;display:flex;align-items:center;gap:8px;}
+  .gallery{display:grid;gap:16px;grid-template-columns:1fr;}
+  @media(min-width:560px){.gallery{grid-template-columns:repeat(3,1fr)}}
+  figure{margin:0;background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+  figure img{display:block;width:100%;height:170px;object-fit:cover;object-position:top;background:#0001;}
+  figcaption{padding:10px 14px;font-size:13.5px;}
+  figcaption b{display:block;margin-bottom:2px;}
+  .note{background:var(--accent-soft);border-radius:12px;padding:12px 16px;font-size:14px;margin:10px 0;}
+  .swatch{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;margin:2px 10px 2px 0;}
+  .swatch i{width:12px;height:12px;border-radius:4px;display:inline-block;border:1px solid rgba(0,0,0,.08);}
+  .toggle{position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);
+    color:var(--text);border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer;box-shadow:var(--shadow);}
+  footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;}
+  code{background:var(--accent-soft);padding:1px 6px;border-radius:6px;font-size:13px;}
+  /* sidebar nav */
+  html{scroll-behavior:smooth;}
+  :root{--sidebar-w:264px;}
+  .sidebar{position:fixed;left:0;top:0;width:var(--sidebar-w);height:100vh;overflow-y:auto;
+    background:var(--surface);border-right:1px solid var(--border);padding:22px 14px;z-index:40;
+    transform:translateX(-100%);transition:transform .22s ease;}
+  .sidebar.open{transform:translateX(0);box-shadow:var(--shadow);}
+  .side-brand{font-weight:700;font-size:14px;letter-spacing:.02em;padding:0 8px 14px;color:var(--text);}
+  .nav-label{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--muted);
+    text-transform:uppercase;margin:18px 8px 8px;}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;
+    color:var(--text);text-decoration:none;font-weight:600;font-size:15px;}
+  .nav-item .ic{font-size:16px;width:20px;text-align:center;}
+  .nav-item:hover{background:var(--accent-soft);text-decoration:none;}
+  .nav-item.active{background:var(--accent-soft);color:var(--accent);border:1px solid var(--border);}
+  .nav-sub{display:flex;flex-direction:column;border-left:1px solid var(--border);
+    margin:4px 0 8px 22px;padding-left:6px;}
+  .nav-sub a{display:flex;gap:10px;padding:7px 12px;border-radius:8px;color:var(--muted);
+    text-decoration:none;font-size:14px;}
+  .nav-sub a .n{min-width:14px;text-align:center;}
+  .nav-sub a:hover{background:var(--accent-soft);color:var(--text);text-decoration:none;}
+  .nav-sub a.cur{color:var(--accent);background:var(--accent-soft);}
+  .nav-sub a.cur .n{color:var(--accent);}
+  .nav-item.soon{color:var(--muted);cursor:default;}
+  .nav-item.soon:hover{background:none;}
+  .soon-badge{margin-left:auto;font-size:10px;font-weight:700;letter-spacing:.05em;color:var(--muted);
+    border:1px solid var(--border);border-radius:999px;padding:2px 9px;}
+  .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:30;opacity:0;pointer-events:none;
+    transition:opacity .22s;}
+  .backdrop.show{opacity:1;pointer-events:auto;}
+  .menuBtn{position:fixed;top:16px;left:16px;z-index:50;background:var(--surface);
+    border:1px solid var(--border);color:var(--text);border-radius:999px;padding:8px 14px;
+    font-size:13px;cursor:pointer;box-shadow:var(--shadow);}
+  section[id]{scroll-margin-top:18px;}
+  @media(min-width:1000px){
+    .sidebar{transform:none;box-shadow:none;}
+    body{padding-left:var(--sidebar-w);}
+    .menuBtn{display:none;}
+    .backdrop{display:none;}
+  }
+</style>
+</head>
+<body>
+<button class="menuBtn" id="menuBtn">☰ Меню</button>
+<button class="toggle" id="themeBtn">◐ Тема</button>
+<div class="backdrop" id="backdrop"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="side-brand">TrackOn</div>
+
+  <a class="nav-item" href="index.html"><span class="ic">🏠</span> Головна</a>
+
+  <div class="nav-label">Сторінки</div>
+  <a class="nav-item" href="research.html"><span class="ic">📄</span> Дослідження</a>
+  <a class="nav-item" href="jtbd.html"><span class="ic">🧭</span> JTBD</a>
+  <a class="nav-item" href="personas.html"><span class="ic">👥</span> Персони</a>
+  <a class="nav-item" href="sitemap.html"><span class="ic">🗺️</span> Карта сайту</a>
+  <a class="nav-item" href="ia.html"><span class="ic">🗂️</span> Інформаційна архітектура</a>
+  <a class="nav-item" href="voice.html"><span class="ic">🗣️</span> Голос</a>
+  <a class="nav-item active" href="references.html"><span class="ic">📐</span> Референси</a>
+  <nav class="nav-sub">
+    <a href="#sec-search"><span class="n">1</span> Пошук у Refero</a>
+    <a href="#sec-synthesis"><span class="n">2</span> Синтез — основа</a>
+    <a href="#sec-badge"><span class="n">3</span> Статус-бейдж</a>
+    <a href="#sec-color"><span class="n">4</span> Кількість кольору</a>
+    <a href="#sec-matrix"><span class="n">5</span> Джерело × прийом × тривога</a>
+    <a href="#sec-next"><span class="n">+</span> Що далі</a>
+  </nav>
+
+  <div class="nav-label">Вайрфрейми</div>
+  <a class="nav-item" href="wireframes/tracker.html"><span class="ic">🖼️</span> Лаунчпад · успіх</a>
+
+  <div class="nav-label">Скоро</div>
+  <span class="nav-item soon"><span class="ic">🎨</span> Дизайн-система <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🧩</span> Компоненти <span class="soon-badge">SOON</span></span>
+  <span class="nav-item soon"><span class="ic">🚀</span> Хендофф <span class="soon-badge">SOON</span></span>
+</aside>
+
+<div class="wrap">
+
+  <header class="hero">
+    <span class="badge">TrackOn · Референси</span>
+    <h1>Референси — візуальна мова інвойсингу</h1>
+    <p class="sub">Реальна візуальна мова бенчмарку, вже названого в дослідженні (Harvest, Paymo,
+      Clockify) — знайдена через MCP-сервер Refero, без нового пошуку конкурентів.
+      Один стиль за основу, 1–2 конкретні прийоми з інших — не «загальне враження».</p>
+    <p class="meta">Деталі — у <a href="concept/references.md">concept/references.md</a> ·
+      Правило синтезу — <a href="CLAUDE.md">CLAUDE.md §9</a> · Бенчмарк — <a href="research.html">research.html §1</a></p>
+  </header>
+
+  <!-- 1. ПОШУК -->
+  <section id="sec-search">
+    <h2><span class="num">01</span>Пошук у Refero</h2>
+    <p class="lead">Два описові запити (не назви конкурентів): стилі — «мінімалістичний, професійний
+      SaaS-інструмент для фрілансерів, довірлива» (desktop-перший — 3/3 інтерв'ю трекають з
+      комп'ютера, <a href="research/jtbd.md">jtbd.md</a>); екрани — «статус-бейдж оплати, картка
+      інвойсу з довірою».</p>
+
+    <h3>Стилі — топ-3, повні дані отримано</h3>
+    <div class="gallery">
+      <figure>
+        <a href="https://acctual.com" target="_blank"><img src="https://images.refero.design/styles/acctual.com/11ea61fa-3309-4e35-9f09-caeb97153b36/preview_0.jpg" alt="Acctual style"></a>
+        <figcaption><b>Acctual</b> — ахроматика + один teal-акцент; є компонент Invoice Card. <span class="src"><a href="https://acctual.com" target="_blank">acctual.com</a></span></figcaption>
+      </figure>
+      <figure>
+        <a href="https://opencollective.com" target="_blank"><img src="https://images.refero.design/styles/opencollective.com/f72e18d0-98f4-4e88-9754-5426589564ea/preview_0.jpg" alt="Raise / Open Collective style"></a>
+        <figcaption><b>Raise (Open Collective)</b> — navy-типографія, тонкі рамки, «fintech-довіра». <span class="src"><a href="https://opencollective.com" target="_blank">opencollective.com</a></span></figcaption>
+      </figure>
+      <figure>
+        <a href="https://perplexity.ai" target="_blank"><img src="https://images.refero.design/styles/perplexity.ai/b95e58ce-d00e-4de1-ad6b-6f1c7d7a5593/preview_0.jpg" alt="Perplexity AI style"></a>
+        <figcaption><b>Perplexity AI</b> — спокійний нейтральний sidebar, pill-навігація. <span class="src"><a href="https://perplexity.ai" target="_blank">perplexity.ai</a></span></figcaption>
+      </figure>
+    </div>
+
+    <h3>Екрани — топ-3</h3>
+    <div class="gallery">
+      <figure>
+        <a href="https://runey.app" target="_blank"><img src="https://images.refero.design/screenshots/runey.app/desktop/92831883-2714-4180-bbfd-c174882a6ec2_preview.jpg" alt="Runey invoice detail"></a>
+        <figcaption><b>Runey</b> — «Invoices, Projects &amp; Clients» для фрілансерів; статус-чіп у хедері документа. <span class="src"><a href="https://runey.app" target="_blank">runey.app</a></span></figcaption>
+      </figure>
+      <figure>
+        <a href="https://app.glossgenius.com/invoices" target="_blank"><img src="https://images.refero.design/screenshots/glossgenius.com/desktop/2ab8508f-5db5-4055-96d0-5fe8c3c0e487_preview.jpg" alt="GlossGenius invoices list"></a>
+        <figcaption><b>GlossGenius</b> — статус як pill-бейдж в окремій колонці списку. <span class="src"><a href="https://app.glossgenius.com/invoices" target="_blank">glossgenius.com</a></span></figcaption>
+      </figure>
+      <figure>
+        <a href="https://www.acctual.com" target="_blank"><img src="https://images.refero.design/screenshots/acctual.com/desktop/c042e33c-1a48-42b7-b686-7daac6f9db17_preview.jpg" alt="Acctual invoice cards"></a>
+        <figcaption><b>Acctual</b> — «From → To» картка інвойсу як прийом прозорості. <span class="src"><a href="https://www.acctual.com" target="_blank">acctual.com</a></span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 2. СИНТЕЗ -->
+  <section id="sec-synthesis">
+    <h2><span class="num">02</span>Синтез — обрано за основу</h2>
+    <p class="lead">Жоден референс не копіюється цілком (<a href="CLAUDE.md">CLAUDE.md §9</a>).
+      Один стиль — фундамент, 1–2 прийоми з інших — точково.</p>
+
+    <div class="card">
+      <h3>Основа: Acctual</h3>
+      <p>Ахроматична паперово-біла база (<code>#ffffff</code> / <code>#000000</code> / <code>#8d8d8d</code>)
+        з <b>одним</b> яскравим акцентом Sky Teal <code>#0098f2</code>, застосованим виключно до
+        інтерактиву — майже дослівно правило CLAUDE.md §9. Готовий компонент <b>Invoice Card</b>:
+        радіус <b>20px</b>, тінь <code>rgba(0,0,0,.06) 0 2.5px 2.5px</code> — база для наших карток
+        інвойсів/звітів (узгоджено з «rounded elements», коміт <code>97fdce4</code>).</p>
+      <p class="src">Свідомо НЕ переносимо: декоративні Hot&nbsp;Pink/Vivid&nbsp;Violet і рукописний
+        Caveat — прикраси лендингу, другий/третій колір порушив би правило «один акцент».</p>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card finding">
+        <h3><span class="dot o"></span>З Raise (Open Collective)</h3>
+        <ul class="tight">
+          <li>Тонка 1px рамка <code>#e2e8f0</code> замість тіні — для розділення карток у щільних
+            списках (звіти, таблиці записів), де тінь на кожному рядку була б «важкою».</li>
+          <li>Приглушений сіро-синій чіп <code>#90a1b9</code> — зразок нейтрального тону для
+            другорядних/неактивних станів («архівовано»).</li>
+        </ul>
+      </div>
+      <div class="card finding">
+        <h3><span class="dot o"></span>З Perplexity AI</h3>
+        <ul class="tight">
+          <li>Активний пункт sidebar — тонований нейтральний фон <code>#FAF8F5</code>, не акцентний
+            колір, радіус 8px.</li>
+          <li>Підтверджує вже прийняте «лівий app-nav» (коміт <code>97fdce4</code>): активний стан
+            через surface-tint, акцент лишається тільки для дій.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. СТАТУС-БЕЙДЖ -->
+  <section id="sec-badge">
+    <h2><span class="num">03</span>Статус-бейдж <span class="tag">не сплачено · відправлено · сплачено</span></h2>
+    <p class="lead">Два контексти — два різні місця, обидва підтверджені реальними екранами
+      (<a href="CLAUDE.md">CLAUDE.md §8</a>).</p>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <h3>Документ інвойсу (детальний перегляд)</h3>
+        <p>Runey кладе статус-чіп («Paid») <b>у верхньому хедері</b>, поруч із чіпами номера
+          інвойсу та проєкту — статус видно ще до відкриття тіла документа.</p>
+        <p class="src">→ Прийом: бейдж у header-рядку поряд з номером/клієнтом, не в таблиці рядків.</p>
+      </div>
+      <div class="card">
+        <h3>Список інвойсів (таблиця/картки)</h3>
+        <p>GlossGenius кладе статус як заокруглений pill-бейдж в <b>окрему колонку «Status»</b>,
+          між назвою і сумою.</p>
+        <p class="src">→ Прийом: окрема колонка/зона під статус, відокремлена від суми.</p>
+      </div>
+    </div>
+
+    <div class="note">
+      <b>Радіус:</b> шкала Acctual — бейджі повністю заокруглені (pill), як і кнопки — узгоджено
+      з «rounded elements». <b>Колір:</b> GlossGenius одночасно змішує brand-blue (банер),
+      status-green (бейдж) і decorative-pink (аватар) — 3 кольори поза нейтральною базою. Це НЕ
+      переноситься: статусні кольори мають бути приглушені й нечисленні (2–3 тихі відтінки),
+      окремі від єдиного бренд-акценту.
+    </div>
+  </section>
+
+  <!-- 4. КІЛЬКІСТЬ КОЛЬОРУ -->
+  <section id="sec-color">
+    <h2><span class="num">04</span>Скільки кольору на екрані</h2>
+    <p class="lead">Acctual і Runey — обидва ~95% ахроматика + рівно один семантичний акцент.
+      Це цільова пропорція для TrackOn.</p>
+    <div class="card">
+      <span class="swatch"><i style="background:#fff;border-color:#ddd"></i>Canvas white</span>
+      <span class="swatch"><i style="background:#111"></i>Ink / graphite</span>
+      <span class="swatch"><i style="background:#8d8d8d"></i>Muted gray</span>
+      <span class="swatch"><i style="background:#0098f2"></i>Один акцент (інтерактив)</span>
+      <span class="swatch"><i style="background:#ff5a3c"></i>project.color — лише мітка приналежності</span>
+    </div>
+    <div class="note">
+      <b>Явний анти-приклад:</b> GlossGenius і «тепла» мова конкурентів із
+      <a href="research.html">research.html §1.4</a> (кожен проєкт/клієнт — свій колір, аватарки
+      в рожевому, банери в синьому) — саме те, що <a href="CLAUDE.md">CLAUDE.md §9</a> просить не
+      переносити дослівно. <code>project.color</code> — єдиний дозволений «додатковий» колір поза
+      акцентом, лише як мітка приналежності (плитка/бордюр), не фон великих поверхонь.
+    </div>
+  </section>
+
+  <!-- 5. МАТРИЦЯ -->
+  <section id="sec-matrix">
+    <h2><span class="num">05</span>Джерело × прийом × тривога персони</h2>
+    <p class="lead">Для кожного джерела — конкретний прийом і яку тривогу персони він знімає
+      (<a href="research/jtbd.md">jtbd.md</a>).</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Джерело</th><th>Прийом (конкретний)</th><th>Тривога персони</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name"><a href="https://acctual.com" target="_blank">Acctual</a></td>
+            <td>Ахроматична база + 1 акцент лише для інтерактиву; Invoice Card 20px радіус, тінь 0.06 opacity</td>
+            <td><b>E2</b> — «не загубитися у складності»: відсутність зайвого кольору й ваги = не «CRM»-відчуття, що змусило кинути Harvest/Clockify</td>
+          </tr>
+          <tr>
+            <td class="name"><a href="https://runey.app" target="_blank">Runey</a></td>
+            <td>Статус-чіп у хедері документа поруч з номером/проєктом; серифна типографіка + рукописний підпис</td>
+            <td><b>S1</b> — «виглядати професійним перед клієнтом» і <b>E1</b> — «почуватися чесним у цифрах»: статус видно миттєво, документ не соромно надіслати</td>
+          </tr>
+          <tr>
+            <td class="name"><a href="https://app.glossgenius.com/invoices" target="_blank">GlossGenius</a></td>
+            <td>Pill-бейдж статусу в окремій колонці списку, відокремлений від суми</td>
+            <td><b>E2</b> — швидке сканування списку без перевантаження (їхню 3-колірну систему НЕ переносимо — порушує CLAUDE.md §9)</td>
+          </tr>
+          <tr>
+            <td class="name"><a href="https://opencollective.com" target="_blank">Raise / Open Collective</a></td>
+            <td>Тонка 1px рамка замість тіні; приглушений сіро-синій чіп для неактивних станів</td>
+            <td><b>E1 / E3</b> — довіра через «бухгалтерську» точність без декоративності; прийом для щільних звітних таблиць</td>
+          </tr>
+          <tr>
+            <td class="name"><a href="https://perplexity.ai" target="_blank">Perplexity AI</a></td>
+            <td>Активний пункт sidebar — тонований нейтральний фон, не акцентний колір</td>
+            <td><b>E2</b> — узгоджує вже прийняте «лівий app-nav», тримає акцент виключно для дій</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ЩО ДАЛІ -->
+  <section id="sec-next">
+    <h2><span class="num">+</span>Що це означає для наступного hi-fi кроку</h2>
+    <div class="card">
+      <ul class="tight">
+        <li>Базова палітра: білий/графіт/сірий + <b>один</b> ще не обраний бренд-акцент (відкрите питання <a href="CLAUDE.md">CLAUDE.md §12</a>).</li>
+        <li>Радіус карток/інвойсів: ~16–20px, тінь легка (~0.06 opacity) — уникати важкої елевації рівня Raise.</li>
+        <li>Бейдж статусу: повністю заокруглений (pill); два різні місця залежно від екрана.</li>
+        <li>Статусні кольори — 2–3 тихі відтінки, окремі від бренд-акценту.</li>
+        <li><code>project.color</code> — єдиний додатковий колір поза акцентом, лише мітка приналежності.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    TrackOn · синтез джерела — у <a href="concept/references.md">concept/references.md</a> · знайдено через MCP-сервер Refero
+  </footer>
+</div>
+
+<script>
+  const btn = document.getElementById('themeBtn');
+  const root = document.documentElement;
+  const saved = localStorage.getItem('trackon-theme');
+  if(saved) root.setAttribute('data-theme', saved);
+  btn.addEventListener('click', ()=>{
+    const cur = root.getAttribute('data-theme')
+      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('trackon-theme', next);
+  });
+
+  // sidebar: mobile toggle
+  const sb = document.getElementById('sidebar');
+  const bd = document.getElementById('backdrop');
+  const mb = document.getElementById('menuBtn');
+  const closeNav = ()=>{ sb.classList.remove('open'); bd.classList.remove('show'); };
+  mb.addEventListener('click', ()=>{ sb.classList.toggle('open'); bd.classList.toggle('show'); });
+  bd.addEventListener('click', closeNav);
+  sb.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click', closeNav));
+
+  // sidebar: scroll-spy for active sub-link
+  const subLinks = [...sb.querySelectorAll('.nav-sub a')];
+  const map = {};
+  subLinks.forEach(a=>{ map[a.getAttribute('href').slice(1)] = a; });
+  const spy = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        subLinks.forEach(x=>x.classList.remove('cur'));
+        if(map[e.target.id]) map[e.target.id].classList.add('cur');
+      }
+    });
+  }, {rootMargin:'-20% 0px -70% 0px'});
+  document.querySelectorAll('section[id]').forEach(s=>spy.observe(s));
+</script>
+</body>
+</html>
